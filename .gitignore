@@ -1,0 +1,10 @@
+
+input.css
+package.json
+package-lock.json
+tailwind.config.js
+node_modules
+*.sh
+# evitar carga de archivos con informacion privada
+public/.htaccess
+app/config/config.php
