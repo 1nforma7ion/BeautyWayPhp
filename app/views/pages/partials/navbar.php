@@ -1,6 +1,6 @@
 <nav class="flex py-2 md:py-0 md:justify-between md:px-6.5 md:bg-neutral bg-neutralDark text-lg text-white tracking-wider">
 	<div class="hidden md:flex w-1/3 h-16 items-center">
-		<a href="<?php echo URLROOT . '/' . $data['controller'] . '/index'?>"><img src="<?php echo URLROOT; ?>/img/logo.png" alt="imagen logo" class="h-12"></a>
+		<a href="<?php echo URLROOT . '/' . $data['controller'] . '/index'?>"><img src="<?php echo URLROOT; ?>/img/logo.PNG" alt="imagen logo" class="h-12"></a>
 	</div>
 
 
@@ -35,7 +35,7 @@
 
 		<li class="list-none">
 			<a class="  flex items-center <?= ($data['page'] == 'about-us') ? 'is-active' : 'is-inactive'; ?>" href="<?php echo URLROOT . '/' . $data['controller'] . '/login' ?>">
-				<img src="<?php echo URLROOT; ?>/img/anya1.jpg" alt="imagen logo" class="h-12 w-12 rounded-full"><span class="ml-2 hidden md:block text-md">Mi perfil</span>
+				<img src="<?php echo URLROOT; ?>/img/anya1.JPG" alt="imagen logo" class="h-12 w-12 rounded-full"><span class="ml-2 hidden md:block text-md">Mi perfil</span>
 			</a>
 		</li>
 	<?php endif; ?>
