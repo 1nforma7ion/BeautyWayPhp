@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Formulario de Registro de profesionales</title>
+</head>
+<body>
+  <h2>Formulario de Registro de profesionales</h2>
+  <form>
+    <label for="documento">Documento:</label>
+    <select id="documento" name="documento">
+      <option value="documentoUnico">Documento único</option>
+      <option value="pasaporte">Pasaporte</option>
+    </select><br><br>
+
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" required><br><br>
+
+    <label for="apellido">Apellido:</label>
+    <input type="text" id="apellido" name="apellido" required><br><br>
+
+    <label for="nombreComercial">Nombre Comercial:</label>
+    <input type="text" id="nombreComercial" name="nombreComercial" required><br><br>
+
+    <label for="profesion">Profesión:</label><br>
+    <input type="checkbox" id="peluqueria" name="profesion" value="Peluquería">
+    <label for="peluqueria">Peluquería</label><br>
+    <input type="checkbox" id="manicuria" name="profesion" value="Manicuría">
+    <label for="manicuria">Manicuría</label><br>
+    <input type="checkbox" id="barberia" name="profesion" value="Barbería">
+    <label for="barberia">Barbería</label><br>
+    <input type="checkbox" id="pies" name="profesion" value="Pies">
+    <label for="pies">Pies</label><br>
+    <input type="checkbox" id="masajes" name="profesion" value="Masajes">
+    <label for="masajes">Masajes</label><br>
+    <input type="checkbox" id="tratamientoCorporal" name="profesion" value="Tratamiento Corporal">
+    <label for="tratamientoCorporal">Tratamiento Corporal</label><br><br>
+
+    <label for="modalidad">Modalidad de Trabajo:</label>
+    <select id="modalidad" name="modalidad">
+      <option value="domicilio">Domicilio</option>
+      <option value="salon">En Salón</option>
+    </select><br><br>
+
+    <label for="zona">Zona de Trabajo:</label>
+    <select id="zona" name="zona">
+      <option value="zona1">Zona 1</option>
+      <option value="zona2">Zona 2</option>
+      <option value="zona3">Zona 3</option>
+    </select><br><br>
+
+    <label for="calle">Calle:</label>
+    <input type="text" id="calle" name="calle" required><br><br>
+
+    <label for="altura">Altura:</label>
+    <input type="text" id="altura" name="altura" required><br><br>
+
+    <label for="piso">Piso:</label>
+    <input type="text" id="piso" name="piso"><br><br>
+
+    <label for="depto">Depto.:</label>
+    <input type="text" id="depto" name="depto"><br><br>
+
+    <label for="barrio">Barrio:</label>
+    <input type="text" id="barrio" name="barrio" required><br><br>
+
+    <label for="localidad">Localidad:</label>
+    <input type="text" id="localidad" name="localidad" required><br><br>
+
+    <label for="telefono">Teléfono:</label>
+    <input type="tel" id="telefono" name="telefono" required><br><br>
+
+    <label for="email">E-mail:</label>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="contrasenia">Contraseña:</label>
+    <input type="password" id="contrasenia" name="contrasenia" required><br><br>
+
+    <label for="repetirContrasenia">Repetir Contraseña:</label>
+    <input type="password" id="repetirContrasenia" name="repetirContrasenia" required><br><br>
+
+    <input type="submit" value="Enviar">
+  </form>
+</body>
+</html>
