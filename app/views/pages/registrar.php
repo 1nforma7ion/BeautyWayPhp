@@ -1,5 +1,5 @@
 <?php require APPROOT . '/views/pages/partials/header.php'; ?>
-
+<?php error_reporting(E_ALL); ?>
 
   <!-- flex form section -->
   <section id="form_login" class="h-screen flex flex-col items-center md:px-6.5">
