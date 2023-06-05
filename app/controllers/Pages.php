@@ -197,7 +197,11 @@
 					$modalidad = $_POST['modalidad'];
 					$zona = $_POST['zona'];
 
-
+					if(!empty($_POST['nombre_comercial'])) {
+						$rol = ID_USER_PRO;
+					} else {
+						$rol = ID_USER_NORMAL;
+					}
 
 					if ($pass !== $rep_pass) {
 						$_SESSION['msg'] = 'Contraseñas no coinciden.';
