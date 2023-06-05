@@ -68,36 +68,7 @@ INSERT INTO `servicios` (`id`, `nombre_servicio`, `id_profesiones`) VALUES
 (17, 'Lifting de Pestañas', NULL),
 (18, 'Soprano Ice', NULL);
 
--- --------------------------------------------------------
 
---
--- Estructura de tabla para la tabla `usuario`
---
-
-CREATE TABLE `usuario` (
-  `id` int(11) NOT NULL,
-  `tipo_usuario` varchar(50) NOT NULL,
-  `documento` varchar(50) NOT NULL,
-  `nombre` varchar(50) NOT NULL,
-  `apellido` varchar(50) NOT NULL,
-  `id_profesiones` int(11) DEFAULT NULL,
-  `id_zona_trabajo` int(11) DEFAULT NULL,
-  `calle` varchar(50) NOT NULL,
-  `altura` varchar(10) NOT NULL,
-  `piso` varchar(10) DEFAULT NULL,
-  `depto` varchar(10) DEFAULT NULL,
-  `barrio` varchar(50) NOT NULL,
-  `localidad` varchar(50) NOT NULL,
-  `telefono` varchar(20) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `contrasenia` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `zona_trabajo`
---
 
 CREATE TABLE `zona_trabajo` (
   `id` int(11) NOT NULL,

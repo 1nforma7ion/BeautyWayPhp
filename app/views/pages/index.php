@@ -4,7 +4,7 @@
 	<?php require APPROOT . '/views/' . $data['controller'] . '/partials/navbar.php'; ?>
 
 	<div class="w-full h-screen flex md:space-x-4 pt-0 pb-4 px-4 md:px-6.5">
-		<?php if(!isset($_SESSION['user_email'])) : ?>
+		<?php if(isset($_SESSION['user_email'])) : ?>
 
 		<nav class="hidden md:flex flex-col w-1/4  text-white rounded-xl p-4 text-white text-xl">
 
@@ -148,8 +148,6 @@
 
 	</div>
 </div>
-
-
 
 
 

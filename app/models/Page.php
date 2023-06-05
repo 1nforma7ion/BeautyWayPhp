@@ -1,7 +1,7 @@
 <?php 
 	class Page {
 		private $db;
-
+ 
 		public function __construct() {
 			$this->db = new Database;
 		}
@@ -18,8 +18,8 @@
 			}
 		}
 
-		public function getProjects() {
-			$this->db->query('SELECT * FROM proyectos');
+		public function getProfesiones() {
+			$this->db->query('SELECT * FROM profesiones');
 			$projects = $this->db->getSet();
 			return $projects;
 		}
@@ -55,13 +55,28 @@
 			return $chapter;
 		}
 
-		public function register($rol,$nombre,$email,$password,$telefono) {
-			$this->db->query("INSERT INTO usuarios (rol_id, nombre, email, password, telefono) VALUES (:rol,:nombre,:email,:password,:telefono)");
+		public function register($rol,$tipo,$doc,$nombre,$apellido,$calle,$altura,$piso,$depto,$barrio,$localidad,$telefono,$email,$pass,$comercial,$profesion,$modalidad,$zona) {
+			$this->db->query("INSERT INTO usuarios (rol_id, tipo_documento, num_documento, nombre, apellido, nombre_comercial, id_profesion, id_zona_trabajo, modalidad, calle, altura, piso, depto, barrio, localidad, telefono, email, contrasenia) 
+				VALUES (:rol,:tipo,:doc,:nombre,:apellido,:comercial,:profesion,:zona,:modalidad,:calle,:altura,:piso,:depto,:barrio,:localidad,:telefono,:email,:pass)");
 			$this->db->bind(':rol',$rol);
+			$this->db->bind(':tipo',$tipo);
+			$this->db->bind(':doc',$doc);
 			$this->db->bind(':nombre',$nombre);
-			$this->db->bind(':email',$email);
-			$this->db->bind(':password',$password);
+			$this->db->bind(':apellido',$apellido);
+			$this->db->bind(':calle',$calle);
+			$this->db->bind(':altura',$altura);
+			$this->db->bind(':piso',$piso);
+			$this->db->bind(':depto',$depto);
+			$this->db->bind(':barrio',$barrio);
+			$this->db->bind(':localidad',$localidad);
 			$this->db->bind(':telefono',$telefono);
+			$this->db->bind(':email',$email);
+			$this->db->bind(':pass',$pass);
+			$this->db->bind(':comercial',$comercial);
+			$this->db->bind(':profesion',$profesion);
+			$this->db->bind(':modalidad',$modalidad);
+			$this->db->bind(':zona',$zona);
+
 
 			$creado = $this->db->execute();
 

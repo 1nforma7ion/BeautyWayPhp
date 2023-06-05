@@ -11,22 +11,22 @@
 
 
 	<div class=" flex w-full md:w-1/3 items-center space-x-4 justify-center md:justify-end text-xl">
-<?php if(isset($_SESSION['user_email'])) : ?>
+<?php if(!isset($_SESSION['user_email'])) : ?>
 
 		<li class="list-none">
-			<a class="p-3 flex items-center hover:border-b-2 hover:border-white <?= ($data['page'] == 'galeria') ? 'is-active' : 'is-inactive'; ?>" href="<?php echo URLROOT . '/' . $data['controller'] . '/galeria/' ?>"> 
+			<a class="p-3 flex items-center hover:border-b-2 hover:border-white <?= ($data['page'] == 'galeria') ? 'is-active' : 'is-inactive'; ?>" href="<?php echo URLROOT . '/' . $data['controller'] . '/login' ?>"> 
 				<i class="fa-solid fa-home "></i> <span class="ml-2 hidden md:block text-md">Login</span>
 			</a>
 		</li>
 
 		<li class="list-none ">
-			<a class="p-3 flex items-center hover:border-b-2 hover:border-white <?= ($data['page'] == 'about-us') ? 'is-active' : 'is-inactive'; ?>" href="<?php echo URLROOT . '/' . $data['controller'] . '/about' ?>"> 
+			<a class="p-3 flex items-center hover:border-b-2 hover:border-white <?= ($data['page'] == 'about-us') ? 'is-active' : 'is-inactive'; ?>" href="<?php echo URLROOT . '/' . $data['controller'] . '/registrar' ?>"> 
 				<i class="fa-solid fa-book"></i> <span class="ml-2 hidden md:block text-md">Register</span>
 			</a>
 		</li>
 <?php endif; ?>
 
-<?php if(!isset($_SESSION['user_email'])) : ?>
+<?php if(isset($_SESSION['user_email'])) : ?>
 		<li class="list-none">
 			<a class="p-3 flex items-center hover:border-b-2 hover:border-white <?= ($data['page'] == 'about-us') ? 'is-active' : 'is-inactive'; ?>" href="<?php echo URLROOT . '/' . $data['controller'] . '/login' ?>">
 				<i class="fa-solid fa-envelope "></i><span class="ml-2 hidden md:block text-md">Mensajes</span> 
