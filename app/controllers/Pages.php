@@ -205,7 +205,7 @@
 
 					if ($pass !== $rep_pass) {
 						$_SESSION['msg'] = 'Contraseñas no coinciden.';
-						redirect('pages/register');
+						redirect('pages/registrar');
 					}
 
 					// echo "<pre>";
@@ -216,7 +216,7 @@
 
 					if ($userExists) {
 						$_SESSION['msg'] = 'El email ya se encuentra registrado.';
-						redirect('pages/register');
+						redirect('pages/registrar');
 					} else {
 						$pass = password_hash($pass, PASSWORD_DEFAULT);
 
