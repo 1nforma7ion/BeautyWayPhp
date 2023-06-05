@@ -208,9 +208,9 @@
 						redirect('pages/registrar');
 					}
 
-					// echo "<pre>";
-					// print_r($data);
-					// die();
+					echo "<pre>";
+					print_r($_POST);
+					die();
 		
 					$userExists = $this->page->findEmail($email);
 

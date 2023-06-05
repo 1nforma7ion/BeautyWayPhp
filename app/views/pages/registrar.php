@@ -1,13 +1,13 @@
 <?php require APPROOT . '/views/pages/partials/header.php'; ?>
-<?php error_reporting(E_ALL); ?>
+
 
   <!-- flex form section -->
-  <section id="form_login" class="h-screen flex flex-col items-center md:px-6.5">
+  <section class="h-screen flex flex-col items-center md:px-6.5">
     
     <div class="absolute top-10 rounded-md bg-white px-8 py-6 mx-4 drop-shadow-md md:w-3/4">
 
 
-  <form action="<?php echo URLROOT; ?>/pages/registrar" id="form_register" method="post">
+  <form action="<?php echo URLROOT; ?>/pages/registrar" id="form_register" method="post" autocomplete="off">
 
 		<div class="w-full flex items-center justify-around space-x-8">
 			<img class="h-20 object-cover" src="<?php echo URLROOT; ?>/img/logo.png" alt="">
@@ -103,7 +103,7 @@
 
 
 			<div class="w-1/3 ">
-				          <?php showAlert(); ?>
+				<?php showAlert(); ?>
 				<img class="h-44 object-cover" src="<?php echo URLROOT; ?>/img/logo.png" alt="">
 
 				<div id="profesional" class="hidden flex flex-col space-y-4">
