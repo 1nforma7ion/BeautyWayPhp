@@ -138,9 +138,9 @@
 					<div class="group-col">
 				    <label for="zona">Zona de Trabajo:</label>
 				    <select id="zona" name="zona">
-				      <option value="zona1">Zona 1</option>
-				      <option value="zona2">Zona 2</option>
-				      <option value="zona3">Zona 3</option>
+				      <option value="1">Zona 1</option>
+				      <option value="2">Zona 2</option>
+				      <option value="3">Zona 3</option>
 				    </select>
 				  </div>
 			  </div>

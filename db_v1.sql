@@ -13,7 +13,7 @@ INSERT INTO roles (rol) VALUES ('usuario');
 INSERT INTO roles (rol) VALUES ('usuariop');
 
 
-CREATE TABLE `usuario` (
+CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `rol_id` int NOT NULL,
   `tipo_documento` varchar(50) NOT NULL,
