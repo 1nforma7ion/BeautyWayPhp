@@ -151,7 +151,7 @@
 
 
 		<div class="w-full flex items-center justify-center">
-			<button name="registrar_profesional" type="submit" class="p-4 w-1/2 rounded-full bg-neutral text-white">Registrarme</button>
+			<button type="submit" class="p-4 w-1/2 rounded-full bg-neutral text-white">Registrarme</button>
 		</div>
   </form>
 
