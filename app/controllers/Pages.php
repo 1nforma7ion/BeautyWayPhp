@@ -197,7 +197,7 @@
 					$modalidad = $_POST['modalidad'];
 					$zona = $_POST['zona'];
 
-					if($comercial) {
+					if(!empty($_POST['nombre_comercial'])) {
 						$rol = ID_USER_PRO;
 					} else {
 						$rol = ID_USER_NORMAL;
