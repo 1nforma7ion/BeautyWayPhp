@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Beautyway - Página de Inicio</title>
+  <link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+<body>
+    <header>
+        <div class="header-logo">
+            <img src="img/logo.png" alt="Logo de la Red Social">
+          </div>
+        
+        <div class="header-icons">
+          <img src="img/home.png" alt="Icono de Inicio">
+          <img src="img/notificacion.png" alt="Icono de Notificaciones">
+          <img src="img/usuario.png" alt="Icono de Notificaciones">
+        </div>
+      </header>
+  
+  <div class="container">
+    <div class="sidebar">
+      <ul class="menu">
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#">Perfil</a></li>
+        <li><a href="#">Turnos</a></li>
+        <li><a href="#">Buscar</a></li>
+      </ul>
+    </div>
+    <div class="content">
+      <form class="create-post">
+        <div class="post-input">
+          <input type="text" placeholder="Título de la publicación">
+          <div class="adjuntar">
+            <label for="adjuntar-imagen">
+              <img src="img/adjuntar-icono.png" alt="Adjuntar imagen" width="5%">
+            </label>
+            <input type="file" id="adjuntar-imagen" style="display: none;">
+          </div>
+        </div>
+        <button type="submit">Publicar</button>
+      </form>
+      
+      <div class="post">
+        <div class="user-info">
+          <div class="user-image">
+            <img src="imagen-usuario1.jpg" alt="Imagen de usuario">
+          </div>
+          <div class="user-details">
+            <h2>Nombre Comercial</h2>
+            <p>Fecha y Hora</p>
+          </div>
+        </div>
+        <div class="post-content">
+          <p>Contenido de la publicación</p>
+          <img src="imagen-publicacion1.jpg" alt="Imagen de la publicación">
+        </div>
+        <div class="reactions">
+          <button type="button">Me gusta</button>
+          <button type="button">Comentar</button>
+          <button type="button">Ver más</button>
+        </div>
+      </div>
+      
+      <div class="post">
+        <div class="user-info">
+          <div class="user-image">
+            <img src="imagen-usuario2.jpg" alt="Imagen de usuario">
+          </div>
+          <div class="user-details">
+            <h2>Nombre Comercial</h2>
+            <p>Fecha y Hora</p>
+          </div>
+        </div>
+        <div class="post-content">
+          <p>Contenido de la publicación</p>
+          <img src="imagen-publicacion2.jpg" alt="Imagen de la publicación">
+        </div>
+        <div class="reactions">
+          <button type="button">Me gusta</button>
+          <button type="button">Comentar</button>
+          <button type="button">Ver más</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
