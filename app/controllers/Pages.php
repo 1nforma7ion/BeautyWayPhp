@@ -45,65 +45,20 @@
 			}
 		}
 
-		public function galeria($name = null, $chapter = null) {
-			if (!is_null($name) && is_null($chapter)) {
-				
-				$project_name = str_replace("_"," ",$name);
-				$controller = strtolower(get_called_class());
+		public function galeria() {
 
-				$project = $this->page->getComic($project_name);
-
-				$project_id = $project->id;
-				$estado1 = 'publicado';
-				$chapters = $this->page->getChapters($project_id,$estado1);
-
-				$estado2 = 'programado';
-				$upcoming = $this->page->getUpcoming($project_id,$estado2);
 
 				$data = [
-					'comic' => $project,
-					'chapters' => $chapters,
-					'upcoming' => $upcoming,
+					// 'comic' => $project,
+					// 'chapter' => $chapter,
 
-					'project_name' => $name,
-					'controller' => $controller,
-					'page' => __FUNCTION__
-				];
-
-				// echo "<pre>";
-
-				// print_r($data);
-
-				// die();
-
-				$this->view('pages/galeria', $data);
-
-			} 
-
-			if (!is_null($name) && !is_null($chapter)) {
-				$project_name = str_replace("_"," ",$name);
-				$controller = strtolower(get_called_class());
-				
-				$project = $this->page->getComic($project_name);
-				$project_id = $project->id;
-
-				$chapter_num = explode('_', $chapter);
-				$chapter_num = $chapter_num[1];
-				$chapter = $this->page->getDataChapter($project_id,$chapter_num);
-
-				$data = [
-					'comic' => $project,
-					'chapter' => $chapter,
-
-					'project_name' => $name,
-					'controller' => $controller,
+					// 'project_name' => $name,
+					'controller' => strtolower(get_called_class()),
 					'page' => __FUNCTION__
 				];
 
 				$this->view('pages/galeria', $data);
-			}
 
-			
 		}
 
 		public function login() {
