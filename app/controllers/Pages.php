@@ -148,16 +148,25 @@
 						$token = bin2hex(random_bytes(10));
 
 						$this->page->saveToken($email, $token);
-						$msg = 'Hi there, click on this <a href="http://myweb/pages/createPassword/token=' . $token . '">link</a> to reset your password.';
-						// send Mail to user email 
-						// echo $msg;
-						// die();
 
-						$data = [
-							'email' => $email
-						];
+						$to_email = $email;
+						$subject = "Recuperación de contraseña";
+						$body = 'Si solicitaste cambiar tu contraseña entra al siguiente <a href="' . URLROOT . '/change_password/' . $token . '"> enlace </a>';
+						$headers = "From: mail@nicedev90.pro";
+	 							// send Mail to user email 
+							// echo $body;
+							// die();
+						if (mail($to_email, $subject, $body, $headers)) {
+							$data = [
+								'email' => $email
+							];
+							$this->view('pages/pending', $data);
+						} else {
+							$_SESSION['msg'] = 'Algo salio mal.';
+							redirect('pages/forgot');
+						}
 
-						$this->view('pages/pending', $data);
+
 
 					} else {
 						$_SESSION['msg'] = 'Email no registrado.';
