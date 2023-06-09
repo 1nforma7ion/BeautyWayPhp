@@ -328,6 +328,7 @@
 						'zonas' => $zonas,
 						'modalidades' => $modalidades,
 						'tipo_docs' => $tipo_docs,
+						'localidades' => $localidades,
 						'controller' => strtolower(get_called_class()),
 						'page' => __FUNCTION__
 					];
