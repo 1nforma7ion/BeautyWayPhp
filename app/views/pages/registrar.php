@@ -13,7 +13,7 @@
 
   <form action="<?php echo URLROOT; ?>/pages/registrar" id="form_register" method="post" autocomplete="off" >
 		<div class=" w-1/2 mx-auto flex items-center justify-around space-x-8">
-			<a href="<?php echo URLROOT . '/' . $data['controller'] . '/index'?>"><img src="<?php echo URLROOT; ?>/img/logo.PNG" alt="imagen logo" class="h-16"></a>
+			<a href="<?php echo URLROOT . '/' . $data['controller'] . '/index'?>"><img src="<?php echo URLROOT; ?>/img/logo.png" alt="imagen logo" class="h-16"></a>
 			<h2 class="p-4 text-4xl text-neutral ">Registro de Usuario</h2>
        
 		</div>
@@ -217,6 +217,16 @@
   </section>
 
 <script>
+
+const form = document.querySelector('#form_register')
+form.addEventListener('submit', e => {
+  if(form.classList.contains('invalid')) {
+    e.preventDefault()
+    // console.log(form)
+  } 
+})
+
+
 	const profesional = document.querySelector('#profesional')
 	const btnPro = document.querySelector('#btn-pro')
 	btnPro.addEventListener('click', () => {
@@ -441,9 +451,13 @@ rpass.addEventListener('keyup', (e) => {
 		if(rpass.value == pass.value) {
 			alertRpass.classList.add('hidden')
 			alertRpass.parentElement.previousElementSibling.classList.remove('hidden')
+      form.classList.remove('invalid')
+
 		} else {
 			alertRpass.classList.remove('hidden')
 			alertRpass.parentElement.previousElementSibling.classList.add('hidden')
+      form.classList.add('invalid')
+
 		}
 
 	}
