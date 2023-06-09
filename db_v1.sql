@@ -47,4 +47,41 @@ create table profesiones (
 
 INSERT INTO profesiones (profesion) VALUES ('Peluquería'), ('Manicuría'), ('Barbería'), ('Pies'), ('Masajes'), ('Tratamiento Corporal');
 
+create table zonas (
+  id INT NOT NULL AUTO_INCREMENT,
+  zona VARCHAR(50) NOT NULL,
+  PRIMARY KEY (id)
+)ENGINE=INNODB;
+
+INSERT INTO zonas (zona) VALUES ('Zona Norte'), ('Zona Sur'), ('Zona Este'), ('Zona Oeste'), ('Zona centro'), ('Zona Nueva CBA');
+
+create table localidades (
+  id INT NOT NULL AUTO_INCREMENT,
+  localidad VARCHAR(50) NOT NULL,
+  PRIMARY KEY (id)
+)ENGINE=INNODB;
+INSERT INTO localidades (localidad) VALUES ('Córboda');
+
+create table modalidades (
+  id INT NOT NULL AUTO_INCREMENT,
+  modalidad VARCHAR(50) NOT NULL,
+  PRIMARY KEY (id)
+)ENGINE=INNODB;
+INSERT INTO modalidades (modalidad) VALUES ('Domicilio'), ('En Salón');
+
+create table tipo_docs (
+  id INT NOT NULL AUTO_INCREMENT,
+  value VARCHAR(50) NOT NULL,
+  tipo_doc VARCHAR(50) NOT NULL,
+  PRIMARY KEY (id)
+)ENGINE=INNODB;
+INSERT INTO tipo_docs (value,tipo_doc) VALUES ('documentoUnico','Documento único'), ('pasaporte','Pasaporte');
+
+create table usuarios_token (
+  id INT NOT NULL AUTO_INCREMENT,
+  email VARCHAR(50) NOT NULL,
+  token VARCHAR(50) NOT NULL,
+  PRIMARY KEY (id)
+)ENGINE=INNODB;
+
 

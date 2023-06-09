@@ -36,7 +36,7 @@
 
 	function showAlert() {
 		if (!empty($_SESSION['msg'])) {
-			echo '<div id="msg" class="bg-white rounded-xl">' . $_SESSION['msg'] . '</div>';
+			echo '<div id="msg" class="text-center p-2 w-full bg-primaryDark text-lg rounded-xl">' . $_SESSION['msg'] . '</div>';
 			unset($_SESSION['msg']);
 		}
 	}

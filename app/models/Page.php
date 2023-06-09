@@ -18,11 +18,90 @@
 			}
 		}
 
+		public function saveToken($email, $token) {
+			$this->db->query('INSERT INTO usuarios_token (email, token) VALUES (:email, :token)');
+			$this->db->bind(':email', $email);
+			$this->db->bind(':token', $token);
+			
+			if($this->db->execute()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		public function getUserByToken($token) {
+			$this->db->query('SELECT email FROM usuarios_token WHERE token = :token');
+			$this->db->bind(':token', $token);
+			$user = $this->db->getSingle();
+
+			if ($user) {
+				return $user->email;
+			} else {
+				return false;
+			}
+		}
+
+		public function updatePassBytoken($email,$password) {
+      $this->db->query('UPDATE usuarios SET contrasenia = :password  WHERE email = :email');
+      $this->db->bind(':email', $email);
+      $this->db->bind(':password', $password);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+		public function deleteToken($email) {
+			$this->db->query('DELETE FROM usuarios_token WHERE email = :email');
+			$this->db->bind(':email', $email);
+			
+			if($this->db->execute()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+
+
+
 		public function getProfesiones() {
 			$this->db->query('SELECT * FROM profesiones');
-			$projects = $this->db->getSet();
-			return $projects;
+			$profesiones = $this->db->getSet();
+			return $profesiones;
 		}
+
+		public function getZonas() {
+			$this->db->query('SELECT * FROM zonas');
+			$zonas = $this->db->getSet();
+			return $zonas;
+		}
+
+
+		public function getLocalidades() {
+			$this->db->query('SELECT * FROM localidades');
+			$localidades = $this->db->getSet();
+			return $localidades;
+		}
+
+
+		public function getModalidades() {
+			$this->db->query('SELECT * FROM modalidades');
+			$modalidades = $this->db->getSet();
+			return $modalidades;
+		}
+
+		public function getTipoDocs() {
+			$this->db->query('SELECT * FROM tipo_docs');
+			$tipoDocs = $this->db->getSet();
+			return $tipoDocs;
+		}
+
+
+
 
 		public function getComic($name) {
 			$this->db->query('SELECT * FROM proyectos WHERE nombre = :name');

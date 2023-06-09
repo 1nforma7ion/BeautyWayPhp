@@ -135,6 +135,133 @@
 			redirect('pages/index');
 		}
 
+		public function forgot() {
+			if (notSession()) {
+				if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+					$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+					$email = $_POST['email'];
+
+					$userEmail = $this->page->findEmail($email);
+
+					if ($userEmail) {
+						$token = bin2hex(random_bytes(10));
+
+						$this->page->saveToken($email, $token);
+						$msg = 'Hi there, click on this <a href="http://myweb/pages/createPassword/token=' . $token . '">link</a> to reset your password.';
+						// send Mail to user email 
+						// echo $msg;
+						// die();
+
+						$data = [
+							'email' => $email
+						];
+
+						$this->view('pages/pending', $data);
+
+					} else {
+						$_SESSION['msg'] = 'Email no registrado.';
+						redirect('pages/forgot');
+					}
+
+				} else {
+
+					$data = [
+						// 'comic' => $project,
+						// 'chapter' => $chapter,
+
+						// 'project_name' => $name,
+						'controller' => strtolower(get_called_class()),
+						'page' => __FUNCTION__
+					];
+
+					$this->view('pages/forgot', $data);
+
+				}
+			}
+		}
+
+		public function pending() {
+			if (notSession()) {
+
+				$data = [
+					// 'comic' => $project,
+					// 'chapter' => $chapter,
+
+					// 'project_name' => $name,
+					'controller' => strtolower(get_called_class()),
+					'page' => __FUNCTION__
+				];
+
+				$this->view('pages/pending', $data);	
+			}
+		}
+
+
+
+		public function change_password($token = null) {
+			if (!is_null($token)) {
+				if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+					$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+					$email = $_POST['email'];
+					$password = $_POST['contrasenia'];
+					$confirm_password = $_POST['repetirContrasenia'];
+
+					if ($password == $confirm_password) {
+
+						$password = password_hash($password, PASSWORD_DEFAULT);
+
+						$updated = $this->page->updatePassByToken($email,$password);
+
+						if ($updated) {
+							$this->page->deleteToken($email);
+							$_SESSION['msg'] = 'Actualizado correctamente.';
+							redirect('pages/login');
+						} else {
+							$_SESSION['msg'] = 'Ocurrió un error.';
+							redirect('pages/change_password');
+						}
+					} 
+
+				} else {
+					$email = $this->page->getUserByToken($token);
+
+					$data = [
+						// 'comic' => $project,
+						// 'chapter' => $chapter,
+
+						// 'project_name' => $name,
+						'token' => $token,
+						'email' => $email,
+						'controller' => strtolower(get_called_class()),
+						'page' => __FUNCTION__
+					];
+
+					$this->view('pages/change_password', $data);	
+				}
+			} else {
+				redirect('pages/login');
+			}
+		}
+
+
+		public function userIp() {
+			switch(true) {
+				case(!empty($_SERVER['HTTP_X_REAL_IP'])):
+					return $_SERVER['HTTP_X_REAL_IP'];
+					break;
+				case(!empty($_SERVER['HTTP_CLIENT_IP'])):
+					return $_SERVER['HTTP_CLIENT_IP'];
+					break;
+				case(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])):
+					return $_SERVER['HTTP_X_FORWARDED_FOR'];
+					break;
+				default:
+					return $_SERVER['REMOTE_ADDR'];
+			}
+		}
+
 		public function registrar() {
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -190,11 +317,18 @@
 
 				} else {
 					$profesiones = $this->page->getProfesiones();
-					$controller = strtolower(get_called_class());
+					$zonas = $this->page->getZonas();
+					$localidades = $this->page->getLocalidades();
+					$modalidades = $this->page->getmodalidades();
+					$tipo_docs = $this->page->getTipoDocs();
+
 
 					$data = [
 						'profesiones' => $profesiones,
-						'controller' => $controller,
+						'zonas' => $zonas,
+						'modalidades' => $modalidades,
+						'tipo_docs' => $tipo_docs,
+						'controller' => strtolower(get_called_class()),
 						'page' => __FUNCTION__
 					];
 

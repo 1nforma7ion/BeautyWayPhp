@@ -18,6 +18,12 @@
 			}
 		}
 
+		public function getZonas() {
+			$this->db->query('SELECT * FROM zonas');
+			$zonas = $this->db->getSet();
+			return $zonas;
+		}
+
 		public function getProfesiones() {
 			$this->db->query('SELECT * FROM profesiones');
 			$projects = $this->db->getSet();

@@ -13,7 +13,7 @@
 
   <form action="<?php echo URLROOT; ?>/pages/registrar" id="form_register" method="post" autocomplete="off" >
 		<div class=" w-1/2 mx-auto flex items-center justify-around space-x-8">
-			<img class="h-16 object-cover" src="<?php echo URLROOT; ?>/img/logo.png" alt="">
+			<a href="<?php echo URLROOT . '/' . $data['controller'] . '/index'?>"><img src="<?php echo URLROOT; ?>/img/logo.PNG" alt="imagen logo" class="h-16"></a>
 			<h2 class="p-4 text-4xl text-neutral ">Registro de Usuario</h2>
        
 		</div>
@@ -26,8 +26,11 @@
 			    	<label for="tipo_documento">Tipo de documento:</label>
 				    <select id="tipo_documento" name="tipo_documento" required>
 				      <option value="" selected>Selecciona ...</option>
-				      <option value="documentoUnico">Documento único</option>
-				      <option value="pasaporte">Pasaporte</option>
+				      <?php if(isset($data['tipo_docs'])) : ?>
+								<?php foreach ($data['tipo_docs'] as $row) : ?>
+									<option value="<?php echo $row->value ?>"><?php echo $row->tipo_doc ?></option>
+								<?php endforeach; ?>
+							<?php endif; ?> 
 				    </select>
 			    </div>
 			    <div class="group-col relative">
@@ -89,12 +92,18 @@
 				    </label>
 				    <input type="text" id="barrio" name="barrio" required placeholder="Santa Ana">
 			    </div>
-			    <div class="group-col relative w-1/3">
-			  		<div class="absolute hidden right-0 bottom-0"><i class="fas fa-check bg-cta p-2 rounded-full"></i></div>
-				    <label for="localidad">Localidad: 
-				    	<span id="alert-local" class="hidden italic text-sm text-red">Minimo 4 números</span>
-				    </label>
-				    <input type="text" id="localidad" name="localidad" required placeholder="Pueblo Libre">
+			    <div class="group-col  w-1/3">
+				    <label for="localidad">Localidad: </label>
+
+				    <select id="localidad" name="localidad" required>
+				      <option value="" selected>Selecciona ...</option>
+				     	<?php if(isset($data['localidades'])) : ?>
+								<?php foreach ($data['localidades'] as $row) : ?>
+									<option value="<?php echo $row->id ?>"><?php echo $row->localidad ?></option>
+								<?php endforeach; ?>
+							<?php endif; ?> 
+				    </select>
+
 			    </div>
 			  </div>
 
@@ -170,8 +179,11 @@
 				    <label for="modalidad">Modalidad de Trabajo:</label>
 				    <select id="modalidad" name="modalidad">
 				      <option value="" selected>Selecciona ...</option>
-				      <option value="domicilio">Domicilio</option>
-				      <option value="salon">En Salón</option>
+				     	<?php if(isset($data['modalidades'])) : ?>
+								<?php foreach ($data['modalidades'] as $row) : ?>
+									<option value="<?php echo $row->id ?>"><?php echo $row->modalidad ?></option>
+								<?php endforeach; ?>
+							<?php endif; ?> 
 				    </select>
 				  </div>
 
@@ -179,9 +191,12 @@
 				    <label for="zona">Zona de Trabajo:</label>
 				    <select id="zona" name="zona">
 				      <option value="" selected>Selecciona ...</option>
-				      <option value="1">Zona 1</option>
-				      <option value="2">Zona 2</option>
-				      <option value="3">Zona 3</option>
+				     	<?php if(isset($data['zonas'])) : ?>
+								<?php foreach ($data['zonas'] as $row) : ?>
+									<option value="<?php echo $row->id ?>"><?php echo $row->zona ?></option>
+								<?php endforeach; ?>
+							<?php endif; ?> 
+				      
 				    </select>
 				  </div>
 			  </div>
@@ -468,21 +483,21 @@ telefono.addEventListener('keyup', (e) => {
 
 })
 
-const localidad = document.querySelector('#localidad')
-localidad.addEventListener('keyup', (e) => {
+// const localidad = document.querySelector('#localidad')
+// localidad.addEventListener('keyup', (e) => {
 
-	const alertLocal = document.querySelector('#alert-local')
-	// console.log(numDoc.value.length)
+// 	const alertLocal = document.querySelector('#alert-local')
+// 	// console.log(numDoc.value.length)
 
-	if(localidad.value.length > 3) {
-		alertLocal.classList.add('hidden')
-		alertLocal.parentElement.previousElementSibling.classList.remove('hidden')
-	} else {
-		alertLocal.classList.remove('hidden')
-		alertLocal.parentElement.previousElementSibling.classList.add('hidden')
-	}
+// 	if(localidad.value.length > 3) {
+// 		alertLocal.classList.add('hidden')
+// 		alertLocal.parentElement.previousElementSibling.classList.remove('hidden')
+// 	} else {
+// 		alertLocal.classList.remove('hidden')
+// 		alertLocal.parentElement.previousElementSibling.classList.add('hidden')
+// 	}
 
-})
+// })
 
 const barrio = document.querySelector('#barrio')
 barrio.addEventListener('keyup', (e) => {

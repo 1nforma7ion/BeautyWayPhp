@@ -6,7 +6,7 @@
 
 	<div class=" hidden md:flex w-1/3 h-12 rounded-full ">
 		<input type="text" class="w-full px-6 py-2 outline-none  " placeholder="Escribir">
-	  <button class="px-6 py-2 bg-white text-dark   font-bold">buscar</button>
+	  <button class="px-6 py-2 bg-white text-dark font-bold"><i class="fas fa-search text-neutral text-xl"></i></button>
 	</div>
 
 
@@ -28,16 +28,17 @@
 
 <?php if(isset($_SESSION['user_email'])) : ?>
 		<li class="list-none">
-			<a class="p-3 flex items-center hover:border-b-2 hover:border-white <?= ($data['page'] == 'about-us') ? 'is-active' : 'is-inactive'; ?>" href="<?php echo URLROOT . '/' . $data['controller'] . '/login' ?>">
-				<i class="fa-solid fa-envelope "></i><span class="ml-2 hidden md:block text-md">Mensajes</span> 
-			</a>
-		</li>
-
-		<li class="list-none">
 			<a class="  flex items-center <?= ($data['page'] == 'about-us') ? 'is-active' : 'is-inactive'; ?>" href="<?php echo URLROOT . '/' . $data['controller'] . '/login' ?>">
 				<img src="<?php echo URLROOT; ?>/img/anya1.JPG" alt="imagen logo" class="h-12 w-12 rounded-full"><span class="ml-2 hidden md:block text-md">Mi perfil</span>
 			</a>
 		</li>
+
+		<li class="list-none">
+			<a class="p-3 flex items-center hover:border-b-2 hover:border-white <?= ($data['page'] == 'about-us') ? 'is-active' : 'is-inactive'; ?>" href="<?php echo URLROOT . '/pages/logout' ?>">
+				<i class="fa-solid fa-sign-out-alt"></i><span class="ml-2 hidden md:block text-md">Cerrar Sesión</span> 
+			</a>
+		</li>
+
 	<?php endif; ?>
 
 
