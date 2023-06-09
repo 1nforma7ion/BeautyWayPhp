@@ -155,9 +155,9 @@
 						$subject = "Recuperación de contraseña";
 						$body = 'Si solicitaste cambiar tu contraseña entra al siguiente <a href="' . URLROOT . '/' . $controller . '/change_password/' . $token . '"> enlace </a>';
 						$headers = "From: niceDev90 <mail@nicedev90.pro>";
-			      $headers .= 'MIME-Version: 1.0 \r\n';
-						$headers .= 'Content-type: text/html; charset=iso-utf-8 \r\n';
-						
+			      $headers .= "MIME-Version: 1.0 \r\n";
+						$headers .= "Content-type: text/html; charset='utf-8' \r\n";
+
 	 							// send Mail to user email 
 							// echo $body;
 							// die();
