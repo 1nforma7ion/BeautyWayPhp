@@ -21,7 +21,7 @@
 
         <div id="user-group" class="relative flex flex-col mb-6 space-y-1">
 
-          <label for="email" class="text-neutralDark">Usuario</label>
+          <label for="email" class="text-neutralDark">Email</label>
           <div class="flex border-b focus:border-b-4  border-neutral items-center space-x-4 px-4 ">
             <i class="fa-solid fa-user text-neutral fa-1x"></i>
             <input id="email" type="text" name="email" class="w-full outline-none p-2 " placeholder="Ingrese su correo" required>

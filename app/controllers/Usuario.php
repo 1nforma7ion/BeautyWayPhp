@@ -1,11 +1,11 @@
 <?php 
-	class Pages extends Controller {
+	class Usuario extends Controller {
 		public function __construct() {
 			$this->page = $this->model('Page');
 		}
 
 		public function index() {
-			if (notSession()) {
+			if (usuarioLoggedIn()) {
 
 				$controller = strtolower(get_called_class());
 
@@ -15,10 +15,10 @@
 					'page' => __FUNCTION__
 				];
 
-				$this->view('pages/index',$data);
+				$this->view('usuario/index',$data);
 
 			} else {
-				$this->view('pages/login');
+				redirect('pages/login');
 			}
 		}
 
@@ -47,7 +47,6 @@
 
 		public function galeria() {
 
-			if (notSession()) {
 
 				$data = [
 					// 'comic' => $project,
@@ -59,7 +58,6 @@
 				];
 
 				$this->view('pages/galeria', $data);
-			}
 
 		}
 
@@ -72,14 +70,11 @@
 
 				$userExists = $this->page->findEmail($email);
 
+
 				if ($userExists) {
-					$user_pass = $userExists->contrasenia;
+					$user_pass = $userExists->password;
 
 					if (password_verify($password, $user_pass)) {
-						// echo "<pre>";
-						// print_r($userExists);
-						// die();
-
 						$this->createSession($userExists);
 					} else {
 						$_SESSION['msg'] = 'Contraseña incorrecta.';
@@ -104,10 +99,13 @@
 
 		public function createSession($user) {
 
+			$nombre = explode(' ', $user->nombre);
+			$nombre = $nombre[0];
+
 			$_SESSION['user_id'] = $user->user_id;
 			$_SESSION['user_rol'] = $user->rol;
 			$_SESSION['user_email'] = $user->email;
-			$_SESSION['user_nombre'] = $user->nombre;
+			$_SESSION['user_nombre'] = $nombre;
 			$_SESSION['user_telefono'] = $user->telefono;
 
 			if ($user->rol == 'admin') {
@@ -115,13 +113,8 @@
 			}
 
 			if ($user->rol == 'usuario') {
-				redirect('usuario/index');
+				redirect('usuarios/index');
 			}
-
-			if ($user->rol == 'usuariop') {
-				redirect('usuariop/index');
-			}
-
 		}
 
 		public function logout() {
@@ -191,13 +184,11 @@
 				} else {
 					$profesiones = $this->page->getProfesiones();
 					$controller = strtolower(get_called_class());
-
 					$data = [
 						'profesiones' => $profesiones,
 						'controller' => $controller,
 						'page' => __FUNCTION__
 					];
-
 					$this->view('pages/registrar', $data);
 				}
 

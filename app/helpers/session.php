@@ -18,6 +18,14 @@
 		}
 	}
 
+	function usuariopLoggedIn() {
+		if (isset($_SESSION['user_rol']) && $_SESSION['user_rol'] == 'usuariop') {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	function adminLoggedIn() {
 		if (isset($_SESSION['user_rol']) && $_SESSION['user_rol'] == 'admin') {
 			return true;

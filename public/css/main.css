@@ -530,6 +530,18 @@ video {
   position: relative;
 }
 
+.bottom-0 {
+  bottom: 0px;
+}
+
+.bottom-4 {
+  bottom: 1rem;
+}
+
+.left-0 {
+  left: 0px;
+}
+
 .right-0 {
   right: 0px;
 }
@@ -540,6 +552,10 @@ video {
 
 .top-20 {
   top: 5rem;
+}
+
+.top-4 {
+  top: 1rem;
 }
 
 .z-20 {
@@ -576,6 +592,10 @@ video {
   margin-left: 1rem;
 }
 
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
 .mt-auto {
   margin-top: auto;
 }
@@ -596,16 +616,16 @@ video {
   height: 4rem;
 }
 
-.h-20 {
-  height: 5rem;
-}
-
 .h-32 {
   height: 8rem;
 }
 
 .h-44 {
   height: 11rem;
+}
+
+.h-72 {
+  height: 18rem;
 }
 
 .h-\[760px\] {
@@ -641,12 +661,25 @@ video {
   width: 3rem;
 }
 
+.w-16 {
+  width: 4rem;
+}
+
 .w-2\/3 {
   width: 66.666667%;
 }
 
+.w-44 {
+  width: 11rem;
+}
+
 .w-full {
   width: 100%;
+}
+
+.w-max {
+  width: -moz-max-content;
+  width: max-content;
 }
 
 .w-screen {
@@ -741,6 +774,21 @@ video {
 
 .rounded-xl {
   border-radius: 0.75rem;
+}
+
+.rounded-l-xl {
+  border-top-left-radius: 0.75rem;
+  border-bottom-left-radius: 0.75rem;
+}
+
+.rounded-r-lg {
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.rounded-r-xl {
+  border-top-right-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
 }
 
 .border-4 {
@@ -879,6 +927,10 @@ video {
   text-align: center;
 }
 
+.font-dmsans {
+  font-family: DM Sans, sans-serif;
+}
+
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
@@ -908,6 +960,10 @@ video {
   font-weight: 700;
 }
 
+.italic {
+  font-style: italic;
+}
+
 .tracking-wider {
   letter-spacing: 0.05em;
 }
@@ -915,6 +971,11 @@ video {
 .text-dark {
   --tw-text-opacity: 1;
   color: hsl(189 5.3% 17.7% / var(--tw-text-opacity));
+}
+
+.text-fbk {
+  --tw-text-opacity: 1;
+  color: hsl(222 66.8% 36.7% / var(--tw-text-opacity));
 }
 
 .text-neutral {
@@ -925,6 +986,11 @@ video {
 .text-neutralDark {
   --tw-text-opacity: 1;
   color: hsl(250 97.2% 64.4% / var(--tw-text-opacity));
+}
+
+.text-red {
+  --tw-text-opacity: 1;
+  color: hsl(0 78.9% 50.7% / var(--tw-text-opacity));
 }
 
 .text-white {
@@ -969,54 +1035,17 @@ video {
   /* Firefox */
 }
 
-.img_post {
-  position: relative;
-  display: flex;
-  width: 100%;
-  align-items: center;
-}
-
-@media (min-width: 768px) {
-  .img_post {
-    width: 50%;
-  }
+/*.img_post {
+  @apply ;
 }
 
 .img_post img {
-  height: 18rem;
-  -o-object-fit: cover;
-     object-fit: cover;
-}
-
-@media (min-width: 768px) {
-  .img_post img {
-    height: 24rem;
-  }
+  @apply  ;
 }
 
 .date_post {
-  position: absolute;
-  bottom: 1rem;
-  right: 0px;
-  height: -moz-max-content;
-  height: max-content;
-  width: -moz-max-content;
-  width: max-content;
-  --tw-bg-opacity: 1;
-  background-color: hsl(250 97.2% 72.4% / var(--tw-bg-opacity));
-  padding: 0.5rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  --tw-text-opacity: 1;
-  color: hsl(86 100% 71.8% / var(--tw-text-opacity));
-}
-
-@media (min-width: 768px) {
-  .date_post {
-    top: 1rem;
-    left: 0px;
-  }
-}
+  @apply ;
+}*/
 
 #form_register {
   display: flex;
@@ -1032,18 +1061,22 @@ video {
 
 #form_register {
   padding: 0.5rem;
+  font-family: DM Sans, sans-serif;
 }
 
-#form_register input[type=text], input[type=email], input[type=password], input[type=tel] {
+#form_register input[type=text], input[type=email], input[type=password], input[type=tel], input[type=number] {
   border-bottom-width: 1px;
   --tw-border-opacity: 1;
   border-color: hsl(250 97.2% 64.4% / var(--tw-border-opacity));
-  padding: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
 
-#form_register input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, input[type=tel]:focus {
+#form_register input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, input[type=tel]:focus, input[type=number]:focus {
   border-bottom-width: 2px;
 }
 
@@ -1052,7 +1085,10 @@ video {
   border-width: 1px;
   --tw-border-opacity: 1;
   border-color: hsl(250 97.2% 78.4% / var(--tw-border-opacity));
-  padding: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
@@ -1065,6 +1101,11 @@ video {
 #form_register .group-col {
   display: flex;
   flex-direction: column;
+}
+
+#form_register .group-col label {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 }
 
 #form_register .group-row {
@@ -1158,6 +1199,18 @@ video {
  END Estilos para Hamburger Menu
 */
 
+@font-face {
+  font-family: "Kanit", sans-serif;
+
+  font-family: "Lexend Deca", sans-serif;
+
+  font-family: "Pathway Extreme", sans-serif;
+
+  font-family: "Urbanist", sans-serif;
+
+  font-family: "DM Sans", sans-serif;
+}
+
 .hover\:rounded-full:hover {
   border-radius: 9999px;
 }
@@ -1171,6 +1224,11 @@ video {
   border-color: rgb(255 255 255 / var(--tw-border-opacity));
 }
 
+.hover\:bg-cta:hover {
+  --tw-bg-opacity: 1;
+  background-color: hsl(86 100% 71.8% / var(--tw-bg-opacity));
+}
+
 .hover\:bg-ctaDark:hover {
   --tw-bg-opacity: 1;
   background-color: hsl(86 100% 63.8% / var(--tw-bg-opacity));
@@ -1179,6 +1237,16 @@ video {
 .hover\:bg-neutral:hover {
   --tw-bg-opacity: 1;
   background-color: hsl(250 97.2% 72.4% / var(--tw-bg-opacity));
+}
+
+.hover\:bg-neutralDark:hover {
+  --tw-bg-opacity: 1;
+  background-color: hsl(250 97.2% 64.4% / var(--tw-bg-opacity));
+}
+
+.hover\:text-fbk:hover {
+  --tw-text-opacity: 1;
+  color: hsl(222 66.8% 36.7% / var(--tw-text-opacity));
 }
 
 .hover\:opacity-90:hover {
@@ -1195,6 +1263,18 @@ video {
 }
 
 @media (min-width: 768px) {
+  .md\:bottom-4 {
+    bottom: 1rem;
+  }
+
+  .md\:left-0 {
+    left: 0px;
+  }
+
+  .md\:top-4 {
+    top: 1rem;
+  }
+
   .md\:mb-6 {
     margin-bottom: 1.5rem;
   }
@@ -1215,16 +1295,16 @@ video {
     height: 24rem;
   }
 
-  .md\:h-\[1000px\] {
-    height: 1000px;
-  }
-
   .md\:w-1\/2 {
     width: 50%;
   }
 
   .md\:w-1\/3 {
     width: 33.333333%;
+  }
+
+  .md\:w-2\/3 {
+    width: 66.666667%;
   }
 
   .md\:w-3\/4 {
@@ -1235,8 +1315,8 @@ video {
     width: 24rem;
   }
 
-  .md\:w-\[700px\] {
-    width: 700px;
+  .md\:w-\[1200px\] {
+    width: 1200px;
   }
 
   .md\:w-full {
@@ -1246,14 +1326,6 @@ video {
   .md\:w-max {
     width: -moz-max-content;
     width: max-content;
-  }
-
-  .md\:w-\[900px\] {
-    width: 900px;
-  }
-
-  .md\:w-\[1200px\] {
-    width: 1200px;
   }
 
   .md\:flex-row {
@@ -1298,9 +1370,13 @@ video {
     padding-bottom: 0px;
   }
 
+  .md\:text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
   .md\:text-4xl {
     font-size: 2.25rem;
     line-height: 2.5rem;
   }
 }
-
