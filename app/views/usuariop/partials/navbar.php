@@ -29,7 +29,7 @@
 <?php if(isset($_SESSION['user_email'])) : ?>
 		<li class="list-none">
 			<a class="  flex items-center <?= ($data['page'] == 'about-us') ? 'is-active' : 'is-inactive'; ?>" href="<?php echo URLROOT . '/' . $data['controller'] . '/login' ?>">
-				<img src="<?php echo URLROOT; ?>/img/anya1.JPG" alt="imagen logo" class="h-12 w-12 rounded-full"><span class="ml-2 hidden md:block text-md">Mi perfil</span>
+				<img src="<?php echo URLROOT; ?>/img/anya1.JPG" alt="imagen logo" class="h-12 w-12 rounded-full"><span class="ml-2 hidden md:block text-md"><?php echo $_SESSION['user_nombre'] ?></span>
 			</a>
 		</li>
 

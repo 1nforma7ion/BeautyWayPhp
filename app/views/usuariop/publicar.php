@@ -24,8 +24,6 @@
 					
 				</div>
 
-
-
 			</nav>
 		</div>
 
@@ -35,59 +33,65 @@
 		<div class="flex w-full md:w-3/4 overflow-hidden">
 			<div class="flex flex-col w-full  md:p-4  space-y-4  overflow-y-scroll no-scrollbar">
 
+			<form action="<?php echo URLROOT . '/' . $data['controller']; ?>/publicar" autocomplete="off" method="POST" enctype="multipart/form-data">
 				<div class=" flex flex-col-reverse md:flex-row bg-white text-darkborder drop-shadow-lg hover:drop-shadow-card ">
 
-					<div class="img_post relative flex w-full md:w-1/2 items-center">
-						<img src="<?php echo URLROOT; ?>/img/pies.jpg" alt="imagen logo" class="w-full h-72 md:h-96 object-cover">
-						<div class="date_post absolute w-max h-max bottom-4 right-0 md:top-4 md:left-0 rounded-r-lg text-sm text-dark p-2 bg-ctaDark md:text-xl font-bold">
-							<select id="zona" name="zona" required class="p-2 rounded-xl outline-none bg-ctaDark">
-					      <option value="" selected>Selecciona ...</option>
-					      <?php if(isset($data['zonas'])) : ?>
-									<?php foreach ($data['zonas'] as $row) : ?>
-										<option value="<?php echo $row->id ?>"><?php echo $row->zona ?></option>
-									<?php endforeach; ?>
-								<?php endif; ?> 
-					    </select>
+					<div class="img_post relative flex w-full md:w-2/3 items-center font-dmsans bg-primary">
+						<canvas id="preview" class=" w-full h-72 md:h-96 "></canvas>
+
+						<div class="date_post absolute w-1/4 h-max bottom-4 right-0 md:top-4 md:left-0 rounded-r-lg text-sm text-dark p-2 bg-ctaDark font-bold drop-shadow-card">
+							<div><?php echo $_SESSION['user_zona'] ?></div>
 						</div>
 
-						<div class="date_post absolute w-full flex justify-around h-max bottom-4 right-0 md:bottom-4  md:text-2xl font-bold">
-							<button class="w-44 rounded-full text-sm text-dark p-2 bg-ctaDark "> <i class="fas fa-heart "></i> Me gusta  </button>
-							<button class="w-44 rounded-full text-sm text-dark p-2 bg-ctaDark "> <i class="fas fa-comment "></i> Comentarios  </button>
-							<button class="w-44 rounded-full text-sm text-dark p-2 bg-ctaDark "> <i class="fas fa-share "></i> Compartir  </button>
+						<div class="absolute w-full flex justify-around items-center h-max bottom-6 left-0 ">
+							<input id="img-input" type="file" name="imagen" hidden required>
+							<label for="img-input" > 
+		            <span class="p-4 font-bold rounded-r-xl bg-ctaDark text-dark drop-shadow-card">Subir Imagen  <i class="fas fa-image"></i> </span>
+		          </label>	         
+
+		          <div class="w-44 flex justify-between font-bold rounded-r-xl  bg-ctaDark text-dark drop-shadow-card">
+		          	<label class="w-1/2">Descuento en % </label>
+								<input type="text" name="descuento" id="descuento" class="px-6 w-1/2 outline-none focus:border-neutral border-2 border-primary " >
+		          </div>
+
+				      <div class="w-44 flex justify-between font-bold rounded-r-xl  bg-ctaDark text-dark drop-shadow-card">
+		          	<label class="w-1/2">Vigencia (dias) </label>
+								<input type="text" name="vigencia" id="vigencia" class=" px-6 w-1/2 outline-none focus:border-neutral border-2 border-primary " >
+		          </div>
 
 						</div>
 					</div>
 										
-					<div class="relative md:h-96 w-full flex flex-col p-4 md:w-1/2 space-y-4 ">
+					<div class="relative md:h-96 w-full flex flex-col p-4 md:w-1/3 space-y-4 ">
 						<div class="flex space-x-4">
 							<div class="flex flex-col space-y-4">
 								<div class="w-full flex items-center space-x-4">
 									<img src="<?php echo URLROOT; ?>/img/logo.png" alt="imagen logo" class="h-16 w-16 rounded-full">
-									<h1 ><a href="" class="text-dark hover:text-fbk text-xl  font-bold">Masajes & Spa Cosmetics Pedicure</a></h1>
+									<h1 ><a href="" class="text-dark hover:text-fbk text-xl  font-bold"><?php echo !is_null($_SESSION['user_nombre_comercial']) ? $_SESSION['user_nombre_comercial'] : '' ?></a></h1>
 								</div>
-								
-								<div class="flex w-full justify-center bg-primary rounded-xl p-1">
-									<i class="fas fa-calendar-alt mr-2"></i>
-									<span class="text-sm"> 05-Junio-2023</span>	
-								</div>
+
 							</div>
 
 						</div>
 			      <div class="w-full">
-			      	<textarea name="contenido" id="contenido" rows="7"  class="w-full outline-none focus:border-primary border-2 border-neutral " placeholder="Escribe el contenido de la publicacion "></textarea>
+			      	<textarea name="descripcion" id="descripcion" rows="8"  class="w-full outline-none focus:border-neutral border-2 border-primary " placeholder="Escribe el contenido de la publicacion " required></textarea>
 			      </div>
 	  				
+	  				<input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id'] ?>">
+	  				<input type="hidden" name="zona" value="<?php echo $_SESSION['user_zona'] ?>">
 	  				<div class="absolute flex bottom-4 self-center text-sm text-fbk">
-							<a href="" class=" rounded-full text-white text-xl px-4 py-2 md:w-max bg-neutralDark "> 
-			      		Ver detalles<i class="fas fa-arrow-right ml-4 "></i>
-			      	</a>
+							<button type="submit" class=" rounded-full text-white text-xl px-4 py-2 md:w-max bg-neutralDark "> 
+			      		Publicar <i class="fas fa-paper-plane ml-4 "></i>
+			      	</button>
 						</div>
 
 					</div>
 
 				</div>
 
+			</form>
 
+                  
 
 
 			</div>
@@ -98,7 +102,7 @@
 	</div>
 </div>
 
-
+	<script src="<?php echo URLROOT; ?>/js/_usuariop.js"></script>
 
 
 <?php require APPROOT . '/views/' . $data['controller'] . '/partials/footer.php'; ?>

@@ -7,11 +7,10 @@
 		public function index() {
 			if (usuariopLoggedIn()) {
 
-				$controller = strtolower(get_called_class());
 
 				$data = [
 
-					'controller' => $controller,
+					'controller' => strtolower(get_called_class()),
 					'page' => __FUNCTION__
 				];
 
@@ -24,20 +23,73 @@
 
 		public function publicar() {
 			if (usuariopLoggedIn()) {
-				
-				$zonas = $this->usuariop->getZonas();
+				if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+					$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+					$user_id = $_POST['user_id'];
+					$descripcion = $_POST['descripcion'];
+					$estado = DEFAULT_USER_STATUS;
+					$descuento = $_POST['descuento'];
+					$vigencia = $_POST['vigencia'];
+					$zona = $_POST['zona'];
 
 
-				$data = [
-					// 'comic' => $project,
-					// 'chapter' => $chapter,
+					// echo "<pre>";
+					// print_r($_POST);
+					// die();
+					$imagen = $_FILES['imagen']['name'];
 
-					'zonas' => $zonas,
-					'controller' => strtolower(get_called_class()),
-					'page' => __FUNCTION__
-				];
 
-				$this->view('usuariop/publicar', $data);
+				  	if ($imagen) {
+
+				  		$archivo = $_FILES['imagen'];
+	
+							$year = date('Y');
+							$month = date('m');
+
+			      	if(file_exists('../public/files/' . $year . '/' . $month)) {
+								$filesDir = '../public/files/' . $year . '/' . $month . '/';
+			      	} else {
+			    			mkdir('../public/files/' . $year);
+			    			mkdir('../public/files/' . $year . '/' . $month);
+								$filesDir = '../public/files/' . $year . '/' . $month . '/';
+			      	}
+
+	
+		        	$i_name = $archivo['name'];
+							$i_tmp = $archivo['tmp_name'];
+
+							move_uploaded_file($i_tmp, $filesDir . $i_name);
+
+							$urlImagen = '/files/' . $year . '/' . $month . '/' . $i_name;
+
+			        $saved = $this->usuariop->savePublic($user_id, $descripcion, $urlImagen, $zona, $estado, $descuento, $vigencia);
+
+			        if ($saved) {
+					      $_SESSION['msg'] = 'saved';
+								redirect('usuariop/index');
+							} else {
+								die('ocurrio un error');
+							}
+
+			      }
+
+
+
+				} else {
+					
+					$zonas = $this->usuariop->getZonas();
+					$data = [
+						// 'comic' => $project,
+						// 'chapter' => $chapter,
+
+						'zonas' => $zonas,
+						'controller' => strtolower(get_called_class()),
+						'page' => __FUNCTION__
+					];
+
+					$this->view('usuariop/publicar', $data);
+				}
 
 			} else {
 				redirect('pages/login');

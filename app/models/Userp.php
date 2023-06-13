@@ -93,6 +93,27 @@
 			}
 		}
 
+
+		public function savePublic($user_id, $descripcion, $urlImagen, $zona, $estado, $descuento, $vigencia) {
+			$this->db->query("INSERT INTO publicaciones (id_usuario, descripcion, imagen, zona, estado, descuento, vigencia_dias) 
+				VALUES (:user_id, :descripcion, :urlImagen, :zona, :estado, :descuento, :vigencia)");
+			$this->db->bind(':user_id',$user_id);
+			$this->db->bind(':descripcion',$descripcion);
+			$this->db->bind(':urlImagen',$urlImagen);
+			$this->db->bind(':zona',$zona);
+			$this->db->bind(':estado',$estado);
+			$this->db->bind(':descuento',$descuento);
+			$this->db->bind(':vigencia',$vigencia);
+			$creado = $this->db->execute();
+
+			if ($creado) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+
 		public function getAuthors() {
 			$this->db->query('SELECT * FROM autores');
 			$autores = $this->db->getSet();

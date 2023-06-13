@@ -1,17 +1,15 @@
 <?php 
 	class Usuario extends Controller {
 		public function __construct() {
-			$this->page = $this->model('Page');
+			$this->usuario = $this->model('User');
 		}
 
 		public function index() {
 			if (usuarioLoggedIn()) {
 
-				$controller = strtolower(get_called_class());
-
 				$data = [
 
-					'controller' => $controller,
+					'controller' => strtolower(get_called_class()),
 					'page' => __FUNCTION__
 				];
 
@@ -22,116 +20,33 @@
 			}
 		}
 
-		public function about() {
-			if (notSession()) {
-				$projects = $this->page->getProjects();
-				$name = $projects[0]->nombre;
-				$project_name = str_replace(" ","_",$name);
-				$controller = strtolower(get_called_class());
-
-				$authors = $this->page->getAuthors();
-
-				$data = [
-					'authors' => $authors,
-
-					'project_name' => $project_name,
-					'controller' => $controller,
-					'page' => __FUNCTION__
-				];
-
-				$this->view('pages/about',$data);
-			} else {
-				$this->view('pages/login');
-			}
-		}
-
-		public function galeria() {
+		public function publicar() {
+			if (usuarioLoggedIn()) {
+				
+				$zonas = $this->usuariop->getZonas();
 
 
 				$data = [
 					// 'comic' => $project,
 					// 'chapter' => $chapter,
 
-					// 'project_name' => $name,
+					'zonas' => $zonas,
 					'controller' => strtolower(get_called_class()),
 					'page' => __FUNCTION__
 				];
 
-				$this->view('pages/galeria', $data);
-
-		}
-
-		public function login() {
-			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-				$email = $_POST['email'];
-				$password = $_POST['password'];
-
-				$userExists = $this->page->findEmail($email);
-
-
-				if ($userExists) {
-					$user_pass = $userExists->password;
-
-					if (password_verify($password, $user_pass)) {
-						$this->createSession($userExists);
-					} else {
-						$_SESSION['msg'] = 'Contraseña incorrecta.';
-						redirect('pages/login');
-					}
-				} else {
-					$_SESSION['msg'] = 'Email no registrado.';
-					redirect('pages/login');
-				}
+				$this->view('usuariop/publicar', $data);
 
 			} else {
-				$controller = strtolower(get_called_class());
-
-				$data = [
-					'controller' => $controller,
-					'page' => __FUNCTION__
-				];
-
-				$this->view('pages/login', $data);
+				redirect('pages/login');
 			}
 		}
 
-		public function createSession($user) {
 
-			$nombre = explode(' ', $user->nombre);
-			$nombre = $nombre[0];
-
-			$_SESSION['user_id'] = $user->user_id;
-			$_SESSION['user_rol'] = $user->rol;
-			$_SESSION['user_email'] = $user->email;
-			$_SESSION['user_nombre'] = $nombre;
-			$_SESSION['user_telefono'] = $user->telefono;
-
-			if ($user->rol == 'admin') {
-				redirect('admin/panel');
-			}
-
-			if ($user->rol == 'usuario') {
-				redirect('usuarios/index');
-			}
-		}
-
-		public function logout() {
-			unset($_SESSION['user_id']);
-			unset($_SESSION['user_rol']);
-			unset($_SESSION['user_email']);
-			unset($_SESSION['user_nombre']);
-			unset($_SESSION['user_telefono']);
-
-			session_destroy();
-			redirect('pages/index');
-		}
 
 		public function registrar() {
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
 
 					$tipo = $_POST['tipo_documento'];
 					$doc = $_POST['num_documento'];

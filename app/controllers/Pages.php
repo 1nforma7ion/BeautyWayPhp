@@ -7,11 +7,10 @@
 		public function index() {
 			if (notSession()) {
 
-				$controller = strtolower(get_called_class());
 
 				$data = [
 
-					'controller' => $controller,
+					'controller' => strtolower(get_called_class()),
 					'page' => __FUNCTION__
 				];
 
@@ -91,10 +90,10 @@
 				}
 
 			} else {
-				$controller = strtolower(get_called_class());
+
 
 				$data = [
-					'controller' => $controller,
+					'controller' => strtolower(get_called_class()),
 					'page' => __FUNCTION__
 				];
 
@@ -108,7 +107,15 @@
 			$_SESSION['user_rol'] = $user->rol;
 			$_SESSION['user_email'] = $user->email;
 			$_SESSION['user_nombre'] = $user->nombre;
+			$_SESSION['user_apellido'] = $user->apellido;
 			$_SESSION['user_telefono'] = $user->telefono;
+			$_SESSION['user_nombre_comercial'] = $user->nombre_comercial;
+			$_SESSION['user_modalidad'] = $user->modalidad;
+			$_SESSION['user_calle'] = $user->calle;
+			$_SESSION['user_altura'] = $user->altura;
+			$_SESSION['user_localidad'] = $user->localidad;
+			$_SESSION['user_zona'] = $user->zona;
+			$_SESSION['user_profesion'] = $user->profesion;
 
 			if ($user->rol == 'admin') {
 				redirect('admin/panel');
@@ -129,8 +136,15 @@
 			unset($_SESSION['user_rol']);
 			unset($_SESSION['user_email']);
 			unset($_SESSION['user_nombre']);
+			unset($_SESSION['user_apellido']);
 			unset($_SESSION['user_telefono']);
-
+			unset($_SESSION['user_nombre_comercial']);
+			unset($_SESSION['user_modalidad']);
+			unset($_SESSION['user_calle']);
+			unset($_SESSION['user_altura']);
+			unset($_SESSION['user_localidad']);
+			unset($_SESSION['user_zona']);
+			unset($_SESSION['user_profesion']);
 			session_destroy();
 			redirect('pages/index');
 		}
@@ -299,6 +313,7 @@
 					$profesion = $_POST['profesion'];
 					$modalidad = $_POST['modalidad'];
 					$zona = $_POST['zona'];
+					$estado = DEFAULT_USER_STATUS;
 
 					if(!empty($_POST['nombre_comercial'])) {
 						$rol = ID_USER_PRO;
@@ -323,7 +338,7 @@
 					} else {
 						$pass = password_hash($pass, PASSWORD_DEFAULT);
 
-						$this->page->register($rol,$tipo,$doc,$nombre,$apellido,$calle,$altura,$piso,$depto,$barrio,$localidad,$telefono,$email,$pass,$comercial,$profesion,$modalidad,$zona);
+						$this->page->register($rol,$tipo,$doc,$nombre,$apellido,$calle,$altura,$piso,$depto,$barrio,$localidad,$telefono,$email,$pass,$comercial,$profesion,$modalidad,$zona, $estado);
 
 						$_SESSION['msg'] = 'Registrado Correctamente.';
 						redirect('pages/login');

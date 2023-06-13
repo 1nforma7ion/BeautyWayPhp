@@ -24,12 +24,7 @@
 			return $projects;
 		}
 
-		public function getComic($name) {
-			$this->db->query('SELECT * FROM proyectos WHERE nombre = :name');
-			$this->db->bind(':name',$name);
-			$comic = $this->db->getSingle();
-			return $comic;
-		}
+
 
 		public function getChapters($id,$estado1) {
 			$this->db->query("SELECT * FROM capitulos WHERE proyecto_id = :id AND estado = :estado1 ORDER BY created_at DESC");
@@ -55,37 +50,7 @@
 			return $chapter;
 		}
 
-		public function register($rol,$tipo,$doc,$nombre,$apellido,$calle,$altura,$piso,$depto,$barrio,$localidad,$telefono,$email,$pass,$comercial,$profesion,$modalidad,$zona) {
-			$this->db->query("INSERT INTO usuarios (rol_id, tipo_documento, num_documento, nombre, apellido, nombre_comercial, id_profesion, id_zona_trabajo, modalidad, calle, altura, piso, depto, barrio, localidad, telefono, email, contrasenia) 
-				VALUES (:rol,:tipo,:doc,:nombre,:apellido,:comercial,:profesion,:zona,:modalidad,:calle,:altura,:piso,:depto,:barrio,:localidad,:telefono,:email,:pass)");
-			$this->db->bind(':rol',$rol);
-			$this->db->bind(':tipo',$tipo);
-			$this->db->bind(':doc',$doc);
-			$this->db->bind(':nombre',$nombre);
-			$this->db->bind(':apellido',$apellido);
-			$this->db->bind(':calle',$calle);
-			$this->db->bind(':altura',$altura);
-			$this->db->bind(':piso',$piso);
-			$this->db->bind(':depto',$depto);
-			$this->db->bind(':barrio',$barrio);
-			$this->db->bind(':localidad',$localidad);
-			$this->db->bind(':telefono',$telefono);
-			$this->db->bind(':email',$email);
-			$this->db->bind(':pass',$pass);
-			$this->db->bind(':comercial',$comercial);
-			$this->db->bind(':profesion',$profesion);
-			$this->db->bind(':modalidad',$modalidad);
-			$this->db->bind(':zona',$zona);
 
-
-			$creado = $this->db->execute();
-
-			if ($creado) {
-				return true;
-			} else {
-				return false;
-			}
-		}
 
 		public function getAuthors() {
 			$this->db->query('SELECT * FROM autores');

@@ -7,7 +7,11 @@
 		}
 
 		public function findEmail($email) {
-			$this->db->query('SELECT *, u.id AS user_id FROM usuarios u INNER JOIN roles r ON r.id = u.rol_id WHERE email = :email');
+			$this->db->query('SELECT *, u.id AS user_id FROM usuarios u 
+				INNER JOIN roles r ON r.id = u.rol_id 
+				INNER JOIN profesiones p ON p.id = u.id_profesion 
+				INNER JOIN zonas z ON z.id = u.id_zona_trabajo 
+				WHERE email = :email');
 			$this->db->bind(':email', $email);
 			$user = $this->db->getSingle();
 
@@ -134,9 +138,9 @@
 			return $chapter;
 		}
 
-		public function register($rol,$tipo,$doc,$nombre,$apellido,$calle,$altura,$piso,$depto,$barrio,$localidad,$telefono,$email,$pass,$comercial,$profesion,$modalidad,$zona) {
-			$this->db->query("INSERT INTO usuarios (rol_id, tipo_documento, num_documento, nombre, apellido, nombre_comercial, id_profesion, id_zona_trabajo, modalidad, calle, altura, piso, depto, barrio, localidad, telefono, email, contrasenia) 
-				VALUES (:rol,:tipo,:doc,:nombre,:apellido,:comercial,:profesion,:zona,:modalidad,:calle,:altura,:piso,:depto,:barrio,:localidad,:telefono,:email,:pass)");
+		public function register($rol,$tipo,$doc,$nombre,$apellido,$calle,$altura,$piso,$depto,$barrio,$localidad,$telefono,$email,$pass,$comercial,$profesion,$modalidad,$zona,$estado) {
+			$this->db->query("INSERT INTO usuarios (rol_id, tipo_documento, num_documento, nombre, apellido, nombre_comercial, id_profesion, id_zona_trabajo, modalidad, calle, altura, piso, depto, barrio, localidad, telefono, email, contrasenia, estado) 
+				VALUES (:rol,:tipo,:doc,:nombre,:apellido,:comercial,:profesion,:zona,:modalidad,:calle,:altura,:piso,:depto,:barrio,:localidad,:telefono,:email,:pass, :estado)");
 			$this->db->bind(':rol',$rol);
 			$this->db->bind(':tipo',$tipo);
 			$this->db->bind(':doc',$doc);
@@ -155,6 +159,7 @@
 			$this->db->bind(':profesion',$profesion);
 			$this->db->bind(':modalidad',$modalidad);
 			$this->db->bind(':zona',$zona);
+			$this->db->bind(':estado',$estado);
 
 
 			$creado = $this->db->execute();

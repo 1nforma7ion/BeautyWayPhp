@@ -33,19 +33,14 @@ CREATE TABLE `usuarios` (
   `telefono` varchar(20) NOT NULL,
   `email` varchar(100) NOT NULL,
   `contrasenia` varchar(150) NOT NULL,
+  `estado` varchar(30) NOT NULL,
   createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
-create table profesiones (
-  id INT NOT NULL AUTO_INCREMENT,
-  profesion VARCHAR(50) NOT NULL,
-  PRIMARY KEY (id)
-)ENGINE=INNODB;
 
-INSERT INTO profesiones (profesion) VALUES ('Peluquería'), ('Manicuría'), ('Barbería'), ('Pies'), ('Masajes'), ('Tratamiento Corporal');
 
 create table zonas (
   id INT NOT NULL AUTO_INCREMENT,
@@ -85,3 +80,87 @@ create table usuarios_token (
 )ENGINE=INNODB;
 
 
+
+create table profesiones (
+  id INT NOT NULL AUTO_INCREMENT,
+  profesion VARCHAR(50) NOT NULL,
+  PRIMARY KEY (id)
+)ENGINE=INNODB;
+
+INSERT INTO profesiones (profesion) VALUES ('Peluquería'), ('Manicuría'), ('Barbería'), ('Pies'), ('Tratamiento Corporal'), ('Depilación');
+
+CREATE TABLE servicios (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_profesion INT NOT NULL,
+  servicio VARCHAR(150) NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_id_profesion
+  FOREIGN KEY (id_profesion)
+  REFERENCES profesiones (id)
+)ENGINE=INNODB;
+
+
+CREATE TABLE publicaciones (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_usuario INT NOT NULL,
+  descripcion VARCHAR(255),
+  imagen VARCHAR(255),
+  zona VARCHAR(40),
+  estado VARCHAR(20),
+  me_gusta INT NOT NULL,
+  comentarios INT NOT NULL,
+  descuento DECIMAL(5,2),
+  vigencia_dias INT NOT NULL,
+  creado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  actualizado DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_id_usuario
+  FOREIGN KEY (id_usuario)
+  REFERENCES usuarios (id)
+)ENGINE=INNODB;
+
+CREATE TABLE comentarios (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_usuario INT NOT NULL,
+  id_publicacion INT NOT NULL,
+  comentario VARCHAR(40) NOT NULL,
+  creado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  actualizado DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_coment_usuario
+  FOREIGN KEY (id_usuario)
+  REFERENCES usuarios (id),
+  CONSTRAINT fk_coment_pub
+  FOREIGN KEY (id_publicacion)
+  REFERENCES  publicaciones (id)
+)ENGINE=INNODB;
+
+CREATE TABLE perfiles (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_usuario INT NOT NULL,
+  imagen_usuario VARCHAR(255),
+  imagen_comercial VARCHAR(255),
+  creado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  actualizado DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_perfil_usuario
+  FOREIGN KEY (id_usuario)
+  REFERENCES usuarios (id)
+)ENGINE=INNODB;
+
+
+CREATE TABLE reservas (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_usuario INT NOT NULL,
+  id_publicacion INT NOT NULL,
+  fecha_reserva DATETIME,
+  horario DATETIME,
+  creado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_reserva_usuario
+  FOREIGN KEY (id_usuario)
+  REFERENCES usuarios (id),
+  CONSTRAINT fk_reserva_pub
+  FOREIGN KEY (id_publicacion)
+  REFERENCES publicaciones (id)
+)ENGINE=INNODB;
