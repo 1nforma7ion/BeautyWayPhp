@@ -2,6 +2,14 @@
 
 	session_start();
 
+	function setStatus($estado) {
+		if ($estado == 1) {
+			echo '<div class="text-green"><i class="fas fa-check mr-2"></i> Activo </div>';
+		} else {
+			echo '<div class="text-red"><i class="fas fa-xmark mr-2"></i> Inactivo </div>';
+		}
+	}
+
 	function notSession() {
 		if (!isset($_SESSION['user_rol'])) {
 			return true;

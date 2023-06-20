@@ -72,7 +72,7 @@
 				    <label for="altura">Altura:
 				    	<span id="alert-altura" class="hidden italic text-sm text-red">Minimo 2 números</span>
 				  	</label>
-				    <input type="number" id="altura" name="altura" min="1" max="99" required placeholder="5">
+				    <input type="number" id="altura" name="altura" min="1" max="9999" required placeholder="5">
 			    </div>
 			    <div class="group-col w-1/3">
 			   		<label for="piso">Piso: (Opcional)</label>

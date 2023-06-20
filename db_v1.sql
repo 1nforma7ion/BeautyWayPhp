@@ -84,6 +84,7 @@ create table usuarios_token (
 create table profesiones (
   id INT NOT NULL AUTO_INCREMENT,
   profesion VARCHAR(50) NOT NULL,
+  estado INT NOT NULL,
   PRIMARY KEY (id)
 )ENGINE=INNODB;
 
@@ -152,15 +153,58 @@ CREATE TABLE perfiles (
 CREATE TABLE reservas (
   id INT NOT NULL AUTO_INCREMENT,
   id_usuario INT NOT NULL,
+  id_profesional INT NOT NULL,
   id_publicacion INT NOT NULL,
-  fecha_reserva DATETIME,
-  horario DATETIME,
+  servicio VARCHAR(200) NOT NULL,
+  estado VARCHAR(40) NOT NULL,
+  motivo VARCHAR(200) NOT NULL,
+  fecha DATETIME,
+  hora DATETIME,
   creado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   CONSTRAINT fk_reserva_usuario
   FOREIGN KEY (id_usuario)
   REFERENCES usuarios (id),
-  CONSTRAINT fk_reserva_pub
+  CONSTRAINT fk_reserva_profesional
+  FOREIGN KEY (id_usuario)
+  REFERENCES usuarios (id),
+  CONSTRAINT fk_reserva_public
   FOREIGN KEY (id_publicacion)
   REFERENCES publicaciones (id)
 )ENGINE=INNODB;
+
+
+CREATE TABLE sidebar (
+  id INT NOT NULL AUTO_INCREMENT,
+  user_rol_id INT NOT NULL,
+  menu_item_url VARCHAR(250) NOT NULL,
+  menu_item_text VARCHAR(150) NOT NULL,
+  menu_item_icon VARCHAR(40) NOT NULL,
+  menu_item_status VARCHAR(50) NOT NULL,
+  menu_item_order INT NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_rol_id_sidebar
+  FOREIGN KEY (user_rol_id)
+  REFERENCES roles (id)
+)ENGINE=INNODB;
+
+
+
+
+CREATE TABLE reservas_estados (
+  id INT NOT NULL AUTO_INCREMENT,
+  estado VARCHAR(40) NOT NULL,
+  PRIMARY KEY (id)
+)ENGINE=INNODB;
+
+
+CREATE TABLE reservas_motivos (
+  id INT NOT NULL AUTO_INCREMENT,
+  motivo VARCHAR(200) NOT NULL,
+  PRIMARY KEY (id)
+)ENGINE=INNODB;
+
+
+
+INSERT INTO reservas_estados (estado) VALUES ('pendiente'), ('confirmado'), ('cancelado'), ('finalizado');
+INSERT INTO reservas_motivos (motivo) VALUES ('Motivos personales'), ('Horario no disponible'), ('No laborable');

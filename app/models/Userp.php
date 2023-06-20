@@ -30,6 +30,14 @@
 			return $projects;
 		}
 
+
+		public function getReservasByUser($user) {
+			$this->db->query('SELECT * FROM publicaciones WHERE id_usuario = :user');
+			$this->db->bind(':user', $user);
+			$reservas = $this->db->getSet();
+			return $reservas;
+		}
+
 		public function getComic($name) {
 			$this->db->query('SELECT * FROM proyectos WHERE nombre = :name');
 			$this->db->bind(':name',$name);

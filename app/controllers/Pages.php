@@ -6,60 +6,26 @@
 
 		public function index() {
 			if (notSession()) {
-
-
 				$data = [
-
 					'controller' => strtolower(get_called_class()),
 					'page' => __FUNCTION__
 				];
-
 				$this->view('pages/index',$data);
-
 			} else {
 				$this->view('pages/login');
 			}
 		}
 
-		public function about() {
-			if (notSession()) {
-				$projects = $this->page->getProjects();
-				$name = $projects[0]->nombre;
-				$project_name = str_replace(" ","_",$name);
-				$controller = strtolower(get_called_class());
-
-				$authors = $this->page->getAuthors();
-
-				$data = [
-					'authors' => $authors,
-
-					'project_name' => $project_name,
-					'controller' => $controller,
-					'page' => __FUNCTION__
-				];
-
-				$this->view('pages/about',$data);
-			} else {
-				$this->view('pages/login');
-			}
-		}
 
 		public function galeria() {
-
 			if (notSession()) {
-
 				$data = [
-					// 'comic' => $project,
-					// 'chapter' => $chapter,
-
-					// 'project_name' => $name,
 					'controller' => strtolower(get_called_class()),
 					'page' => __FUNCTION__
 				];
 
 				$this->view('pages/galeria', $data);
 			}
-
 		}
 
 		public function login() {
@@ -91,7 +57,6 @@
 
 			} else {
 
-
 				$data = [
 					'controller' => strtolower(get_called_class()),
 					'page' => __FUNCTION__
@@ -116,9 +81,11 @@
 			$_SESSION['user_localidad'] = $user->localidad;
 			$_SESSION['user_zona'] = $user->zona;
 			$_SESSION['user_profesion'] = $user->profesion;
+			$_SESSION['user_id_profesion'] = $user->id_profesion;
+			$_SESSION['user_rol_id'] = $user->rol_id;
 
 			if ($user->rol == 'admin') {
-				redirect('admin/panel');
+				redirect('admin/reportes');
 			}
 
 			if ($user->rol == 'usuario') {
@@ -145,6 +112,8 @@
 			unset($_SESSION['user_localidad']);
 			unset($_SESSION['user_zona']);
 			unset($_SESSION['user_profesion']);
+			unset($_SESSION['user_rol_id']);
+
 			session_destroy();
 			redirect('pages/index');
 		}
@@ -155,7 +124,6 @@
 					$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 					$email = $_POST['email'];
-
 					$userEmail = $this->page->findEmail($email);
 
 					if ($userEmail) {
@@ -172,7 +140,6 @@
 			      $headers .= "MIME-Version: 1.0 \r\n";
 						$headers .= "Content-type: text/html; charset='utf-8' \r\n";
 
-	 							// send Mail to user email 
 							// echo $body;
 							// die();
 						if (mail($to_email, $subject, $body, $headers)) {
@@ -185,8 +152,6 @@
 							redirect('pages/forgot');
 						}
 
-
-
 					} else {
 						$_SESSION['msg'] = 'Email no registrado.';
 						redirect('pages/forgot');
@@ -195,28 +160,18 @@
 				} else {
 
 					$data = [
-						// 'comic' => $project,
-						// 'chapter' => $chapter,
-
-						// 'project_name' => $name,
 						'controller' => strtolower(get_called_class()),
 						'page' => __FUNCTION__
 					];
 
 					$this->view('pages/forgot', $data);
-
 				}
 			}
 		}
 
 		public function pending() {
 			if (notSession()) {
-
 				$data = [
-					// 'comic' => $project,
-					// 'chapter' => $chapter,
-
-					// 'project_name' => $name,
 					'controller' => strtolower(get_called_class()),
 					'page' => __FUNCTION__
 				];
@@ -224,7 +179,6 @@
 				$this->view('pages/pending', $data);	
 			}
 		}
-
 
 
 		public function change_password($token = null) {
@@ -256,10 +210,6 @@
 					$email = $this->page->getUserByToken($token);
 
 					$data = [
-						// 'comic' => $project,
-						// 'chapter' => $chapter,
-
-						// 'project_name' => $name,
 						'token' => $token,
 						'email' => $email,
 						'controller' => strtolower(get_called_class()),
@@ -293,7 +243,6 @@
 		public function registrar() {
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
 
 					$tipo = $_POST['tipo_documento'];
 					$doc = $_POST['num_documento'];
@@ -351,7 +300,6 @@
 					$modalidades = $this->page->getmodalidades();
 					$tipo_docs = $this->page->getTipoDocs();
 
-
 					$data = [
 						'profesiones' => $profesiones,
 						'zonas' => $zonas,
@@ -368,6 +316,5 @@
 		}
 
 
-		
 	}
 ?>

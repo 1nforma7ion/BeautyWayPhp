@@ -21,6 +21,25 @@
 			}
 		}
 
+
+		public function reservas() {
+			if (usuariopLoggedIn()) {
+
+				$reservas = $this->usuariop->getReservasByUser($_SESSION['user_id']);
+				$data = [
+					'reservas' => $reservas,
+					'controller' => strtolower(get_called_class()),
+					'page' => __FUNCTION__
+				];
+
+				$this->view('usuariop/reservas',$data);
+
+			} else {
+				redirect('pages/login');
+			}
+		}
+
+
 		public function publicar() {
 			if (usuariopLoggedIn()) {
 				if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -32,6 +51,7 @@
 					$descuento = $_POST['descuento'];
 					$vigencia = $_POST['vigencia'];
 					$zona = $_POST['zona'];
+					$servicio = $_POST['servicio'];
 
 
 					// echo "<pre>";
