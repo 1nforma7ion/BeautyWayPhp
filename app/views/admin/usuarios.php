@@ -5,19 +5,14 @@
 
 	<div class="w-full h-screen flex md:space-x-4 pt-0 pb-4 px-4 md:px-6.5">
 
-		<nav class="hidden md:flex flex-col w-1/4  text-white rounded-xl p-4 text-white text-xl">
-			<?php foreach($data['sidebar'] as $item) : ?>
-				<li class="list-none  hover:border-white">
-					
-					<a class="py-3 px-6 flex justify-between items-center <?php echo  ($data['page'] ==  ltrim($item->menu_item_url, "/")	) ? 'is-active' : 'is-inactive'; ?>" href="<?php echo URLROOT . '/' . $data['controller'] . $item->menu_item_url ?>">
-						 <span><?php echo $item->menu_item_text ?></span><i class="fas <?php echo $item->menu_item_icon ?>"></i>  
-					</a>
-				</li>
-			<?php endforeach; ?>
-		</nav>	
+		<!-- columna izquierda -->	
+		<div class="hidden md:block w-1/4  p-4 ">	
+			<?php require APPROOT . '/views/' . $data['controller'] . '/partials/sidebar.php'; ?>
+		</div>
 
 		<input type="hidden" id="url" data-controller="<?php echo $data['controller'] ?>" data-root="<?php echo URLROOT ?>" data-page="<?php echo $data['page'] ?>">
 
+		<!-- Columna derecha -->
 		<div class="flex w-full md:w-3/4 bg-neutral overflow-hidden font-dmsans">
 
 			<div class="flex flex-col w-full  md:p-4  space-y-8  overflow-y-scroll no-scrollbar">

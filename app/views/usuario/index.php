@@ -4,34 +4,13 @@
 	<?php require APPROOT . '/views/' . $data['controller'] . '/partials/navbar.php'; ?>
 
 	<div class="w-full h-screen flex md:space-x-4 pt-0 pb-4 px-4 md:px-6.5">
-		<?php if(isset($_SESSION['user_email'])) : ?>
 
-			<?php require APPROOT . '/views/' . $data['controller'] . '/partials/sidebar.php'; ?>
-
-		<?php 	else : ?>
+		<!-- columna izquierda -->	
 		<div class="hidden md:block w-1/4  p-4 ">	
-			<nav class="p-4 flex flex-col space-y-4 h-full rounded-xl bg-white text-dark text-xl">
-
-				<h2 class="text-4xl font-bold">	Ofertas</h2>
-
-				<div class=" w-full ">
-					<img src="<?php echo URLROOT; ?>/img/doctor.jpg" alt="imagen logo" class=" w-full">
-					
-				</div>
-
-				<div class="w-full ">
-					<img src="<?php echo URLROOT; ?>/img/doctor.jpg" alt="imagen logo" class=" w-full">
-					
-				</div>
-
-
-
-			</nav>
+			<?php require APPROOT . '/views/' . $data['controller'] . '/partials/sidebar.php'; ?>
 		</div>
 
-		<?php endif; ?>
-
-
+		<!-- columna derecha -->
 		<div class="flex w-full md:w-3/4 overflow-hidden">
 			<div class="flex flex-col w-full  md:p-4  space-y-4  overflow-y-scroll no-scrollbar">
 

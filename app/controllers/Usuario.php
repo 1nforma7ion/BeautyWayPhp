@@ -2,17 +2,19 @@
 	class Usuario extends Controller {
 		public function __construct() {
 			$this->usuario = $this->model('User');
+			$this->admin = $this->model('Administrador');
+			
 		}
 
 		public function index() {
 			if (usuarioLoggedIn()) {
+				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
 
 				$data = [
-
+					'sidebar' => $sidebar,
 					'controller' => strtolower(get_called_class()),
 					'page' => __FUNCTION__
 				];
-
 				$this->view('usuario/index',$data);
 
 			} else {

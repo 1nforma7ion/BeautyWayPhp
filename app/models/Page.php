@@ -6,6 +6,13 @@
 			$this->db = new Database;
 		}
 
+		public function getAllPublicaciones() {
+			$this->db->query('SELECT * FROM publicaciones');
+			$publicaciones = $this->db->getSet();
+			return $publicaciones;
+		}
+
+
 		public function findEmail($email) {
 			$this->db->query('SELECT *, u.id AS user_id, r.id AS rol_id FROM usuarios u 
 				INNER JOIN roles r ON r.id = u.rol_id 

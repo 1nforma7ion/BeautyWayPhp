@@ -106,12 +106,13 @@ CREATE TABLE publicaciones (
   id_usuario INT NOT NULL,
   descripcion VARCHAR(255),
   imagen VARCHAR(255),
-  zona VARCHAR(40),
-  estado VARCHAR(20),
+  duracion VARCHAR(100) NOT NULL,
+  servicio VARCHAR(150) NOT NULL,
+  estado INT NOT NULL DEFAULT 1,
   me_gusta INT NOT NULL,
   comentarios INT NOT NULL,
   descuento DECIMAL(5,2),
-  vigencia_dias INT NOT NULL,
+
   creado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   actualizado DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
@@ -204,7 +205,19 @@ CREATE TABLE reservas_motivos (
   PRIMARY KEY (id)
 )ENGINE=INNODB;
 
-
+create table usuarios_servicios (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_usuario INT NOT NULL,
+  id_profesion INT NOT NULL,
+  servicio VARCHAR(150) NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_user_prof
+  FOREIGN KEY (id_usuario)
+  REFERENCES usuarios (id),
+  CONSTRAINT fk_user_servicios
+  FOREIGN KEY (id_profesion)
+  REFERENCES profesiones (id)
+)ENGINE=INNODB;
 
 INSERT INTO reservas_estados (estado) VALUES ('pendiente'), ('confirmado'), ('cancelado'), ('finalizado');
 INSERT INTO reservas_motivos (motivo) VALUES ('Motivos personales'), ('Horario no disponible'), ('No laborable');

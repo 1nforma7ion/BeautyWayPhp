@@ -1,4 +1,4 @@
-		<nav class="hidden md:flex  flex-col w-full text-white rounded-xl text-xl">
+		<nav class="flex flex-col w-full text-white rounded-xl text-xl">
 			<?php foreach($data['sidebar'] as $item) : ?>
 				<li class="list-none  hover:border-white">
 					

@@ -6,13 +6,18 @@
 
 		public function index() {
 			if (notSession()) {
+				
+				$publicaciones = $this->page->getAllPublicaciones();
+
+
 				$data = [
+					'publicaciones' => $publicaciones,
 					'controller' => strtolower(get_called_class()),
 					'page' => __FUNCTION__
 				];
 				$this->view('pages/index',$data);
 			} else {
-				$this->view('pages/login');
+				redirect('pages/login');
 			}
 		}
 
@@ -262,7 +267,7 @@
 					$profesion = $_POST['profesion'];
 					$modalidad = $_POST['modalidad'];
 					$zona = $_POST['zona'];
-					$estado = DEFAULT_USER_STATUS;
+					$estado = 1; //activo
 
 					if(!empty($_POST['nombre_comercial'])) {
 						$rol = ID_USER_PRO;

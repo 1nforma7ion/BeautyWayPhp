@@ -1,62 +1,83 @@
-// window.addEventListener('DOMContentLoaded', () => {
-//   Swal.fire({
-//   title: 'Error!',
-//   text: 'Do you want to continue',
-//   icon: 'error',
-//   confirmButtonText: 'Cool'
-// })
 
-//   Swal.fire({
-//   icon: 'info',
-//   title: '<a href="">Why do I have this issue?</a>',
-//   text: 'Something went wrong!',
-//   footer: '<a href="">Why do I have this issue?</a>'
-// })
+window.addEventListener('DOMContentLoaded', ()=> {
 
-// Swal.fire({
-//   title: '<a href="//192.168.8.100/board.nicedev90.pro/BeautyWayPhp/pages/login">Debes Iniciar Sesion</a> ',
-//   icon: 'info',
-// })
+  const datatables = document.querySelectorAll('.datatable')
+  datatables.forEach(datatable => {
+    new simpleDatatables.DataTable(datatable, {
+      // searchable: true,
+      fixedHeight: true,
+      columns: [
+      // Sort the second column in ascending order
+        { select: 0, sort: "asc" },
+        // { select: [1,2,3,4,5], sortable: false }
 
-// Swal.fire({
-//   position: 'top-end',
-//   icon: 'success',
-//   title: 'Your work has been saved',
-//   showConfirmButton: false,
-//   timer: 1500
-// })
+      // Set the third column as datetime string matching the format "DD/MM/YYY"
+      // { select: 2, type: "date", format: "DD/MM/YYYY" }
+      ],    
+      labels: {
+        placeholder: "Buscar...",
+        perPage: "Elementos por página",
+        noRows: "No hay datos para mostrar",
+        info: "Mostrando {start} - {end} de {rows}" 
+      }
+    })
 
 
-// })
-
-
-
-// cargar imagen con javascript
-const inputImage = document.getElementById('img-input')
-inputImage.type = 'file'
-inputImage.accept = 'image/*'
-
-inputImage.addEventListener('change', fileEvent => {
-  const file = fileEvent.target.files[0]
-  const reader = new FileReader()
-
-  reader.addEventListener('load', readerEvent => {
-    const image = new Image()
-    image.addEventListener('load', drawImage)
-    image.src = readerEvent.target.result;
+  const allBtnClose = document.querySelectorAll('.btn_close')
+  allBtnClose.forEach( btn => {
+    btn.addEventListener('click', () => {
+      let active_modal = document.querySelector('.active-modal')
+      active_modal.classList.toggle('active-modal')
+      active_modal.classList.toggle('hidden')
+    })
   })
 
-  reader.readAsDataURL(file, "UTF-8")
+  const allBtnEdit = document.querySelectorAll('.btn_edit')
+  allBtnEdit?.forEach( btn => {
+    btn.addEventListener('click', (e) => {
+      // console.log(btn)
+      let id = e.target.parentElement.getAttribute('data-item-edit')
+      let modalEdit = document.querySelector('#modal_edit_'+id)
+      modalEdit.classList.toggle('hidden')
+      modalEdit.classList.toggle('active-modal')
+
+    })
+  })
+
+  const allBtnDelete = document.querySelectorAll('.btn_delete')
+  allBtnDelete?.forEach( btn => {
+    btn.addEventListener('click', (e) => {
+      // console.log(btn)
+      let id = e.target.parentElement.getAttribute('data-item-delete')
+      let modalDelete = document.querySelector('#modal_delete_'+id)
+      modalDelete.classList.toggle('hidden')
+      modalDelete.classList.toggle('active-modal')
+
+    })
+  })
+
+
+  })
 })
 
 
-// funcion para dibujar la imagen, arrow function no es una opción porque no permite usar "this", fuera del scope del objeto
-function drawImage() {
-  const preview = document.getElementById('preview')
-  const ctx = preview.getContext('2d')
+const modal_Add = document.querySelector('#modal_add')
 
-  // this es la imagen que carga con el evento "onload"
-  preview.width = this.naturalWidth;
-  preview.height = this.naturalHeight;
-  ctx.drawImage(this, 0, 0, this.width, this.height);
-}
+const btn_Add = document.querySelector('#btn_add')
+btn_Add?.addEventListener('click', () => {
+  modal_Add.classList.toggle('hidden')
+  modal_Add.classList.toggle('active-modal')
+  // console.log(modal_Add)
+})
+
+
+
+window.addEventListener('click', (e) => {
+  let activeModal = document.querySelector('.active-modal')
+  if (e.target == activeModal) {
+    activeModal.classList.toggle('active-modal')
+    activeModal.classList.toggle('hidden')
+  }
+})
+
+

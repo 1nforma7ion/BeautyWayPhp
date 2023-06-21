@@ -5,19 +5,14 @@
 
 	<div class="w-full h-screen flex md:space-x-4 pt-0 pb-4 px-4 md:px-6.5">
 
-		<nav class="hidden md:flex flex-col w-1/4  text-white rounded-xl p-4 text-white text-xl">
-			<?php foreach($data['sidebar'] as $item) : ?>
-				<li class="list-none  hover:border-white">
-					
-					<a class="py-3 px-6 flex justify-between items-center hover:rounded-full hover:bg-neutral <?php echo  ($data['page'] ==  ltrim($item->menu_item_url, "/")	) ? 'is-active' : 'is-inactive'; ?>" href="<?php echo URLROOT . '/' . $data['controller'] . $item->menu_item_url ?>">
-						 <span><?php echo $item->menu_item_text ?></span><i class="fas <?php echo $item->menu_item_icon ?>"></i>  
-					</a>
-				</li>
-			<?php endforeach; ?>
-		</nav>	
+		<!-- columna izquierda -->	
+		<div class="hidden md:block w-1/4  p-4 ">	
+			<?php require APPROOT . '/views/' . $data['controller'] . '/partials/sidebar.php'; ?>
+		</div>
 
 		<input type="hidden" id="url" data-controller="<?php echo $data['controller'] ?>" data-root="<?php echo URLROOT ?>" data-page="<?php echo $data['page'] ?>">
 
+		<!-- Columna derecha -->
 		<div class="flex w-full md:w-3/4 bg-neutral overflow-hidden font-dmsans">
 
 			<div class="flex flex-col w-full  md:p-4  space-y-8  overflow-y-scroll no-scrollbar">
@@ -53,7 +48,7 @@
 			                <td><?php echo $row->menu_item_url; ?>   </td>
 			                <td><?php echo $row->menu_item_text; ?>   </td>
 			                <td> <i class="fas <?php echo $row->menu_item_icon; ?>"></i></td>
-			                <td> <?php setStatus($row->estado); ?></td>
+			                <td> <?php setStatus($row->menu_item_status); ?></td>
 
 			                <td>
 			                	<div class="w-max flex space-x-8 ">
@@ -104,7 +99,7 @@
 			                <td><?php echo $row->menu_item_url; ?>   </td>
 			                <td><?php echo $row->menu_item_text; ?>   </td>
 			                <td> <i class="fas <?php echo $row->menu_item_icon; ?>"></i></td>
-			                <td> <?php echo ($row->menu_item_status == 1) ? '<i class="fas fa-check mr-2"></i> Activo' : '<i class="fas fa-xmark mr-2"></i> Inactivo' ; ?></td>
+			                <td> <?php setStatus($row->menu_item_status); ?></td>
 
 			                <td>
 			                	<div class="w-max flex space-x-8 ">
@@ -129,7 +124,7 @@
 				<div class="flex flex-col w-full space-y-4">
 
 					<div class="w-full flex justify-between mt-10">
-						<h1 class="text-dark text-2xl text-white font-bold">Lista Menu lateral Usuarios</h1>
+						<h1 class="text-dark text-2xl text-white font-bold">Lista Menu lateral Profesionales</h1>
 
 					</div>
 					<!-- Tabla Datatable -->
@@ -155,7 +150,7 @@
 			                <td><?php echo $row->menu_item_url; ?>   </td>
 			                <td><?php echo $row->menu_item_text; ?>   </td>
 			                <td> <i class="fas <?php echo $row->menu_item_icon; ?>"></i></td>
-			                <td> <?php echo ($row->menu_item_status == 1) ? '<i class="fas fa-check mr-2"></i> Activo' : '<i class="fas fa-xmark mr-2"></i> Inactivo' ; ?></td>
+			                <td> <?php setStatus($row->menu_item_status); ?></td>
 
 			                <td>
 			                	<div class="w-max flex space-x-8 ">

@@ -801,6 +801,12 @@ video {
   margin-bottom: calc(2rem * var(--tw-space-y-reverse));
 }
 
+.space-x-2 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(0.5rem * var(--tw-space-x-reverse));
+  margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
 .self-center {
   align-self: center;
 }
@@ -1085,6 +1091,11 @@ video {
   color: hsl(222 66.8% 36.7% / var(--tw-text-opacity));
 }
 
+.text-gray {
+  --tw-text-opacity: 1;
+  color: hsl(189 5.3% 31.7% / var(--tw-text-opacity));
+}
+
 .text-green {
   --tw-text-opacity: 1;
   color: hsl(119 100% 37.8% / var(--tw-text-opacity));
@@ -1108,6 +1119,11 @@ video {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.text-cta {
+  --tw-text-opacity: 1;
+  color: hsl(86 100% 71.8% / var(--tw-text-opacity));
 }
 
 .antialiased {
@@ -1365,10 +1381,6 @@ tr:hover {
   font-family: "DM Sans", sans-serif;
 }
 
-.hover\:rounded-full:hover {
-  border-radius: 9999px;
-}
-
 .hover\:border-b:hover {
   border-bottom-width: 1px;
 }
@@ -1397,9 +1409,9 @@ tr:hover {
   background-color: hsl(86 100% 63.8% / var(--tw-bg-opacity));
 }
 
-.hover\:bg-neutral:hover {
+.hover\:bg-ctaLight:hover {
   --tw-bg-opacity: 1;
-  background-color: hsl(250 97.2% 72.4% / var(--tw-bg-opacity));
+  background-color: hsl(86 100% 77.8% / var(--tw-bg-opacity));
 }
 
 .hover\:bg-neutralDark:hover {

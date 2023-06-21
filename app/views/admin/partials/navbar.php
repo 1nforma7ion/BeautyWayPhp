@@ -8,7 +8,7 @@
 
 <?php if(isset($_SESSION['user_email'])) : ?>
 		<li class="list-none">
-			<a class="px-3  flex items-center hover:text-dark hover:bg-cta rounded text-white" href="<?php echo URLROOT . '/' . $data['controller'] . '/login' ?>">
+			<a class="px-3  flex items-center hover:text-dark hover:bg-cta rounded text-white" href="<?php echo URLROOT . '/' . $data['controller'] . '/perfil' ?>">
 				<img src="<?php echo URLROOT; ?>/img/anya1.JPG" alt="imagen logo" class="h-12 w-12 rounded-full"><span class="ml-2 hidden md:block text-md"><?php echo $_SESSION['user_nombre'] ?></span>
 			</a>
 		</li>

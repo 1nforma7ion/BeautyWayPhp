@@ -2,19 +2,112 @@
 	class Usuariop extends Controller {
 		public function __construct() {
 			$this->usuariop = $this->model('Userp');
+			$this->admin = $this->model('Administrador');
+
 		}
 
 		public function index() {
 			if (usuariopLoggedIn()) {
 
+				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
 
 				$data = [
-
+					'sidebar' => $sidebar,
 					'controller' => strtolower(get_called_class()),
 					'page' => __FUNCTION__
 				];
 
 				$this->view('usuariop/index',$data);
+
+			} else {
+				redirect('pages/login');
+			}
+		}
+
+		public function perfil() {
+			if (usuariopLoggedIn()) {
+
+					if (isset($_POST['add_profesion'])) {
+						
+						$id_profesion = $_POST['profesion'];
+
+						$added = $this->usuariop->agregarProfesion($_SESSION['user_id'], $id_profesion);
+						
+						if ($added) {
+							redirect('usuariop/perfil');
+						}
+
+					}
+
+				$listaProfesiones = $this->admin->getProfesiones();
+				$profesiones = $this->usuariop->getProfesionesByUser($_SESSION['user_id']);
+				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+
+				$data = [
+					'profesiones' => $profesiones,
+					'listaProfesiones' => $listaProfesiones,
+					'sidebar' => $sidebar,
+					'controller' => strtolower(get_called_class()),
+					'page' => __FUNCTION__
+				];
+
+				$this->view('usuariop/perfil',$data);
+
+			} else {
+				redirect('pages/login');
+			}
+		}
+
+		public function edit_profesion($id_profesion = null) {
+			if (usuariopLoggedIn()) {
+				if(is_null($id_profesion)) {
+					redirect('usuariop/index');
+
+				} else {
+
+					if (isset($_POST['activar_servicio'])) {
+						
+						$servicio = $_POST['servicio'];
+
+						$added = $this->usuariop->activarServicio($_SESSION['user_id'], $id_profesion, $servicio);
+						
+						if ($added) {
+							redirect('usuariop/edit_profesion/' . $id_profesion);
+						}
+
+					}
+
+					if (isset($_POST['desactivar_servicio'])) {
+						
+						$id_servicio = $_POST['id_servicio'];
+
+						$deleted = $this->usuariop->desactivarServicio($id_servicio);
+						
+						if ($deleted) {
+							redirect('usuariop/edit_profesion/' . $id_profesion);
+						}
+
+					}
+
+					$profesion = $this->usuariop->getProfesionById($id_profesion);
+					$listaServicios = $this->usuariop->getServiciosByUser($_SESSION['user_id'], $id_profesion);
+					$todosServicios = $this->usuariop->getTodosServiciosById($id_profesion);
+
+					$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+
+					$data = [
+						'profesion' => $profesion,
+						'todosServicios' => $todosServicios,
+						'listaServicios' => $listaServicios,
+						'sidebar' => $sidebar,
+						'controller' => strtolower(get_called_class()),
+						'page' => __FUNCTION__
+					];
+
+					$this->view('usuariop/edit_profesion',$data);
+
+
+				}
 
 			} else {
 				redirect('pages/login');
@@ -98,11 +191,14 @@
 
 				} else {
 					
+					$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+					$servicios = $this->usuariop->getServiciosByUser($_SESSION['user_id_profesion']);
+
 					$zonas = $this->usuariop->getZonas();
 					$data = [
-						// 'comic' => $project,
-						// 'chapter' => $chapter,
 
+						'servicios' => $servicios,
+						'sidebar' => $sidebar,
 						'zonas' => $zonas,
 						'controller' => strtolower(get_called_class()),
 						'page' => __FUNCTION__

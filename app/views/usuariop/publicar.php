@@ -4,32 +4,13 @@
 	<?php require APPROOT . '/views/' . $data['controller'] . '/partials/navbar.php'; ?>
 
 	<div class="w-full h-screen flex md:space-x-4 pt-0 pb-4 px-4 md:px-6.5">
-		<?php if(isset($_SESSION['user_email'])) : ?>
 
-			<?php require APPROOT . '/views/' . $data['controller'] . '/partials/sidebar.php'; ?>
-
-		<?php 	else : ?>
+		<!-- columna izquierda -->	
 		<div class="hidden md:block w-1/4  p-4 ">	
-			<nav class="p-4 flex flex-col space-y-4 h-full rounded-xl bg-white text-dark text-xl">
-
-				<h2 class="text-4xl font-bold">	Ofertas</h2>
-
-				<div class=" w-full ">
-					<img src="<?php echo URLROOT; ?>/img/doctor.jpg" alt="imagen logo" class=" w-full">
-					
-				</div>
-
-				<div class="w-full ">
-					<img src="<?php echo URLROOT; ?>/img/doctor.jpg" alt="imagen logo" class=" w-full">
-					
-				</div>
-
-			</nav>
+			<?php require APPROOT . '/views/' . $data['controller'] . '/partials/sidebar.php'; ?>
 		</div>
 
-		<?php endif; ?>
-
-
+		<!-- columna derecha -->
 		<div class="flex w-full md:w-3/4 overflow-hidden">
 			<div class="flex flex-col w-full  md:p-4  space-y-4  overflow-y-scroll no-scrollbar">
 
@@ -40,7 +21,14 @@
 						<canvas id="preview" class=" w-full h-72 md:h-96 "></canvas>
 
 						<div class="date_post absolute w-1/4 h-max bottom-4 right-0 md:top-4 md:left-0 rounded-r-lg text-sm text-dark p-2 bg-ctaDark font-bold drop-shadow-card">
-							<div><?php echo $_SESSION['user_zona'] ?></div>
+							<select id="zona" name="zona" required class="p-2 rounded-xl text-lg outline-none bg-ctaDark">
+                <option value="" selected>Seleccionar Zona</option>
+                <?php if(isset($data['servicios'])) : ?>
+                  <?php foreach ($data['servicios'] as $row) : ?>
+                    <option value="<?php echo $row->servicio ?>"><?php echo $row->servicio ?></option>
+                  <?php endforeach; ?>
+                <?php endif; ?> 
+              </select>
 						</div>
 
 						<div class="absolute w-full flex justify-around items-center h-max bottom-6 left-0 ">
@@ -102,6 +90,14 @@
 	</div>
 </div>
 
+
+<?php 
+echo "<pre>";
+
+print_r($_SESSION);
+print_r($data['servicios']);
+
+ ?>
 	<script src="<?php echo URLROOT; ?>/js/_usuariop.js"></script>
 
 

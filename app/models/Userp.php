@@ -6,6 +6,21 @@
 			$this->db = new Database;
 		}
 
+
+		// public function getServiciosByUser($id_profesion, $status = 1) {
+		// 	$this->db->query('SELECT * FROM servicios  WHERE id_profesion = :id_profesion AND estado = :status');
+		// 	$this->db->bind(':id_profesion', $id_profesion);
+		// 	$this->db->bind(':status', $status);
+
+		// 	$servicios = $this->db->getSet();
+
+		// 	if ($servicios) {
+		// 		return $servicios;
+		// 	} else {
+		// 		return false;
+		// 	}
+		// }
+
 		public function findEmail($email) {
 			$this->db->query('SELECT *, u.id AS user_id FROM usuarios u INNER JOIN roles r ON r.id = u.rol_id WHERE email = :email');
 			$this->db->bind(':email', $email);
@@ -30,6 +45,80 @@
 			return $projects;
 		}
 
+		public function getProfesionById($id) {
+			$this->db->query('SELECT id, profesion FROM profesiones WHERE id = :id');
+			$this->db->bind(':id', $id);
+
+			$profesion = $this->db->getSingle();
+			return $profesion;
+		}
+
+		public function getTodosServiciosById($id_profesion) {
+			$this->db->query('SELECT * FROM servicios WHERE id_profesion = :id_profesion');
+			$this->db->bind(':id_profesion', $id_profesion);
+
+			$todosServicios = $this->db->getSet();
+			return $todosServicios;
+		}
+
+		public function getServiciosByUser($user_id, $id_profesion) {
+			$this->db->query('SELECT id,servicio FROM usuarios_servicios WHERE id_profesion = :id_profesion AND id_usuario = :user_id');
+			$this->db->bind(':user_id', $user_id);
+			$this->db->bind(':id_profesion', $id_profesion);
+
+			$services = $this->db->getSet();
+			return $services;
+		}
+
+		public function activarServicio($user_id, $id_profesion, $servicio) {
+			$this->db->query('INSERT INTO usuarios_servicios (id_usuario, id_profesion, servicio) VALUES (:user_id, :id_profesion, :servicio)');
+			$this->db->bind(':user_id', $user_id);
+			$this->db->bind(':id_profesion', $id_profesion);
+			$this->db->bind(':servicio', $servicio);
+
+			$creado = $this->db->execute();
+
+			if ($creado) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		public function desactivarServicio($id){
+			$this->db->query('DELETE FROM usuarios_servicios WHERE id = :id' );
+			$this->db->bind(':id', $id);
+
+			if ($this->db->execute()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		public function agregarProfesion($user_id, $id_profesion, $servicio = 'default') {
+			$this->db->query('INSERT INTO usuarios_servicios (id_usuario, id_profesion, servicio) VALUES (:user_id, :id_profesion, :servicio)');
+			$this->db->bind(':user_id', $user_id);
+			$this->db->bind(':id_profesion', $id_profesion);
+			$this->db->bind(':servicio', $servicio);
+
+			$creado = $this->db->execute();
+
+			if ($creado) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+
+		public function getProfesionesByUser($user_id) {
+			$this->db->query('SELECT * FROM usuarios_servicios u INNER JOIN profesiones p ON u.id_profesion = p.id WHERE u.id_usuario = :user_id GROUP BY p.id');
+			$this->db->bind(':user_id', $user_id);
+
+			$profesiones = $this->db->getSet();
+			return $profesiones;
+		}
 
 		public function getReservasByUser($user) {
 			$this->db->query('SELECT * FROM publicaciones WHERE id_usuario = :user');
@@ -38,36 +127,7 @@
 			return $reservas;
 		}
 
-		public function getComic($name) {
-			$this->db->query('SELECT * FROM proyectos WHERE nombre = :name');
-			$this->db->bind(':name',$name);
-			$comic = $this->db->getSingle();
-			return $comic;
-		}
 
-		public function getChapters($id,$estado1) {
-			$this->db->query("SELECT * FROM capitulos WHERE proyecto_id = :id AND estado = :estado1 ORDER BY created_at DESC");
-			$this->db->bind(':id',$id);
-			$this->db->bind(':estado1',$estado1);
-			$chapters = $this->db->getSet();
-			return $chapters;
-		}
-
-		public function getUpcoming($id,$estado2) {
-			$this->db->query("SELECT * FROM capitulos WHERE proyecto_id = :id AND estado = :estado2");
-			$this->db->bind(':id',$id);
-			$this->db->bind(':estado2',$estado2);
-			$upcoming = $this->db->getSet();
-			return $upcoming;
-		}
-
-		public function getDataChapter($id,$num) {
-			$this->db->query("SELECT * FROM capitulos WHERE proyecto_id = :id AND cap_num = :num");
-			$this->db->bind(':id',$id);
-			$this->db->bind(':num',$num);
-			$chapter = $this->db->getSingle();
-			return $chapter;
-		}
 
 		public function register($rol,$tipo,$doc,$nombre,$apellido,$calle,$altura,$piso,$depto,$barrio,$localidad,$telefono,$email,$pass,$comercial,$profesion,$modalidad,$zona) {
 			$this->db->query("INSERT INTO usuarios (rol_id, tipo_documento, num_documento, nombre, apellido, nombre_comercial, id_profesion, id_zona_trabajo, modalidad, calle, altura, piso, depto, barrio, localidad, telefono, email, contrasenia) 
@@ -121,12 +181,6 @@
 			}
 		}
 
-
-		public function getAuthors() {
-			$this->db->query('SELECT * FROM autores');
-			$autores = $this->db->getSet();
-			return $autores;
-		}
 
 
 
