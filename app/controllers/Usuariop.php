@@ -306,7 +306,7 @@
 						
 						$horarios = $this->usuariop->getHorarios($_SESSION['user_id']);
 						$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
-						$servicios = $this->usuariop->getServiciosByUser($_SESSION['user_id_profesion'], $id_profesion);
+						$servicios = $this->usuariop->getServiciosByUser($_SESSION['user_id'], $id_profesion);
 						$profesion = $this->usuariop->getProfesionById($id_profesion);
 
 						$zonas = $this->usuariop->getZonas();
