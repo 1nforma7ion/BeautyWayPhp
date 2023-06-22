@@ -61,6 +61,14 @@
 			return $todosServicios;
 		}
 
+		public function getPublicacionesByUser($user_id) {
+			$this->db->query('SELECT *, p.id as id_public FROM publicaciones p INNER JOIN usuarios u ON p.id_usuario = u.id WHERE p.id_usuario = :user_id');
+			$this->db->bind(':user_id', $user_id);
+
+			$publicaciones = $this->db->getSet();
+			return $publicaciones;
+		}
+
 		public function getServiciosByUser($user_id, $id_profesion) {
 			$this->db->query('SELECT id,servicio FROM usuarios_servicios WHERE id_profesion = :id_profesion AND id_usuario = :user_id');
 			$this->db->bind(':user_id', $user_id);
@@ -128,7 +136,7 @@
 		}
 
 		public function agregarHorario($user_id, $dia_nombre, $dia, $estado) {
-			$this->db->query('INSERT INTO usuarios_horarios (id_usuario, dia_nombre, dia, estado) VALUES (:user_id, :dia_nombre, :cierre, :estado)');
+			$this->db->query('INSERT INTO usuarios_horarios (id_usuario, dia_nombre, dia, estado) VALUES (:user_id, :dia_nombre, :dia, :estado)');
 			$this->db->bind(':user_id', $user_id);
 			$this->db->bind(':dia_nombre', $dia_nombre);
 			$this->db->bind(':dia', $dia);
@@ -161,6 +169,20 @@
 			}
 		}
 
+		public function eliminarTurno($id) {
+			$this->db->query('DELETE FROM usuarios_turnos WHERE id = :id');
+			$this->db->bind(':id', $id);
+			$deleted = $this->db->execute();
+
+			if ($deleted) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+
+
 		public function getProfesionesByUser($user_id) {
 			$this->db->query('SELECT * FROM usuarios_servicios u INNER JOIN profesiones p ON u.id_profesion = p.id WHERE u.id_usuario = :user_id GROUP BY p.id');
 			$this->db->bind(':user_id', $user_id);
@@ -178,49 +200,15 @@
 
 
 
-		public function register($rol,$tipo,$doc,$nombre,$apellido,$calle,$altura,$piso,$depto,$barrio,$localidad,$telefono,$email,$pass,$comercial,$profesion,$modalidad,$zona) {
-			$this->db->query("INSERT INTO usuarios (rol_id, tipo_documento, num_documento, nombre, apellido, nombre_comercial, id_profesion, id_zona_trabajo, modalidad, calle, altura, piso, depto, barrio, localidad, telefono, email, contrasenia) 
-				VALUES (:rol,:tipo,:doc,:nombre,:apellido,:comercial,:profesion,:zona,:modalidad,:calle,:altura,:piso,:depto,:barrio,:localidad,:telefono,:email,:pass)");
-			$this->db->bind(':rol',$rol);
-			$this->db->bind(':tipo',$tipo);
-			$this->db->bind(':doc',$doc);
-			$this->db->bind(':nombre',$nombre);
-			$this->db->bind(':apellido',$apellido);
-			$this->db->bind(':calle',$calle);
-			$this->db->bind(':altura',$altura);
-			$this->db->bind(':piso',$piso);
-			$this->db->bind(':depto',$depto);
-			$this->db->bind(':barrio',$barrio);
-			$this->db->bind(':localidad',$localidad);
-			$this->db->bind(':telefono',$telefono);
-			$this->db->bind(':email',$email);
-			$this->db->bind(':pass',$pass);
-			$this->db->bind(':comercial',$comercial);
-			$this->db->bind(':profesion',$profesion);
-			$this->db->bind(':modalidad',$modalidad);
-			$this->db->bind(':zona',$zona);
-
-
-			$creado = $this->db->execute();
-
-			if ($creado) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-
-
-		public function savePublic($user_id, $descripcion, $urlImagen, $zona, $estado, $descuento, $vigencia) {
-			$this->db->query("INSERT INTO publicaciones (id_usuario, descripcion, imagen, zona, estado, descuento, vigencia_dias) 
-				VALUES (:user_id, :descripcion, :urlImagen, :zona, :estado, :descuento, :vigencia)");
+		public function savePublic($user_id, $descripcion, $urlImagen, $duracion, $servicio, $descuento) {
+			$this->db->query("INSERT INTO publicaciones (id_usuario, descripcion, imagen, duracion, servicio, descuento) 
+				VALUES (:user_id, :descripcion, :urlImagen, :duracion, :servicio, :descuento)");
 			$this->db->bind(':user_id',$user_id);
 			$this->db->bind(':descripcion',$descripcion);
 			$this->db->bind(':urlImagen',$urlImagen);
-			$this->db->bind(':zona',$zona);
-			$this->db->bind(':estado',$estado);
+			$this->db->bind(':duracion',$duracion);
+			$this->db->bind(':servicio',$servicio);
 			$this->db->bind(':descuento',$descuento);
-			$this->db->bind(':vigencia',$vigencia);
 			$creado = $this->db->execute();
 
 			if ($creado) {

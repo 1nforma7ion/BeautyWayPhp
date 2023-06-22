@@ -10,8 +10,10 @@
 			if (usuariopLoggedIn()) {
 
 				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+				$publicaciones = $this->usuariop->getPublicacionesByUser($_SESSION['user_id']);
 
 				$data = [
+					'publicaciones' => $publicaciones,
 					'sidebar' => $sidebar,
 					'controller' => strtolower(get_called_class()),
 					'page' => __FUNCTION__
@@ -30,8 +32,10 @@
 
 				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
 				$horarios = $this->usuariop->getHorarios($_SESSION['user_id']);
+				$turnos = $this->usuariop->getTurnosByUser($_SESSION['user_id']);
 
 				$data = [
+					'turnos' => $turnos,
 					'horarios' => $horarios,
 					'sidebar' => $sidebar,
 					'controller' => strtolower(get_called_class()),
@@ -62,16 +66,12 @@
 				}
 
 				if (isset($_POST['delete_turno'])) {
-					$dia = $_POST['dia'];
-					$estado = $_POST['estado'];
-					$dia_nombre = $_POST['dia_nombre'];
-					$apertura = $_POST['apertura'];
-					$cierre = $_POST['cierre'];
+					$id = $_POST['id_turno'];
 
-					$added = $this->usuariop->agregarTurno($_SESSION['user_id'], $dia_nombre, $dia, $apertura, $cierre, $estado);
+					$deleted = $this->usuariop->eliminarTurno($id);
 					
-					if ($added) {
-						redirect('usuariop/perfil');
+					if ($deleted) {
+						redirect('usuariop/edit_turnos');
 					}
 				}
 
@@ -228,71 +228,18 @@
 		}
 
 
-		public function publicar() {
+		public function publicar($id_profesion = null) {
 			if (usuariopLoggedIn()) {
-				if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+				if(is_null($id_profesion)) {
 
-					$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-					$user_id = $_POST['user_id'];
-					$descripcion = $_POST['descripcion'];
-					$estado = DEFAULT_USER_STATUS;
-					$descuento = $_POST['descuento'];
-					$vigencia = $_POST['vigencia'];
-					$zona = $_POST['zona'];
-					$servicio = $_POST['servicio'];
-
-
-					// echo "<pre>";
-					// print_r($_POST);
-					// die();
-					$imagen = $_FILES['imagen']['name'];
-
-
-				  	if ($imagen) {
-
-				  		$archivo = $_FILES['imagen'];
-	
-							$year = date('Y');
-							$month = date('m');
-
-			      	if(file_exists('../public/files/' . $year . '/' . $month)) {
-								$filesDir = '../public/files/' . $year . '/' . $month . '/';
-			      	} else {
-			    			mkdir('../public/files/' . $year);
-			    			mkdir('../public/files/' . $year . '/' . $month);
-								$filesDir = '../public/files/' . $year . '/' . $month . '/';
-			      	}
-
-	
-		        	$i_name = $archivo['name'];
-							$i_tmp = $archivo['tmp_name'];
-
-							move_uploaded_file($i_tmp, $filesDir . $i_name);
-
-							$urlImagen = '/files/' . $year . '/' . $month . '/' . $i_name;
-
-			        $saved = $this->usuariop->savePublic($user_id, $descripcion, $urlImagen, $zona, $estado, $descuento, $vigencia);
-
-			        if ($saved) {
-					      $_SESSION['msg'] = 'saved';
-								redirect('usuariop/index');
-							} else {
-								die('ocurrio un error');
-							}
-
-			      }
-
-
-
-				} else {
-					
+					$horarios = $this->usuariop->getHorarios($_SESSION['user_id']);
+					$profesiones = $this->usuariop->getProfesionesByUser($_SESSION['user_id']);
 					$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
-					$servicios = $this->usuariop->getServiciosByUser($_SESSION['user_id_profesion']);
 
 					$zonas = $this->usuariop->getZonas();
 					$data = [
-
-						'servicios' => $servicios,
+						'horarios' => $horarios,
+						'profesiones' => $profesiones,
 						'sidebar' => $sidebar,
 						'zonas' => $zonas,
 						'controller' => strtolower(get_called_class()),
@@ -300,7 +247,84 @@
 					];
 
 					$this->view('usuariop/publicar', $data);
+
+				} else {
+
+					if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+						$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+						$user_id = $_POST['user_id'];
+						$descripcion = $_POST['descripcion'];
+						$duracion = $_POST['duracion'];
+						$descuento = $_POST['descuento'];
+						$servicio = $_POST['servicio'];
+
+
+						// echo "<pre>";
+						// print_r($_POST);
+						// die();
+						$imagen = $_FILES['imagen']['name'];
+
+
+					  	if ($imagen) {
+
+					  		$archivo = $_FILES['imagen'];
+		
+								$year = date('Y');
+								$month = date('m');
+
+				      	if(file_exists('../public/files/' . $year . '/' . $month)) {
+									$filesDir = '../public/files/' . $year . '/' . $month . '/';
+				      	} else {
+				    			mkdir('../public/files/' . $year);
+				    			mkdir('../public/files/' . $year . '/' . $month);
+									$filesDir = '../public/files/' . $year . '/' . $month . '/';
+				      	}
+
+		
+			        	$i_name = $archivo['name'];
+								$i_tmp = $archivo['tmp_name'];
+
+								move_uploaded_file($i_tmp, $filesDir . $i_name);
+
+								$urlImagen = '/files/' . $year . '/' . $month . '/' . $i_name;
+
+				        $saved = $this->usuariop->savePublic($user_id, $descripcion, $urlImagen, $duracion, $servicio, $descuento);
+
+				        if ($saved) {
+						      $_SESSION['msg'] = 'saved';
+									redirect('usuariop/index');
+								} else {
+									die('ocurrio un error');
+								}
+
+				      }
+
+
+
+					} else {
+						
+						$horarios = $this->usuariop->getHorarios($_SESSION['user_id']);
+						$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+						$servicios = $this->usuariop->getServiciosByUser($_SESSION['user_id_profesion'], $id_profesion);
+						$profesion = $this->usuariop->getProfesionById($id_profesion);
+
+						$zonas = $this->usuariop->getZonas();
+						$data = [
+							'horarios' => $horarios,
+							'profesion' => $profesion,
+							'servicios' => $servicios,
+							'sidebar' => $sidebar,
+							'zonas' => $zonas,
+							'controller' => strtolower(get_called_class()),
+							'page' => __FUNCTION__
+						];
+
+						$this->view('usuariop/publicar', $data);
+					}
+
 				}
+
 
 			} else {
 				redirect('pages/login');

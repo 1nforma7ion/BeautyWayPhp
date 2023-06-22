@@ -9,7 +9,6 @@
 				
 				$publicaciones = $this->page->getAllPublicaciones();
 
-
 				$data = [
 					'publicaciones' => $publicaciones,
 					'controller' => strtolower(get_called_class()),

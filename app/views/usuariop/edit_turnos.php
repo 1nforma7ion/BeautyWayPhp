@@ -54,7 +54,7 @@
 									$dia = explode('-',$row->dia);
 									$dia = $dia[0]  
 								?>
-								<!-- Si el dia ya paso se marca como -->
+								<!-- Si el dia ya paso se marca como Finalizado -->
 								<?php if($dia < $hoy) : ?>
 									<span class="text-center text-lg md:px-6 md:py-10">Finalizado.</span>
 								<?php else: ?>
@@ -62,20 +62,27 @@
 									<!-- mostrar los turnos creados -->
 									<?php foreach($data['turnos'] as $unit) : ?>
 										<?php if($row->dia == $unit->dia) : ?>
-											<button data-item-edit="<?php echo $row->dia_nombre ?>"  class="self-center w-3/4 p-2 bg-neutral text-white rounded-xl" >
-											<span> <?php echo $unit->apertura . ' hrs' ?> </span> 
-										</button>
+											<div class="flex self-center items-center justify-between w-11/12 p-2 bg-white text-neutral rounded-xl ">
+												<span> <?php echo $unit->apertura . ' hrs' ?> </span> 
+												<button data-item-edit="<?php echo $unit->id ?>"  class="btn_delete_turno" >
+													<i class="fas fa-trash text-red"></i>
+												</button>
+												<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_delete_turno.php'; ?>
+
+											</div>
+
 										
 										<?php endif; ?>
 									<?php endforeach; ?>
 
+
 									<?php if($row->estado == 1) : ?>
-
-										<button data-item-edit="<?php echo $row->dia_nombre ?>"  class="btn_turno self-center w-max p-2 bg-ctaDark rounded-xl" >
-											<i class="fas fa-plus-circle mr-2"></i> Turno
-										</button>
-										<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_horario.php'; ?>
-
+										<div class="w-full flex justify-center">
+											<button data-item-edit="<?php echo $row->dia_nombre ?>"  class="btn_turno self-center w-max p-2 bg-ctaDark rounded-xl" >
+												<i class="fas fa-plus-circle mr-2"></i> Turno
+											</button>
+											<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_horario.php'; ?>
+										</div>
 									<?php else : ?>
 										<span class="text-center text-lg px-6 py-10">No hay atencion.</span>
 									<?php endif; ?>
@@ -134,6 +141,17 @@ window.addEventListener('DOMContentLoaded', ()=> {
 		})
 	})
 
+	const allBtnDeleteTurno = document.querySelectorAll('.btn_delete_turno')
+	allBtnDeleteTurno?.forEach( btn => {
+		btn.addEventListener('click', (e) => {
+			// console.log(btn)
+			let id = e.currentTarget.getAttribute('data-item-edit')
+			let modalHorario = document.querySelector('#modal_delete_turno_'+id)
+			modalHorario.classList.toggle('hidden')
+			modalHorario.classList.toggle('active-modal')
+
+		})
+	})
 
 })
 

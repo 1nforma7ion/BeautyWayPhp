@@ -88,7 +88,7 @@
 			    <div class="group-col relative w-1/3">
 			  		<div class="absolute hidden right-0 bottom-0"><i class="fas fa-check bg-cta p-2 rounded-full"></i></div>
 				    <label for="barrio">Barrio:
-				    	<span id="alert-barrio" class="hidden italic text-sm text-red">Minimo 6 números</span>
+				    	<span id="alert-barrio" class="hidden italic text-sm text-red">Minimo 4 caracteres</span>
 				    </label>
 				    <input type="text" id="barrio" name="barrio" required placeholder="Santa Ana">
 			    </div>
@@ -115,7 +115,7 @@
 				    	<span id="alert-telef" class="hidden italic text-sm text-red">Minimo 8 números</span>
 
 				    </label>
-				    <input type="text" id="telefono" name="telefono" minlength="8" maxlength="15" placeholder="01-24234-242424" required>
+				    <input type="text" id="telefono" name="telefono" minlength="8" maxlength="10" placeholder="01-24234-242424" required>
 			    </div>
 			    <div class="group-col relative">
 			  		<div class="absolute hidden right-0 bottom-0"><i class="fas fa-check bg-cta p-2 rounded-full"></i></div>
@@ -519,7 +519,7 @@ barrio.addEventListener('keyup', (e) => {
 	const alertBarrio = document.querySelector('#alert-barrio')
 	// console.log(numDoc.value.length)
 
-	if(barrio.value.length > 6) {
+	if(barrio.value.length > 4) {
 		alertBarrio.classList.add('hidden')
 		alertBarrio.parentElement.previousElementSibling.classList.remove('hidden')
 	} else {

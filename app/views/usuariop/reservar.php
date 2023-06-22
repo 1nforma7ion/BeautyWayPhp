@@ -15,19 +15,17 @@
 			
 			<div class="w-full p-4 bg-white flex flex-col rounded-xl ">
 
-				
 				<div class="w-full flex px-4 pt-4">	
-					<div class="w-full bg-neutral text-white text-4xl text-center">
+					<div class="w-full bg-neutral text-white text-4xl py-4 text-center">
 						<?php echo getMes(); ?>
 					</div>
 				</div>
 
-
-				<div class="w-full flex  px-4 items-center">
+				<div class="w-full flex  px-4 items-center ">
 					<?php if ($data['horarios']) : ?>
 						<?php foreach($data['horarios'] as $row) : ?>
 
-							<div class="flex w-44 flex-col bg-primary ">
+							<div class="flex w-44 flex-col bg-primary border-r border-neutral">
 								<span class="text-center text-xl py-1"><?php echo $row->dia_nombre ?></span>
 								<div class="text-center text-xl border-b py-1">
 									<?php
@@ -48,26 +46,30 @@
 						<?php foreach($data['horarios'] as $row) : ?>
 
 							
-							<div class="flex w-44 flex-col bg-primary h-full">
+							<div class="flex w-44 flex-col space-y-2 py-2 bg-primaryDark h-full border-r  border-neutral">
 								<?php 
 									$hoy = date('d'); 
 									$dia = explode('-',$row->dia);
 									$dia = $dia[0]  
 								?>
-								<!-- Si el dia ya paso se marca como -->
+								<!-- Si el dia ya paso se marca como Finalizado -->
 								<?php if($dia < $hoy) : ?>
-									<span class="text-center text-lg px-6 py-10">Finalizado.</span>
+									<span class="text-center text-lg md:px-6 md:py-10">Finalizado.</span>
 								<?php else: ?>
 										
-									<?php if($row->estado == 1) : ?>
-										<span class="text-center text-lg "><?php echo $row->apertura ?> </span>
-										<span class="text-center text-lg "><?php echo $row->cierre ?></span>
-										<button data-item-edit=""  class="btn_horario p-1 hover:bg-cta rounded-xl">
-											<i class="fas fa-plus-circle mr-2"></i> Turno
-										</button>
-									<?php else : ?>
-										<span class="text-center text-lg px-6 py-10">No hay atencion.</span>
-									<?php endif; ?>
+									<!-- mostrar los turnos creados -->
+									<?php foreach($data['turnos'] as $unit) : ?>
+										<?php if($row->dia == $unit->dia) : ?>
+											<div class="w-full flex justify-center">
+												<button data-item-edit="<?php echo $unit->id ?>"  class="btn_reserva self-center w-11/12 p-2 bg-white text-neutral rounded-xl" >
+													<span> <?php echo $unit->apertura . ' hrs' ?> </span> 
+												</button>
+												<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_reserva.php'; ?>
+											</div>
+										<?php endif; ?>
+									<?php endforeach; ?>
+
+
 
 								<?php endif; ?>
 
@@ -75,7 +77,7 @@
 
 						<?php	endforeach; ?>
 					<?php else: ?>
-						<span>No hay horarios disponibles.</span>
+						<div class="w-full p-4 text-xl font-bold text-center">No hay horarios disponibles.</div>
 					<?php endif; ?>
 
 				</div>
@@ -111,18 +113,29 @@ window.addEventListener('DOMContentLoaded', ()=> {
     })
   })
 
-	const allBtnHorario = document.querySelectorAll('.btn_horario')
-	allBtnHorario?.forEach( btn => {
+	const allBtnTurno = document.querySelectorAll('.btn_turno')
+	allBtnTurno?.forEach( btn => {
 		btn.addEventListener('click', (e) => {
 			// console.log(btn)
 			let id = e.currentTarget.getAttribute('data-item-edit')
-			let modalHorario = document.querySelector('#modal_horario_'+id)
+			let modalHorario = document.querySelector('#modal_turno_'+id)
 			modalHorario.classList.toggle('hidden')
 			modalHorario.classList.toggle('active-modal')
 
 		})
 	})
 
+	const allBtnReserva = document.querySelectorAll('.btn_reserva')
+	allBtnReserva?.forEach( btn => {
+		btn.addEventListener('click', (e) => {
+			// console.log(btn)
+			let id = e.currentTarget.getAttribute('data-item-edit')
+			let modalReserva = document.querySelector('#modal_reserva_'+id)
+			modalReserva.classList.toggle('hidden')
+			modalReserva.classList.toggle('active-modal')
+
+		})
+	})
 
 })
 
