@@ -70,6 +70,22 @@
 			return $services;
 		}
 
+		public function getTurnosByUser($user_id) {
+			$this->db->query('SELECT * FROM usuarios_turnos WHERE id_usuario = :user_id ORDER BY dia');
+			$this->db->bind(':user_id', $user_id);
+
+			$turnos = $this->db->getSet();
+			return $turnos;
+		}
+
+		public function getHorarios($user_id) {
+			$this->db->query('SELECT * FROM usuarios_horarios WHERE id_usuario = :user_id ORDER BY dia');
+			$this->db->bind(':user_id', $user_id);
+
+			$horarios = $this->db->getSet();
+			return $horarios;
+		}
+
 		public function activarServicio($user_id, $id_profesion, $servicio) {
 			$this->db->query('INSERT INTO usuarios_servicios (id_usuario, id_profesion, servicio) VALUES (:user_id, :id_profesion, :servicio)');
 			$this->db->bind(':user_id', $user_id);
@@ -111,6 +127,39 @@
 			}
 		}
 
+		public function agregarHorario($user_id, $dia_nombre, $dia, $estado) {
+			$this->db->query('INSERT INTO usuarios_horarios (id_usuario, dia_nombre, dia, estado) VALUES (:user_id, :dia_nombre, :cierre, :estado)');
+			$this->db->bind(':user_id', $user_id);
+			$this->db->bind(':dia_nombre', $dia_nombre);
+			$this->db->bind(':dia', $dia);
+			$this->db->bind(':estado', $estado);
+
+			$creado = $this->db->execute();
+
+			if ($creado) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		public function agregarTurno($user_id, $dia_nombre, $dia, $apertura, $cierre, $estado = 1) {
+			$this->db->query('INSERT INTO usuarios_turnos (id_usuario, dia_nombre, dia, apertura, cierre, estado) VALUES (:user_id, :dia_nombre, :dia, :apertura, :cierre, :estado)');
+			$this->db->bind(':user_id', $user_id);
+			$this->db->bind(':dia_nombre', $dia_nombre);
+			$this->db->bind(':dia', $dia);
+			$this->db->bind(':apertura', $apertura);
+			$this->db->bind(':cierre', $cierre);
+			$this->db->bind(':estado', $estado);
+
+			$creado = $this->db->execute();
+
+			if ($creado) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 
 		public function getProfesionesByUser($user_id) {
 			$this->db->query('SELECT * FROM usuarios_servicios u INNER JOIN profesiones p ON u.id_profesion = p.id WHERE u.id_usuario = :user_id GROUP BY p.id');

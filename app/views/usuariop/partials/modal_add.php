@@ -1,6 +1,7 @@
 
 <?php if($data['page'] == strtolower('perfil')) : ?>
 
+
 	<div id="modal_add" class="hidden fixed inset-0 overflow-y-auto w-full h-screen bg-dark pt-24 px-2 py-5 bg-opacity-70">
 		<form action="<?php echo URLROOT; ?>/usuariop/perfil" method="post" autocomplete="off"  class="flex flex-col py-4 space-y-4 w-full mx-auto md:max-w-2xl bg-white shadow rounded-lg font-dmsans">
 			<!-- modal title -->

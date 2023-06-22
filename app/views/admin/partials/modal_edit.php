@@ -322,7 +322,7 @@
 
 <?php else: ?>
 
-		<span>nothg</span>
+		<span>nothing</span>
 
 <?php endif; ?>
 

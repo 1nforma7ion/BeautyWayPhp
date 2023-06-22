@@ -219,5 +219,32 @@ create table usuarios_servicios (
   REFERENCES profesiones (id)
 )ENGINE=INNODB;
 
+create table usuarios_horarios (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_usuario INT NOT NULL,
+  dia_nombre VARCHAR(40),
+  dia VARCHAR(40),
+  estado INT NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_user_horario
+  FOREIGN KEY (id_usuario)
+  REFERENCES usuarios (id)
+)ENGINE=INNODB;
+
+create table usuarios_turnos (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_usuario INT NOT NULL,
+  dia_nombre VARCHAR(40),
+  dia VARCHAR(40),
+  apertura VARCHAR(40),
+  cierre VARCHAR(40),
+  estado INT NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_user_turnos
+  FOREIGN KEY (id_usuario)
+  REFERENCES usuarios (id)
+)ENGINE=INNODB;
+
+
 INSERT INTO reservas_estados (estado) VALUES ('pendiente'), ('confirmado'), ('cancelado'), ('finalizado');
 INSERT INTO reservas_motivos (motivo) VALUES ('Motivos personales'), ('Horario no disponible'), ('No laborable');

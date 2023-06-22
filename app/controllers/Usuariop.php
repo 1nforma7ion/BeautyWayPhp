@@ -24,26 +24,121 @@
 			}
 		}
 
+
+		public function reservar() {
+			if (usuariopLoggedIn()) {
+
+				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+				$horarios = $this->usuariop->getHorarios($_SESSION['user_id']);
+
+				$data = [
+					'horarios' => $horarios,
+					'sidebar' => $sidebar,
+					'controller' => strtolower(get_called_class()),
+					'page' => __FUNCTION__
+				];
+
+				$this->view('usuariop/reservar',$data);
+
+			} else {
+				redirect('pages/login');
+			}
+		}
+
+		public function edit_turnos() {
+			if (usuariopLoggedIn()) {
+
+				if (isset($_POST['add_turno'])) {
+					$dia = $_POST['dia'];
+					$dia_nombre = $_POST['dia_nombre'];
+					$apertura = $_POST['apertura'];
+					$cierre = $_POST['cierre'];
+
+					$added = $this->usuariop->agregarTurno($_SESSION['user_id'], $dia_nombre, $dia, $apertura, $cierre);
+					
+					if ($added) {
+						redirect('usuariop/edit_turnos');
+					}
+				}
+
+				if (isset($_POST['delete_turno'])) {
+					$dia = $_POST['dia'];
+					$estado = $_POST['estado'];
+					$dia_nombre = $_POST['dia_nombre'];
+					$apertura = $_POST['apertura'];
+					$cierre = $_POST['cierre'];
+
+					$added = $this->usuariop->agregarTurno($_SESSION['user_id'], $dia_nombre, $dia, $apertura, $cierre, $estado);
+					
+					if ($added) {
+						redirect('usuariop/perfil');
+					}
+				}
+
+
+				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+				$horarios = $this->usuariop->getHorarios($_SESSION['user_id']);
+				$turnos = $this->usuariop->getTurnosByUser($_SESSION['user_id']);
+
+				$data = [
+					'turnos' => $turnos,
+					'horarios' => $horarios,
+					'sidebar' => $sidebar,
+					'controller' => strtolower(get_called_class()),
+					'page' => __FUNCTION__
+				];
+
+				$this->view('usuariop/edit_turnos',$data);
+
+			} else {
+				redirect('pages/login');
+			}
+		}
+
 		public function perfil() {
 			if (usuariopLoggedIn()) {
 
-					if (isset($_POST['add_profesion'])) {
-						
-						$id_profesion = $_POST['profesion'];
 
-						$added = $this->usuariop->agregarProfesion($_SESSION['user_id'], $id_profesion);
-						
-						if ($added) {
-							redirect('usuariop/perfil');
-						}
+				if (isset($_POST['add_horario'])) {
+					$dia = $_POST['dia'];
+					$estado = $_POST['estado'];
+					$dia_nombre = $_POST['dia_nombre'];
 
+					$added = $this->usuariop->agregarHorario($_SESSION['user_id'], $dia_nombre, $dia, $estado);
+					
+					if ($added) {
+						redirect('usuariop/perfil');
 					}
+				}
+
+
+				if (isset($_POST['add_profesion'])) {
+					
+					$id_profesion = $_POST['profesion'];
+
+					$added = $this->usuariop->agregarProfesion($_SESSION['user_id'], $id_profesion);
+					
+					if ($added) {
+						redirect('usuariop/perfil');
+					}
+
+				}
+
+				
+				$diasHabiles = [];
+				$horarios = $this->usuariop->getHorarios($_SESSION['user_id']);
+				foreach($horarios as $row) {
+					array_push($diasHabiles, $row->dia);
+				}
 
 				$listaProfesiones = $this->admin->getProfesiones();
 				$profesiones = $this->usuariop->getProfesionesByUser($_SESSION['user_id']);
 				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+				$dias = [ 1 => 'Lunes', 2 => 'Martes', 3 => 'Miércoles', 4 => 'Jueves', 5 => 'Viernes', 6 => 'Sábado', 7 => 'Domingo'];
 
 				$data = [
+					'diasHabiles' => $diasHabiles,
+					'dias' => $dias,
 					'profesiones' => $profesiones,
 					'listaProfesiones' => $listaProfesiones,
 					'sidebar' => $sidebar,

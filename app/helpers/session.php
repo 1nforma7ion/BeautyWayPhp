@@ -2,6 +2,44 @@
 
 	session_start();
 
+	function fixedFecha($date) {
+		setlocale(LC_TIME, "spanish");
+		$fecha = $date;
+		$fecha = str_replace("-", "/", $fecha); 
+		$fecha = strftime("%d.%m.%Y", strtotime($fecha));
+		return $fecha;
+	}
+
+	function getMes() {
+		$format = new IntlDateFormatter('es-PE', IntlDateFormatter::FULL, IntlDateFormatter::FULL, 'America/Lima', IntlDateFormatter::GREGORIAN, 'MMMM y');
+		$dia = new DateTime();
+		return strtoupper($format->format($dia));
+	}
+
+
+	function getCurrentWeek() {
+		$dt = new DateTime;
+
+		$dates = [];
+		for ($d = 1; $d <= 7; $d++) {
+
+		  $dt->setISODate($dt->format('o'), $dt->format('W'), $d);
+		  // $dates[$dt->format('D')] = $dt->format('d-m-Y');
+		  $dates[$d] = $dt->format('d-m-Y');
+		}
+
+		return($dates);
+	}
+
+	function setDayStatus($value) {
+		if ($value) {
+			echo '<i class="px-2 text-xl fas fa-check text-green"></i> ';
+		} else {
+			echo '<i class="fas fa-xmark text-red"></i>';
+		}
+	}
+
+
 	function setStatus($estado) {
 		if ($estado == 1) {
 			echo '<div class="text-green"><i class="fas fa-check mr-2"></i> Activo </div>';
@@ -49,11 +87,5 @@
 		}
 	}
 
-	function fixedFecha($date) {
-		setlocale(LC_TIME, "spanish");
-		$fecha = $date;
-		$fecha = str_replace("/", "-", $fecha); 
-		$fecha = strftime("%d-%m-%Y", strtotime($fecha));
-		return $fecha;
-	}
+
 ?>
