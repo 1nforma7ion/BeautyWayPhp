@@ -12,47 +12,13 @@
 
 		<!-- columna derecha -->
 		<div class="flex w-full md:w-3/4 bg-neutral  font-dmsans overflow-hidden">
-			
-<?php
- 
-// Set the timezone and locale
-ini_set('date.timezone', 'America/Lima');
-ini_set('intl.default_locale', 'es_PE');
- 
-// Create an IntlCalendar from a DateTime object or string
-$calendar = IntlCalendar::fromDateTime('2019-10-05 09:19:29'); 
- 
-// Display the date in given format
-echo "Default date format => " .
-    IntlDateFormatter::formatObject($calendar) . "\n";
- 
-// Display the date in given format
-echo "Date in string format => " .
-    IntlDateFormatter::formatObject($calendar,
-    "dd MM yyyy") . "\n";
- 
-// Display the date in given format
-echo "Date in long format => " .
-    IntlDateFormatter::formatObject($calendar,
-    IntlDateFormatter::TRADITIONAL) . "\n";
- 
-// Display the date in given format
-echo "Date in array format => ",
-    IntlDateFormatter::formatObject($calendar,
-    array(
-        IntlDateFormatter::NONE,
-        IntlDateFormatter::FULL)
-    );
- ?>
-
-
-
+		
 			<div class="w-full p-4 bg-white flex flex-col rounded-xl ">
 
 				
 				<div class="w-full flex px-4 pt-4">	
 					<div class="w-full bg-neutral text-white text-4xl py-4 text-center">
-						<?php //echo getMes(); ?>
+						<?php echo getMes(); ?>
 					</div>
 				</div>
 
