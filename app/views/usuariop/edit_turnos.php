@@ -55,7 +55,7 @@
 									$dia = $dia[0]  
 								?>
 								<!-- Si el dia ya paso se marca como Finalizado -->
-								<?php if($dia < $hoy) : ?>
+								<?php if($dia < $hoy -1) : ?>
 									<span class="text-center text-lg md:px-6 md:py-10">Finalizado.</span>
 								<?php else: ?>
 										

@@ -7,7 +7,10 @@
 		}
 
 		public function getAllPublicaciones() {
-			$this->db->query('SELECT * FROM publicaciones');
+			$this->db->query('SELECT * FROM publicaciones p 
+				INNER JOIN usuarios u ON p.id_usuario = u.id 
+				INNER JOIN zonas z ON z.id = u.id_zona_trabajo 
+				ORDER BY p.creado DESC');
 			$publicaciones = $this->db->getSet();
 			return $publicaciones;
 		}

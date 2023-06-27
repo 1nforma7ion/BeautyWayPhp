@@ -3,6 +3,7 @@
 		public function __construct() {
 			$this->usuariop = $this->model('Userp');
 			$this->admin = $this->model('Administrador');
+			$this->page = $this->model('Page');
 
 		}
 
@@ -97,6 +98,45 @@
 
 		public function perfil() {
 			if (usuariopLoggedIn()) {
+						// echo "<pre>";
+						// print_r($_POST);
+						// die();
+
+				if (isset($_POST['create_imagen_perfil'])) {
+
+						$imagen = $_FILES['imagen']['name'];
+
+					  	if ($imagen) {
+
+					  		$archivo = $_FILES['imagen'];
+								$user_id = $_SESSION['user_id'];
+
+				      	if(file_exists('../public/files/perfiles/' . $user_id)) {
+									$filesDir = '../public/files/perfiles/' . $user_id . '/';
+				      	} else {
+				    			mkdir('../public/files/perfiles/' . $user_id);
+									$filesDir = '../public/files/perfiles/' . $user_id . '/';
+				      	}
+
+		
+			        	$i_name = $archivo['name'];
+								$i_tmp = $archivo['tmp_name'];
+
+								move_uploaded_file($i_tmp, $filesDir . $i_name);
+
+								$urlImagen = '/files/perfiles/' . $user_id . '/' . $i_name;
+
+				        $added = $this->usuariop->createImagenPerfil($_SESSION['user_id'], $urlImagen);
+
+				        if ($added) {
+						      redirect('usuariop/perfil');
+								} else {
+									die('ocurrio un error');
+								}
+
+				      }
+
+				}
 
 
 				if (isset($_POST['add_horario'])) {
@@ -124,6 +164,12 @@
 
 				}
 
+
+				$perfil = $this->usuariop->getUserById($_SESSION['user_id']);
+				$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
+				$modalidades = $this->page->getModalidades();
+				$zonas = $this->page->getZonas();
+				$localidades = $this->page->getLocalidades();
 				
 				$diasHabiles = [];
 				$horarios = $this->usuariop->getHorarios($_SESSION['user_id']);
@@ -137,6 +183,11 @@
 				$dias = [ 1 => 'Lunes', 2 => 'Martes', 3 => 'Miércoles', 4 => 'Jueves', 5 => 'Viernes', 6 => 'Sábado', 7 => 'Domingo'];
 
 				$data = [
+					'perfil' => $perfil,
+					'imagenes_perfil' => $imagenes_perfil,
+					'zonas' => $zonas,
+					'localidades' => $localidades,
+					'modalidades' => $modalidades,
 					'diasHabiles' => $diasHabiles,
 					'dias' => $dias,
 					'profesiones' => $profesiones,

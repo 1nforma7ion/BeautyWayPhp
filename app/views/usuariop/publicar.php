@@ -18,7 +18,7 @@
 
 			<?php if(isset($data['servicios'])) : ?>
 				<form action="<?php echo URLROOT . '/' . $data['controller'] . '/publicar/' . $data['profesion']->id ?>" autocomplete="off" method="POST" enctype="multipart/form-data">
-					<div class=" flex flex-col-reverse md:flex-row bg-white text-darkborder drop-shadow-lg hover:drop-shadow-card ">
+					<div class=" flex flex-col-reverse md:flex-row bg-white text-darkborder drop-shadow-lg hover:drop-shadow-card rounded-lg">
 
 						<div class="img_post relative flex w-full md:w-2/3 items-center font-dmsans bg-primary">
 							<canvas id="preview" class=" w-full h-72 md:h-96 "></canvas>

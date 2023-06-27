@@ -11,22 +11,21 @@
 		</div>
 
 		<!-- columna derecha -->
-		<div class="flex w-full md:w-3/4 overflow-hidden">
+		<div class="flex w-full md:w-3/4 overflow-hidden font-dmsans">
 			<div class="flex flex-col w-full  md:p-4  space-y-4  overflow-y-scroll no-scrollbar">
 
 				<!-- publicaciones -->
 				<?php foreach($data['publicaciones'] as $row) : ?>
-					<div class=" flex flex-col-reverse md:flex-row bg-white text-dark drop-shadow-lg hover:drop-shadow-card ">
+					<div class=" flex flex-col-reverse md:flex-row bg-white text-dark drop-shadow-lg hover:drop-shadow-card rounded-lg">
 
 					<div class="img_post relative flex w-full md:w-2/3 items-center">
-						<img src="<?php echo URLROOT . $row->imagen ?>" alt="imagen logo" class="w-full h-72 md:h-96 object-cover">
-						<span class="date_post absolute w-max h-max bottom-4 right-0 md:top-4 md:left-0 rounded-r-lg text-sm text-dark p-4 bg-ctaDark md:text-2xl font-bold"> 
+						<img src="<?php echo URLROOT . $row->imagen ?>" alt="imagen logo" class="w-full h-72 md:h-96 object-cover rounded-l-lg">
+						<span class="date_post absolute w-max h-max bottom-4 right-0 md:top-4 md:left-0 rounded-r-lg text-sm text-dark p-2 bg-ctaDark md:text-xl font-bold"> 
 						<?php echo $row->servicio ?>  </span>
 
 						<div class="date_post absolute w-full flex justify-around h-max bottom-4 right-0 md:bottom-4  md:text-2xl font-bold">
 							<button class="w-44 rounded-full text-sm text-dark p-2 bg-ctaDark "> <i class="fas fa-heart "></i> Me gusta  </button>
 							<button class="w-44 rounded-full text-sm text-dark p-2 bg-ctaDark "> <i class="fas fa-comment "></i> Comentarios  </button>
-							<button class="w-44 rounded-full text-sm text-dark p-2 bg-ctaDark "> <i class="fas fa-share "></i> Compartir  </button>
 
 						</div>
 					</div>

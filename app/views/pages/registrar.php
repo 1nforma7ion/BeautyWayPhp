@@ -115,7 +115,7 @@
 				    	<span id="alert-telef" class="hidden italic text-sm text-red">Minimo 8 números</span>
 
 				    </label>
-				    <input type="text" id="telefono" name="telefono" minlength="8" maxlength="10" placeholder="01-24234-242424" required>
+				    <input type="text" id="telefono" name="telefono" minlength="8" maxlength="10" placeholder="3515100100" required>
 			    </div>
 			    <div class="group-col relative">
 			  		<div class="absolute hidden right-0 bottom-0"><i class="fas fa-check bg-cta p-2 rounded-full"></i></div>

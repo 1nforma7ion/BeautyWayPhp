@@ -45,6 +45,35 @@
 			return $projects;
 		}
 
+		public function getUserById($id) {
+			$this->db->query('SELECT *, u.id as user_id FROM usuarios u INNER JOIN zonas z ON u.id_zona_trabajo = z.id	WHERE u.id = :id');
+			$this->db->bind(':id', $id);
+
+			$perfil = $this->db->getSingle();
+			return $perfil;
+		}
+
+		public function getImageById($id) {
+			$this->db->query('SELECT * FROM perfiles WHERE id_usuario = :id');
+			$this->db->bind(':id', $id);
+			$perfil = $this->db->getSingle();
+			return $perfil;
+		}
+
+		public function createImagenPerfil($user_id, $imagen) {
+			$this->db->query('INSERT INTO perfiles (id_usuario, imagen_comercial) VALUES (:user_id, :imagen)');
+			$this->db->bind(':user_id', $user_id);
+			$this->db->bind(':imagen', $imagen);
+
+			$creado = $this->db->execute();
+
+			if ($creado) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
 		public function getProfesionById($id) {
 			$this->db->query('SELECT id, profesion FROM profesiones WHERE id = :id');
 			$this->db->bind(':id', $id);
@@ -62,7 +91,7 @@
 		}
 
 		public function getPublicacionesByUser($user_id) {
-			$this->db->query('SELECT *, p.id as id_public FROM publicaciones p INNER JOIN usuarios u ON p.id_usuario = u.id WHERE p.id_usuario = :user_id');
+			$this->db->query('SELECT *, p.id as id_public FROM publicaciones p INNER JOIN usuarios u ON p.id_usuario = u.id WHERE p.id_usuario = :user_id ORDER BY p.creado DESC');
 			$this->db->bind(':user_id', $user_id);
 
 			$publicaciones = $this->db->getSet();
