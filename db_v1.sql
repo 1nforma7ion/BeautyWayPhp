@@ -221,9 +221,10 @@ create table usuarios_servicios (
 create table usuarios_horarios (
   id INT NOT NULL AUTO_INCREMENT,
   id_usuario INT NOT NULL,
-  dia_nombre VARCHAR(40),
   dia VARCHAR(40),
-  estado INT NOT NULL,
+  hora_inicio VARCHAR(40),
+  hora_fin VARCHAR(40),
+  estado INT NOT NULL DEFAULT 1,
   PRIMARY KEY (id),
   CONSTRAINT fk_user_horario
   FOREIGN KEY (id_usuario)
@@ -247,3 +248,18 @@ create table usuarios_turnos (
 
 INSERT INTO reservas_estados (estado) VALUES ('pendiente'), ('confirmado'), ('cancelado'), ('finalizado');
 INSERT INTO reservas_motivos (motivo) VALUES ('Motivos personales'), ('Horario no disponible'), ('No laborable');
+
+
+create table hora_turnos (
+  id INT NOT NULL AUTO_INCREMENT,
+  hora VARCHAR(50) NOT NULL,
+  estado INT NOT NULL DEFAULT 1,
+  PRIMARY KEY (id)
+)ENGINE=INNODB;
+
+INSERT INTO hora_turnos (hora) VALUES ('00:00'), 
+('01:00'), ('02:00'), ('03:00'), ('04:00'), ('05:00'),
+('06:00'), ('07:00'), ('08:00'), ('09:00'), ('10:00'),
+('11:00'), ('12:00'), ('13:00'), ('14:00'), ('15:00'),
+('16:00'), ('17:00'), ('18:00'), ('19:00'), ('20:00'),
+('21:00'), ('22:00'), ('23:00');

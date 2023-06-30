@@ -9,11 +9,12 @@
 
 		public function index() {
 			if (usuariopLoggedIn()) {
-
+				$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
 				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
 				$publicaciones = $this->usuariop->getPublicacionesByUser($_SESSION['user_id']);
 
 				$data = [
+					'imagenes_perfil' => $imagenes_perfil,
 					'publicaciones' => $publicaciones,
 					'sidebar' => $sidebar,
 					'controller' => strtolower(get_called_class()),
@@ -53,36 +54,128 @@
 		public function edit_turnos() {
 			if (usuariopLoggedIn()) {
 
-				if (isset($_POST['add_turno'])) {
+				if (isset($_POST['create_horario'])) {
 					$dia = $_POST['dia'];
-					$dia_nombre = $_POST['dia_nombre'];
-					$apertura = $_POST['apertura'];
-					$cierre = $_POST['cierre'];
+					$dur_turno = $_POST['dur_turno'];
 
-					$added = $this->usuariop->agregarTurno($_SESSION['user_id'], $dia_nombre, $dia, $apertura, $cierre);
+					$hora_inicio = $_POST['hora_inicio'];
+					$hora_fin = $_POST['hora_fin'];
+
+					$total_turnos = (intval($hora_fin) - intval($hora_inicio)) / ceil($dur_turno);
+
+
+					$turnos = [];
+					for( $k = 0; $k < $total_turnos; $k ++) {
+						// crear hora fin, modificando hora inicio
+						$hora_inicio = intval($hora_inicio) + $dur_turno;
+
+						$turnos[$k] = [
+							'hora_inicio' => ($hora_inicio - $dur_turno) . ':00',
+							'hora_fin' => $hora_inicio . ':00',
+						];
+					}	
+
+					$result=[];
+
+					for($c = 0; $c < count($dia); $c++) {
+						$result[$c] = setTurnos($turnos, $dia[$c]);
+						// array_push($result[$c], $dia[$c]);
+					}
+
+					// $arr = [];
+					// for($k = 0; $k < count($dia); $k ++) {
+					// 	$arr[$k] = [
+					// 		'user_id' => $_SESSION['user_id'],
+					// 		'dia' => $dia[$k]
+					// 	]; 
+					// }
+
+				// 	function setArr($tur, $dia) {
+				// 	for($a = 0; $a < count($tur); $a++) {
+				// 		$tur[$a]['dia'] = $arr[$a];
+				// 		$tur[$a]['user_id'] = $_SESSION['user_id'];
+				// 	}
+
+				// 	return $tur;
+				// }
+
+					
+
+
+
+					// $horarios = [];
+				  // for($i = 0; $i < count($dia); $i++) {
+				  //   $horarios[$i] = [
+				  //   'user_id' => $_SESSION['user_id'],
+				  //   'dia' => $dia[$i],
+				  //   'hora_inicio' => $hora_inicio,
+				  //   'hora_fin' => $hora_fin
+				  //   ];
+				  //   // array_push($data, $fila)
+				  // }
+
+				  // echo "<pre>";
+				  // print_r($horarios);
+				  // print_r($result);
+				  // print_r($dia);
+
+				  // print_r($turnos);
+				  // print_r($dia);
+				  // die();
+
+
+					$added = $this->usuariop->agregarHorario($result);
 					
 					if ($added) {
 						redirect('usuariop/edit_turnos');
 					}
 				}
 
-				if (isset($_POST['delete_turno'])) {
-					$id = $_POST['id_turno'];
 
-					$deleted = $this->usuariop->eliminarTurno($id);
+				// if (isset($_POST['add_turno'])) {
+				// 	$dia = $_POST['dia'];
+				// 	$dia_nombre = $_POST['dia_nombre'];
+				// 	$apertura = $_POST['apertura'];
+				// 	$cierre = $_POST['cierre'];
+
+				// 	$added = $this->usuariop->agregarTurno($_SESSION['user_id'], $dia_nombre, $dia, $apertura, $cierre);
+					
+				// 	if ($added) {
+				// 		redirect('usuariop/edit_turnos');
+				// 	}
+				// }
+				if (isset($_POST['update_horario'])) {
+					$id = $_POST['id_dia'];
+					$hora_inicio = $_POST['hora_inicio'];
+					$hora_fin = $_POST['hora_fin'];
+
+					$updated = $this->usuariop->updateHorario($id, $hora_inicio, $hora_fin);
+					
+					if ($updated) {
+						redirect('usuariop/edit_turnos');
+					}
+				}
+
+				if (isset($_POST['delete_horario'])) {
+					$id = $_POST['id_dia'];
+
+					$deleted = $this->usuariop->eliminarHorario($id);
 					
 					if ($deleted) {
 						redirect('usuariop/edit_turnos');
 					}
 				}
 
-
+				$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
+				$horas = $this->usuariop->getHoras();
 				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
 				$horarios = $this->usuariop->getHorarios($_SESSION['user_id']);
-				$turnos = $this->usuariop->getTurnosByUser($_SESSION['user_id']);
+				// $turnos = $this->usuariop->getTurnosByUser($_SESSION['user_id']);
 
 				$data = [
-					'turnos' => $turnos,
+					'imagenes_perfil' => $imagenes_perfil,
+					// 'turnos' => $turnos,
+					'horas' => $horas,
 					'horarios' => $horarios,
 					'sidebar' => $sidebar,
 					'controller' => strtolower(get_called_class()),
@@ -98,43 +191,40 @@
 
 		public function perfil() {
 			if (usuariopLoggedIn()) {
-						// echo "<pre>";
-						// print_r($_POST);
-						// die();
 
 				if (isset($_POST['create_imagen_perfil'])) {
 
-						$imagen = $_FILES['imagen']['name'];
+					$imagen = $_FILES['imagen']['name'];
 
-					  	if ($imagen) {
+			  	if ($imagen) {
 
-					  		$archivo = $_FILES['imagen'];
-								$user_id = $_SESSION['user_id'];
+			  		$archivo = $_FILES['imagen'];
+						$user_id = $_SESSION['user_id'];
 
-				      	if(file_exists('../public/files/perfiles/' . $user_id)) {
-									$filesDir = '../public/files/perfiles/' . $user_id . '/';
-				      	} else {
-				    			mkdir('../public/files/perfiles/' . $user_id);
-									$filesDir = '../public/files/perfiles/' . $user_id . '/';
-				      	}
+		      	if(file_exists('../public/files/perfiles/' . $user_id)) {
+							$filesDir = '../public/files/perfiles/' . $user_id . '/';
+		      	} else {
+		    			mkdir('../public/files/perfiles/' . $user_id);
+							$filesDir = '../public/files/perfiles/' . $user_id . '/';
+		      	}
 
-		
-			        	$i_name = $archivo['name'];
-								$i_tmp = $archivo['tmp_name'];
 
-								move_uploaded_file($i_tmp, $filesDir . $i_name);
+	        	$i_name = $archivo['name'];
+						$i_tmp = $archivo['tmp_name'];
 
-								$urlImagen = '/files/perfiles/' . $user_id . '/' . $i_name;
+						move_uploaded_file($i_tmp, $filesDir . $i_name);
 
-				        $added = $this->usuariop->createImagenPerfil($_SESSION['user_id'], $urlImagen);
+						$urlImagen = '/files/perfiles/' . $user_id . '/' . $i_name;
 
-				        if ($added) {
-						      redirect('usuariop/perfil');
-								} else {
-									die('ocurrio un error');
-								}
+		        $added = $this->usuariop->createImagenPerfil($_SESSION['user_id'], $urlImagen);
 
-				      }
+		        if ($added) {
+				      redirect('usuariop/perfil');
+						} else {
+							die('ocurrio un error');
+						}
+
+		      }
 
 				}
 
@@ -283,12 +373,14 @@
 			if (usuariopLoggedIn()) {
 				if(is_null($id_profesion)) {
 
+					$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
 					$horarios = $this->usuariop->getHorarios($_SESSION['user_id']);
 					$profesiones = $this->usuariop->getProfesionesByUser($_SESSION['user_id']);
 					$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
 
 					$zonas = $this->usuariop->getZonas();
 					$data = [
+						'imagenes_perfil' => $imagenes_perfil,
 						'horarios' => $horarios,
 						'profesiones' => $profesiones,
 						'sidebar' => $sidebar,
@@ -354,7 +446,8 @@
 
 
 					} else {
-						
+
+						$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
 						$horarios = $this->usuariop->getHorarios($_SESSION['user_id']);
 						$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
 						$servicios = $this->usuariop->getServiciosByUser($_SESSION['user_id'], $id_profesion);
@@ -362,6 +455,7 @@
 
 						$zonas = $this->usuariop->getZonas();
 						$data = [
+							'imagenes_perfil' => $imagenes_perfil,
 							'horarios' => $horarios,
 							'profesion' => $profesion,
 							'servicios' => $servicios,

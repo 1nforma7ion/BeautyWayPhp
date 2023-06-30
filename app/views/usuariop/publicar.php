@@ -18,7 +18,7 @@
 
 			<?php if(isset($data['servicios'])) : ?>
 				<form action="<?php echo URLROOT . '/' . $data['controller'] . '/publicar/' . $data['profesion']->id ?>" autocomplete="off" method="POST" enctype="multipart/form-data">
-					<div class=" flex flex-col-reverse md:flex-row bg-white text-darkborder drop-shadow-lg hover:drop-shadow-card rounded-lg">
+					<div class=" flex flex-col-reverse md:flex-row bg-white text-darkborder drop-shadow-lg hover:drop-shadow-card rounded-lg font-dmsans">
 
 						<div class="img_post relative flex w-full md:w-2/3 items-center font-dmsans bg-primary">
 							<canvas id="preview" class=" w-full h-72 md:h-96 "></canvas>
@@ -39,20 +39,18 @@
 							</div>
 
 							<div class="absolute w-full flex justify-around items-center h-max bottom-6 left-0 ">
-								<input id="img-input" type="file" name="imagen" hidden required>
-								<label for="img-input" > 
-			            <span class="p-4 font-bold rounded-r-xl bg-ctaDark text-dark drop-shadow-card">Subir Imagen  <i class="fas fa-image"></i> </span>
-			          </label>	         
-
-			          <div class="w-44 flex justify-between font-bold rounded-r-xl  bg-ctaDark text-dark drop-shadow-card">
-			          	<label class="w-1/2">Descuento en % </label>
-									<input type="text" name="descuento" id="descuento" class="px-6 w-1/2 outline-none focus:border-neutral border-2 border-primary " >
+								<div class="w-1/3 p-3 flex justify-between font-bold rounded-xl  bg-ctaDark text-dark drop-shadow-card">
+									<input id="img-input" type="file" name="imagen" hidden required>
+									<label for="img-input" class="w-full cursor-pointer text-center font-bold text-dark drop-shadow-card"> 
+				            <span >Subir Imagen  <i class="fas fa-image"></i> </span>
+				          </label>	 
 			          </div>
 
-					      <div class="w-44 flex justify-between font-bold rounded-r-xl  bg-ctaDark text-dark drop-shadow-card">
-			          	<label class="w-1/2">Duracion Hrs </label>
-									<input type="text" name="duracion" id="duracion" class=" px-6 w-1/2 outline-none focus:border-neutral border-2 border-primary " >
+			          <div class="w-max p-3 flex items-center space-x-4  font-bold rounded-xl  bg-ctaDark text-dark drop-shadow-card">
+			          	<label for="descuento">Descuento en % </label>
+									<input type="text" name="descuento" id="descuento" class=" w-12 outline-none focus:border-neutral border-2 border-primary " >
 			          </div>
+
 
 							</div>
 						</div>
@@ -61,7 +59,12 @@
 							<div class="flex space-x-4">
 								<div class="flex flex-col space-y-4">
 									<div class="w-full flex items-center space-x-4">
-										<img src="<?php echo URLROOT; ?>/img/logo.png" alt="imagen logo" class="h-16 w-16 rounded-full">
+										<?php if (!empty($data['imagenes_perfil'])) : ?>
+											<img src="<?php echo URLROOT . $data['imagenes_perfil']->imagen_comercial ?>" class="h-16 w-16 rounded-full object-cover ">
+										<?php else: ?>
+											<img src="<?php echo URLROOT . '/img/user.png' ?>" alt="imagen usuario" class="h-16 w-16 rounded-full object-cover ">
+										<?php endif; ?>
+										
 										<h1 ><a href="" class="text-dark hover:text-fbk text-xl  font-bold"><?php echo !is_null($_SESSION['user_nombre_comercial']) ? $_SESSION['user_nombre_comercial'] : '' ?></a></h1>
 									</div>
 
@@ -69,7 +72,7 @@
 
 							</div>
 				      <div class="w-full">
-				      	<textarea name="descripcion" id="descripcion" rows="8"  class="w-full outline-none focus:border-neutral border-2 border-primary " placeholder="Escribe el contenido de la publicacion " required></textarea>
+				      	<textarea name="descripcion" id="descripcion" rows="8"  class="w-full px-2 resize-none outline-none focus:border-neutral border-2 border-primary " placeholder="Escribe el contenido de la publicacion " required></textarea>
 				      </div>
 		  				
 		  				<input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id'] ?>">
@@ -90,7 +93,7 @@
 
 				<?php if(count($data['horarios']) < 1) : ?>
 					<div class="w-full h-96 flex flex-col space-y-8 items-center justify-center bg-white rounded-xl text-2xl font-dmsans">
-						<span>Debes configurar tus horarios antes de Publicar:</span>
+						<span>Debes configurar tu imagen de perfil y horario antes de Publicar:</span>
 						<a href="<?php echo URLROOT . '/' . $data['controller']; ?>/perfil" class="py-2 px-4 rounded-full bg-neutral text-white">  Ir a mi Perfil <i class="fas fa-arrow-right"></i></a>
 					</div>
 				<?php else: ?>

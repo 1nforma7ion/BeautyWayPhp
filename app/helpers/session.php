@@ -2,6 +2,15 @@
 
 	session_start();
 
+	function setTurnos($turno, $dia) {
+		for($a = 0; $a < count($turno); $a++) {
+			$turno[$a]['dia'] = $dia;
+			$turno[$a]['user_id'] = $_SESSION['user_id'];
+		}
+
+		return $turno;
+	}
+
 	function fixedFecha($date) {
 		setlocale(LC_TIME, "spanish");
 		$fecha = $date;

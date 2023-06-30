@@ -162,7 +162,7 @@
 									    </div>
 							  		<?php else: ?>
 									    <div class="flex ">
-												<img src="" class="w-32 h-32 rounded-full object-cover bg-primary">
+												<img src="<?php echo URLROOT . '/img/user.png' ?>" class="w-32 h-32 rounded-full object-cover bg-primary">
 									    </div>
 
 									    <div class="flex flex-col space-y-8 items-center">
@@ -187,7 +187,7 @@
 									    </div>
 							  		<?php else: ?>
 									    <div class="flex ">
-												<img src="" class="w-32 h-32 rounded-full object-cover bg-primary">
+												<img src="<?php echo URLROOT . '/img/user.png' ?>" class="w-32 h-32 rounded-full object-cover bg-primary">
 									    </div>
 
 									    <div class="flex flex-col space-y-8 items-center">

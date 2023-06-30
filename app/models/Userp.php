@@ -90,8 +90,17 @@
 			return $todosServicios;
 		}
 
+		public function getHoras() {
+			$this->db->query('SELECT * FROM hora_turnos');
+			$horas = $this->db->getSet();
+			return $horas;
+		}
+
 		public function getPublicacionesByUser($user_id) {
-			$this->db->query('SELECT *, p.id as id_public FROM publicaciones p INNER JOIN usuarios u ON p.id_usuario = u.id WHERE p.id_usuario = :user_id ORDER BY p.creado DESC');
+			$this->db->query('SELECT *, p.id as id_public FROM publicaciones p 
+				INNER JOIN usuarios u ON p.id_usuario = u.id 
+				INNER JOIN perfiles pe ON pe.id_usuario = u.id
+				WHERE p.id_usuario = :user_id ORDER BY p.creado DESC');
 			$this->db->bind(':user_id', $user_id);
 
 			$publicaciones = $this->db->getSet();
@@ -107,21 +116,15 @@
 			return $services;
 		}
 
-		public function getTurnosByUser($user_id) {
-			$this->db->query('SELECT * FROM usuarios_turnos WHERE id_usuario = :user_id ORDER BY dia');
-			$this->db->bind(':user_id', $user_id);
+		// public function getTurnosByUser($user_id) {
+		// 	$this->db->query('SELECT * FROM usuarios_turnos WHERE id_usuario = :user_id ORDER BY dia');
+		// 	$this->db->bind(':user_id', $user_id);
 
-			$turnos = $this->db->getSet();
-			return $turnos;
-		}
+		// 	$turnos = $this->db->getSet();
+		// 	return $turnos;
+		// }
 
-		public function getHorarios($user_id) {
-			$this->db->query('SELECT * FROM usuarios_horarios WHERE id_usuario = :user_id ORDER BY dia');
-			$this->db->bind(':user_id', $user_id);
 
-			$horarios = $this->db->getSet();
-			return $horarios;
-		}
 
 		public function activarServicio($user_id, $id_profesion, $servicio) {
 			$this->db->query('INSERT INTO usuarios_servicios (id_usuario, id_profesion, servicio) VALUES (:user_id, :id_profesion, :servicio)');
@@ -164,42 +167,100 @@
 			}
 		}
 
-		public function agregarHorario($user_id, $dia_nombre, $dia, $estado) {
-			$this->db->query('INSERT INTO usuarios_horarios (id_usuario, dia_nombre, dia, estado) VALUES (:user_id, :dia_nombre, :dia, :estado)');
+
+
+// INICIO HORARIOS - TURNOS
+		public function getHorarios($user_id) {
+			$this->db->query('SELECT * FROM usuarios_horarios WHERE id_usuario = :user_id ORDER BY dia ASC');
 			$this->db->bind(':user_id', $user_id);
-			$this->db->bind(':dia_nombre', $dia_nombre);
-			$this->db->bind(':dia', $dia);
-			$this->db->bind(':estado', $estado);
 
-			$creado = $this->db->execute();
+			$horarios = $this->db->getSet();
+			return $horarios;
+		}
 
-			if ($creado) {
+		public function updateHorario($id, $hora_inicio, $hora_fin) {
+
+			$this->db->query('UPDATE usuarios_horarios SET hora_inicio = :hora_inicio, hora_fin = :hora_fin WHERE id = :id');
+			$this->db->bind(':id', $id);
+			$this->db->bind(':hora_inicio', $hora_inicio);
+			$this->db->bind(':hora_fin', $hora_fin);
+			
+
+			if ($this->db->execute()) {
 				return true;
 			} else {
 				return false;
 			}
 		}
 
-		public function agregarTurno($user_id, $dia_nombre, $dia, $apertura, $cierre, $estado = 1) {
-			$this->db->query('INSERT INTO usuarios_turnos (id_usuario, dia_nombre, dia, apertura, cierre, estado) VALUES (:user_id, :dia_nombre, :dia, :apertura, :cierre, :estado)');
-			$this->db->bind(':user_id', $user_id);
-			$this->db->bind(':dia_nombre', $dia_nombre);
-			$this->db->bind(':dia', $dia);
-			$this->db->bind(':apertura', $apertura);
-			$this->db->bind(':cierre', $cierre);
-			$this->db->bind(':estado', $estado);
+		public function agregarHorario($result) {
+      $errors = [];
 
-			$creado = $this->db->execute();
+      foreach($result as $row) {
 
-			if ($creado) {
+      	for($i = 0; $i < count($row); $i++) {
+					$this->db->query('INSERT INTO usuarios_horarios (id_usuario, dia, hora_inicio, hora_fin) VALUES (:user_id, :dia, :hora_inicio, :hora_fin)');
+					$this->db->bind(':user_id', $row[$i]['user_id']);
+					$this->db->bind(':dia', $row[$i]['dia']);
+					$this->db->bind(':hora_inicio', $row[$i]['hora_inicio']);
+					$this->db->bind(':hora_fin', $row[$i]['hora_fin']);
+
+				  if(!$this->db->execute()) {
+	          array_push($errors, "Error on INSERT INTO " . $row[$i]);
+	        } 
+      	}
+
+			}
+
+			if (count($errors) == 0) {
 				return true;
 			} else {
 				return false;
 			}
 		}
 
-		public function eliminarTurno($id) {
-			$this->db->query('DELETE FROM usuarios_turnos WHERE id = :id');
+		// public function agregarHorario($horarios) {
+    //   $errors = [];
+
+    //   foreach($horarios as $row) {
+		// 		$this->db->query('INSERT INTO usuarios_horarios (id_usuario, dia, hora_inicio, hora_fin) VALUES (:user_id, :dia, :hora_inicio, :hora_fin)');
+		// 		$this->db->bind(':user_id', $row['user_id']);
+		// 		$this->db->bind(':dia', $row['dia']);
+		// 		$this->db->bind(':hora_inicio', $row['hora_inicio']);
+		// 		$this->db->bind(':hora_fin', $row['hora_fin']);
+
+		// 	  if(!$this->db->execute()) {
+    //       array_push($errors, "Error when saving" . $row);
+    //     } 
+		// 	}
+
+		// 	if (count($errors) == 0) {
+		// 		return true;
+		// 	} else {
+		// 		return false;
+		// 	}
+		// }
+
+		// public function agregarTurno($user_id, $dia_nombre, $dia, $apertura, $cierre, $estado = 1) {
+		// 	$this->db->query('INSERT INTO usuarios_turnos (id_usuario, dia_nombre, dia, apertura, cierre, estado) VALUES (:user_id, :dia_nombre, :dia, :apertura, :cierre, :estado)');
+		// 	$this->db->bind(':user_id', $user_id);
+		// 	$this->db->bind(':dia_nombre', $dia_nombre);
+		// 	$this->db->bind(':dia', $dia);
+		// 	$this->db->bind(':apertura', $apertura);
+		// 	$this->db->bind(':cierre', $cierre);
+		// 	$this->db->bind(':estado', $estado);
+
+		// 	$creado = $this->db->execute();
+
+		// 	if ($creado) {
+		// 		return true;
+		// 	} else {
+		// 		return false;
+		// 	}
+		// }
+
+		public function eliminarHorario($id) {
+			$this->db->query('DELETE FROM usuarios_horarios WHERE id = :id');
 			$this->db->bind(':id', $id);
 			$deleted = $this->db->execute();
 

@@ -3,7 +3,7 @@
 <div class="flex flex-col w-full">
 	<?php require APPROOT . '/views/' . $data['controller'] . '/partials/navbar.php'; ?>
 
-	<div class="w-full h-screen flex md:space-x-4 pt-0 pb-4 px-4 md:px-6.5">
+	<div class="w-full  flex md:space-x-4 pt-0 pb-4 px-4 md:px-6.5">
 
 		<!-- columna izquierda -->	
 		<div class="hidden md:block w-1/4  p-4 ">	
@@ -11,96 +11,126 @@
 		</div>
 
 		<!-- columna derecha -->
-		<div class="flex w-full md:w-3/4 bg-neutral  font-dmsans overflow-hidden">
-		
+		<div class="flex flex-col space-y-4 w-full md:w-3/4 font-dmsans">
+			<!-- lista de horarios registrados -->
+
+			<?php if(!empty($data['horarios'])) : ?>
 			<div class="w-full p-4 bg-white flex flex-col rounded-xl ">
+				<!-- Tabla Datatable -->
+				<div class="w-full py-4 text-2xl text-neutral text-center">Horarios Registrados</div>
 
-				
-				<div class="w-full flex px-4 pt-4">	
-					<div class="w-full bg-neutral text-white text-4xl py-4 text-center">
-						<?php echo getMes(); ?>
-					</div>
+				<div class="w-full  bg-primary rounded-lg ">
+					<table class="bg-white datatable " >
+	          <thead>
+	            <tr>
+	              <th>Dia</th>
+	              <th>Hora Apertura</th>
+	              <th>Hora Cierre</th>
+	              <th>Opciones</th>
+	            </tr>
+	          </thead>
+	          
+	          <tbody >
+	            <?php foreach($data['horarios'] as $row): ?>
+	             <tr>
+	                <td><?php echo $row->dia; ?> </td>
+	                <td><?php echo $row->hora_inicio; ?> </td>
+	                <td><?php echo $row->hora_fin; ?> </td>
+
+	                <td>
+	                	<div class="w-max flex space-x-8 ">
+
+	             		    <button data-item-edit="<?php echo $row->id ?>"  class="btn_edit hover:text-green text-2xl"><i class="fas fa-edit"></i></button>
+	                		<button data-item-delete="<?php echo $row->id ?>" class="btn_delete hover:text-red text-2xl"><i class="fas fa-trash"></i>	</button>   		
+	                	</div>
+	                	<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_delete.php'; ?>
+	                	<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_edit.php'; ?>
+	                	
+	                </td>
+	             </tr>
+
+	            <?php endforeach; ?>            
+	          </tbody>
+	      	</table>
 				</div>
-
-
-				<div class="w-full flex  px-4 items-center ">
-					<?php if ($data['horarios']) : ?>
-						<?php foreach($data['horarios'] as $row) : ?>
-
-							<div class="flex w-44 flex-col bg-primary border-r border-neutral">
-								<span class="text-center text-xl py-1"><?php echo $row->dia_nombre ?></span>
-								<div class="text-center text-xl border-b py-1">
-									<?php
-										$dia = explode('-',$row->dia);
-										$dia = $dia[0] . '/' . $dia[1];
-
-										echo  $dia; 
-									?>
-								</div>
-							</div>
-
-						<?php	endforeach; ?>
-					<?php endif; ?>
-				</div>
-
-				<div class="w-full flex  px-4 items-center">
-					<?php if ($data['horarios']) : ?>
-						<?php foreach($data['horarios'] as $row) : ?>
-
-							
-							<div class="flex w-44 flex-col space-y-2 py-2 bg-primaryDark h-full border-r  border-neutral">
-								<?php 
-									$hoy = date('d'); 
-									$dia = explode('-',$row->dia);
-									$dia = $dia[0]  
-								?>
-								<!-- Si el dia ya paso se marca como Finalizado -->
-								<?php if($dia < $hoy -1) : ?>
-									<span class="text-center text-lg md:px-6 md:py-10">Finalizado.</span>
-								<?php else: ?>
-										
-									<!-- mostrar los turnos creados -->
-									<?php foreach($data['turnos'] as $unit) : ?>
-										<?php if($row->dia == $unit->dia) : ?>
-											<div class="flex self-center items-center justify-between w-11/12 p-2 bg-white text-neutral rounded-xl ">
-												<span> <?php echo $unit->apertura . ' hrs' ?> </span> 
-												<button data-item-edit="<?php echo $unit->id ?>"  class="btn_delete_turno" >
-													<i class="fas fa-trash text-red"></i>
-												</button>
-												<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_delete_turno.php'; ?>
-
-											</div>
-
-										
-										<?php endif; ?>
-									<?php endforeach; ?>
-
-
-									<?php if($row->estado == 1) : ?>
-										<div class="w-full flex justify-center">
-											<button data-item-edit="<?php echo $row->dia_nombre ?>"  class="btn_turno self-center w-max p-2 bg-ctaDark rounded-xl" >
-												<i class="fas fa-plus-circle mr-2"></i> Turno
-											</button>
-											<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_horario.php'; ?>
-										</div>
-									<?php else : ?>
-										<span class="text-center text-lg px-6 py-10">No hay atencion.</span>
-									<?php endif; ?>
-
-								<?php endif; ?>
-
-							</div>
-
-						<?php	endforeach; ?>
-					<?php else: ?>
-						<div class="w-full p-4 text-xl font-bold text-center">No hay horarios disponibles.</div>
-					<?php endif; ?>
-
-				</div>
-
 			</div>
+			<?php endif; ?>
 
-		
+
+			<!-- form agregar horarios -->
+			<div class="w-full p-4 bg-white flex flex-col rounded-xl ">
+				<form action="<?php echo URLROOT . '/' . $data['controller'] . '/edit_turnos'; ?>" method="post" autocomplete="off" >
+
+					<div class="w-full py-4 text-2xl text-neutral text-center">Selecciona uno o varios dias</div>
+
+	        <div id="calendar">
+	          <div class="month">
+	            <ul>
+	              <li id="prev" class="cursor-pointer"><i class="fas fa-chevron-left"></i></li>
+	              <li id="month"></li>
+	              <li id="year"></li>
+	              <li id="next" class="cursor-pointer"><i class="fas fa-chevron-right"></i></li>
+	            </ul>
+	          </div>
+
+	          <ul id="weekdays">
+	            <li>Lun</li>
+	            <li>Mar</li>
+	            <li>Mie</li>
+	            <li>Jue</li>
+	            <li>Vie</li>
+	            <li>Sab</li>
+	            <li>Dom</li>
+	          </ul>
+
+	          <ul id="days"></ul>
+	        </div>
+
+	        <!-- container input dia[] -->
+	      	<div id="dia-container"></div>
+
+					<div class="w-full py-4 text-2xl text-neutral text-center">Selecciona Horario</div>
+
+					<div class="flex justify-around mx-auto w-full p-4 ">
+
+						<div class="flex flex-col space-y-4 w-max">
+							<label for="dur_turno">Duracion Turno</label>
+							<input type="number" id="dur_turno" min="1" step="1" name="dur_turno" class="p-2 rounded-xl text-lg outline-none bg-primary" required>
+
+						</div>
+
+						<div class="flex flex-col space-y-4 w-max">
+							<label for="hora_inicio">Hora de Apertura</label>
+							<select id="hora_inicio" name="hora_inicio" class="p-2 rounded-xl text-lg outline-none bg-primary" required>
+                <option value="" selected>Seleccionar Hora</option>
+                <?php if(isset($data['horas'])) : ?>
+                  <?php foreach ($data['horas'] as $row) : ?>
+                    <option value="<?php echo $row->hora ?>"><?php echo $row->hora ?></option>
+                  <?php endforeach; ?>
+                <?php endif; ?> 
+              </select>
+						</div>
+
+						<div class="flex flex-col space-y-4 w-max">
+							<label for="hora_fin">Hora de Cierre</label>
+							<select id="hora_fin" name="hora_fin" class="p-2 rounded-xl text-lg outline-none bg-primary" required>
+                <option value="" selected>Seleccionar Hora</option>
+                <?php if(isset($data['horas'])) : ?>
+                  <?php foreach ($data['horas'] as $row) : ?>
+                    <option value="<?php echo $row->hora ?>"><?php echo $row->hora ?></option>
+                  <?php endforeach; ?>
+                <?php endif; ?> 
+              </select>
+						</div>
+						
+					</div>
+
+		      <div class="flex items-center justify-center py-4">
+			      <button type="submit" name="create_horario" class=" p-3 w-1/2 text-xl rounded-md font-bold text-dark bg-cta hover:bg-ctaDark">Guardar Horario</button>
+			    </div>
+
+				</form>
+			</div>
 		</div>
 
 	</div>
@@ -113,61 +143,65 @@ print_r($data);
 echo "</pre>";
  ?>
 
-<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_add.php'; ?>
+
 
 
 	<script >
 
-window.addEventListener('DOMContentLoaded', ()=> { 
+window.addEventListener('DOMContentLoaded', ()=> {
+
+	const datatables = document.querySelectorAll('.datatable')
+	datatables.forEach(datatable => {
+		new simpleDatatables.DataTable(datatable, {
+			searchable: true,
+			// fixedHeight: true,
+	    labels: {
+		    placeholder: "Buscar...",
+		    perPage: "Elementos por página",
+		    noRows: "No hay datos para mostrar",
+		    info: "Mostrando {start} - {end} de {rows}"	
+			}
+		})
+
 
 	const allBtnClose = document.querySelectorAll('.btn_close')
-  allBtnClose.forEach( btn => {
-    btn.addEventListener('click', () => {
-      let active_modal = document.querySelector('.active-modal')
-      active_modal.classList.toggle('active-modal')
-      active_modal.classList.toggle('hidden')
-    })
-  })
+	allBtnClose.forEach( btn => {
+		btn.addEventListener('click', () => {
+			let active_modal = document.querySelector('.active-modal')
+			active_modal.classList.toggle('active-modal')
+			active_modal.classList.toggle('hidden')
+		})
+	})
 
-	const allBtnTurno = document.querySelectorAll('.btn_turno')
-	allBtnTurno?.forEach( btn => {
+	const allBtnEdit = document.querySelectorAll('.btn_edit')
+	allBtnEdit?.forEach( btn => {
 		btn.addEventListener('click', (e) => {
 			// console.log(btn)
-			let id = e.currentTarget.getAttribute('data-item-edit')
-			let modalHorario = document.querySelector('#modal_turno_'+id)
-			modalHorario.classList.toggle('hidden')
-			modalHorario.classList.toggle('active-modal')
+			let id = e.target.parentElement.getAttribute('data-item-edit')
+			let modalEdit = document.querySelector('#modal_edit_'+id)
+			modalEdit.classList.toggle('hidden')
+			modalEdit.classList.toggle('active-modal')
 
 		})
 	})
 
-	const allBtnDeleteTurno = document.querySelectorAll('.btn_delete_turno')
-	allBtnDeleteTurno?.forEach( btn => {
+	const allBtnDelete = document.querySelectorAll('.btn_delete')
+	allBtnDelete?.forEach( btn => {
 		btn.addEventListener('click', (e) => {
 			// console.log(btn)
-			let id = e.currentTarget.getAttribute('data-item-edit')
-			let modalHorario = document.querySelector('#modal_delete_turno_'+id)
-			modalHorario.classList.toggle('hidden')
-			modalHorario.classList.toggle('active-modal')
+			let id = e.target.parentElement.getAttribute('data-item-delete')
+			let modalDelete = document.querySelector('#modal_delete_'+id)
+			modalDelete.classList.toggle('hidden')
+			modalDelete.classList.toggle('active-modal')
 
 		})
 	})
 
+
+	})
 })
 
 // end DOMcontentLoaded
-
-
-
-const modal_Add = document.querySelector('#modal_add')
-
-const btn_Add = document.querySelector('#btn_add')
-btn_Add?.addEventListener('click', () => {
-  modal_Add.classList.toggle('hidden')
-  modal_Add.classList.toggle('active-modal')
-  // console.log(modal_Add)
-})
-
 
 
 window.addEventListener('click', (e) => {
@@ -181,5 +215,6 @@ window.addEventListener('click', (e) => {
 
 	</script>
 
+	<script src="<?php echo URLROOT; ?>/js/_usuariop_calendar.js"></script>
 
 <?php require APPROOT . '/views/' . $data['controller'] . '/partials/footer.php'; 
