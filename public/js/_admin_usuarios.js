@@ -7,12 +7,7 @@ window.addEventListener('DOMContentLoaded', ()=> {
 			searchable: true,
 			fixedHeight: true,
 	    columns: [
-	    // Sort the second column in ascending order
 		    { select: 0, sort: "asc" },
-		    { select: [1,2,3,4,5], sortable: false }
-
-	    // Set the third column as datetime string matching the format "DD/MM/YYY"
-	    // { select: 2, type: "date", format: "DD/MM/YYYY" }
 	    ],    
 	    labels: {
 		    placeholder: "Buscar...",
