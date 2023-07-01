@@ -21,17 +21,14 @@
 				<?php else: ?>
 					<img src="<?php echo URLROOT . '/img/user.png' ?>" alt="imagen usuario" class="h-12 w-12 rounded-full object-cover ">
 				<?php endif; ?>
-
-
-				<span class="ml-2 hidden md:block text-md"><?php echo $_SESSION['user_nombre'] ?></span>
-
-
+				<span class="ml-2 md:text-xl text-sm"><?php echo $_SESSION['user_nombre'] ?></span>
 			</a>
 		</li>
 
 		<li class="list-none">
 			<a class="px-3 py-2 flex items-center hover:text-dark hover:bg-cta rounded text-white " href="<?php echo URLROOT . '/pages/logout' ?>">
-				<i class="fa-solid fa-sign-out-alt"></i><span class="ml-2 hidden md:block text-md">Cerrar Sesión</span> 
+				<i class="fa-solid fa-sign-out-alt"></i>
+				<span class="ml-2 md:text-xl text-sm">Cerrar Sesión</span> 
 			</a>
 		</li>
 

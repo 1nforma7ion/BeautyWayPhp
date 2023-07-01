@@ -4,7 +4,7 @@
 		<a href="<?php echo URLROOT . '/' . $data['controller'] . '/index'?>"><img src="<?php echo URLROOT; ?>/img/logo.png" alt="imagen logo" class="h-12"></a>
 	</div>
 
-	<div class=" flex w-full md:w-3/4 items-center space-x-8  md:justify-end text-xl">
+	<div class=" flex w-full md:w-3/4 items-center space-x-8 justify-around md:justify-end text-xl">
 
 		<div class=" hidden md:flex w-1/2 h-12 rounded p-1 ">
 			<input type="text" class="w-full px-6 py-2 outline-none  rounded-l-xl " placeholder="Buscar publicación">
@@ -15,13 +15,13 @@
 
 		<li class="list-none">
 			<a class="px-3 py-2 flex items-center hover:text-dark hover:bg-cta rounded text-white " href="<?php echo URLROOT . '/pages/login' ?>">
-				<i class="fas fa-user"></i><span class="ml-2 hidden md:block text-md">Iniciar Sesión</span> 
+				<i class="fas fa-user"></i><span class="ml-2 md:text-xl text-sm">Iniciar Sesión</span> 
 			</a>
 		</li>
 
 		<li class="list-none">
 			<a class="px-3 py-2 flex items-center hover:text-dark hover:bg-cta rounded text-white " href="<?php echo URLROOT . '/pages/registrar' ?>">
-				<i class="fas fa-book"></i><span class="ml-2 hidden md:block text-md">Registrarme</span> 
+				<i class="fas fa-book"></i><span class="ml-2 md:text-xl text-sm">Registrarme</span> 
 			</a>
 		</li>
 <?php endif; ?>

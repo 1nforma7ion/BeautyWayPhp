@@ -15,7 +15,9 @@
 				<div class="w-full flex flex-col space-y-4 justify-around">
 					<span class="text-xl font-bold text-dark">Enviado por : <?php echo $row->nombre . ' ' . $row->apellido ?></span>
 		      <div class="w-full px-2  border-2 border-primary">
-		      		<span class="text-xl text-dark">Mensaje: </span> Recuerda que mañana por cualquier servicio de peluquería te obsequiamos... ¡UN TRATAMIENTO CAPILAR! Las esperamos en: Av. San Juan 679, San 		      </div>
+		      	<span class="text-xl text-dark">Mensaje: </span>
+		      		<?php echo $row->mensaje ?>
+		      </div>
 
 		      <div class="w-full">
 		      	<textarea name="mensaje" id="mensaje" rows="6"  class="w-full px-2 resize-none outline-none focus:border-neutral border-2 border-primary " placeholder="Escribe respuesta " required></textarea>

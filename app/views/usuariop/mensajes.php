@@ -3,10 +3,10 @@
 <div class="flex flex-col w-full">
 	<?php require APPROOT . '/views/' . $data['controller'] . '/partials/navbar.php'; ?>
 
-	<div class="w-full flex md:space-x-4 pt-0 pb-4 px-4 md:px-6.5">
+	<div class="w-full md:h-screen flex flex-col md:flex-row md:space-x-4 pt-0 pb-4 px-4 md:px-6.5">
 
 		<!-- columna izquierda -->	
-		<div class="hidden md:block w-1/4  p-4 ">	
+		<div class="w-full md:w-1/4  p-4 ">	
 			<?php require APPROOT . '/views/' . $data['controller'] . '/partials/sidebar.php'; ?>
 		</div>
 
