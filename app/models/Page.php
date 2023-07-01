@@ -28,7 +28,7 @@
 
 
 		public function findEmail($email) {
-			$this->db->query('SELECT *, u.id AS user_id, r.id AS rol_id FROM usuarios u 
+			$this->db->query('SELECT *, u.estado AS user_estado, u.id AS user_id, r.id AS rol_id FROM usuarios u 
 				INNER JOIN roles r ON r.id = u.rol_id 
 				INNER JOIN profesiones p ON p.id = u.id_profesion 
 				INNER JOIN zonas z ON z.id = u.id_zona_trabajo 

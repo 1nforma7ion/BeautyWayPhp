@@ -33,7 +33,7 @@ CREATE TABLE `usuarios` (
   `telefono` varchar(20) NOT NULL,
   `email` varchar(100) NOT NULL,
   `contrasenia` varchar(150) NOT NULL,
-  `estado` varchar(30) NOT NULL,
+  `estado` INT NOT NULL DEFAULT 1,
   createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
