@@ -35,8 +35,8 @@
 
 							<div class="flex flex-col space-y-4">
 								<div class="w-full flex items-center space-x-4">
-									<?php if (isset($row->imagen_comercial)) : ?>
-										<img src="<?php echo URLROOT . $row->imagen_comercial ?>" class="h-16 w-16 rounded-full object-cover ">
+									<?php if (!empty($data['imagenes_perfil'])) : ?>
+										<img src="<?php echo URLROOT . $data['imagenes_perfil']->imagen_comercial ?>" class="h-16 w-16 rounded-full object-cover ">
 									<?php else: ?>
 										<img src="<?php echo URLROOT . '/img/user.png' ?>" alt="imagen usuario" class="h-16 w-16 rounded-full object-cover ">
 									<?php endif; ?>

@@ -16,7 +16,7 @@
 			<div class="flex flex-col w-full  md:p-4  space-y-4  overflow-y-scroll no-scrollbar">
 
 
-			<?php if(isset($data['servicios']) ) : ?>
+			<?php if(isset($data['servicios'])) : ?>
 				<form action="<?php echo URLROOT . '/' . $data['controller'] . '/publicar/' . $data['profesion']->id ?>" autocomplete="off" method="POST" enctype="multipart/form-data">
 					<div class=" flex flex-col-reverse md:flex-row bg-white text-darkborder drop-shadow-lg hover:drop-shadow-card rounded-lg font-dmsans">
 
@@ -91,12 +91,11 @@
 			<?php else: ?>
 
 
-				<?php if(count($data['horarios']) < 1 || empty($data['imagenes_perfil']) ) : ?>
+				<?php if(count($data['horarios']) < 1) : ?>
 					<div class="w-full h-96 flex flex-col space-y-8 items-center justify-center bg-white rounded-xl text-2xl font-dmsans">
-						<span>Debes configurar tu imagen de perfil y horario antes de Publicar:  </span>
+						<span>Debes configurar tu imagen de perfil y horario antes de Publicar:</span>
 						<a href="<?php echo URLROOT . '/' . $data['controller']; ?>/perfil" class="py-2 px-4 rounded-full bg-neutral text-white">  Ir a mi Perfil <i class="fas fa-arrow-right"></i></a>
 					</div>
-
 				<?php else: ?>
 				<!-- seccion profesiones -->
 					<div class="w-1/2 self-center rounded-xl bg-white ">

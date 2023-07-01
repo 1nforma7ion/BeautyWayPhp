@@ -94,7 +94,6 @@
 							  </div>
 
 							  <div class="w-full flex space-x-8 mb-4">
-
 							    <div class="group-col w-1/3">
 								    <label for="depto">Depto.: (Opcional)  </label>
 								    <input type="text" id="depto" name="depto" value="<?php echo $data['perfil']->depto ?>">
@@ -106,22 +105,30 @@
 								    </label>
 								    <input type="text" id="barrio" name="barrio" required value="<?php echo $data['perfil']->barrio ?>">
 							    </div>
-
 							    <div class="group-col  w-1/3">
 								    <label for="localidad">Localidad: </label>
+
 								    <select id="localidad" name="localidad" required>
+
+
 								     	<?php if(isset($data['localidades'])) : ?>
+
 												<?php foreach ($data['localidades'] as $row) : ?>
+
 								      		<?php if($row->localidad == $data['perfil']->localidad ) : ?>
 														<option selected class="bg-cta" value="<?php echo $row->localidad ?>"><?php echo $row->localidad ?></option>
 													<?php endif; ?>
 													<option value="<?php echo $row->localidad ?>"><?php echo $row->localidad ?></option>
+
+
 												<?php endforeach; ?>
+
 											<?php endif; ?> 
 								    </select>
-							    </div>
 
+							    </div>
 							  </div>
+
 
 						    <div class="mb-6">
 						      <button type="submit" name="update_comercial" class="w-1/2 p-2 text-xl rounded-md font-bold text-dark bg-cta hover:bg-ctaDark">Actualizar Perfil Comercial</button>
@@ -255,6 +262,11 @@
 
 
 
+
+
+
+
+
 					  <!-- change password  -->
 			      <form id="change_form" class="p-2 flex flex-col font-dmsans" action="<?php echo URLROOT . '/' . $data['controller'] . '/perfil'; ?>" method="post">
 			        
@@ -315,6 +327,35 @@
 							 <span>Editar Turnos</span> 
 						</a>
 
+						<div class="flex flex-col ">
+							<?php $semana = getCurrentWeek();	?>
+							<?php for ($i = 1; $i <= 7; $i++) :  ?>
+								<div class="w-full flex items-center justify-between bg-primary py-2 border-b">
+
+									<div class="w-3/4 flex items-center justify-between ">
+										<div class="px-2">
+											<i class="fas fa-chevron-right "></i>
+											<span><?php echo $data['dias'][$i] ?> </span>	
+										</div>
+
+										<span ><?php echo $semana[$i]; ?> </span>
+									</div>
+
+									<div class="w-fit">
+										<!-- marcar si el dia esta habilitado en el turnero -->
+										<?php setDayStatus(in_array($semana[$i], $data['diasHabiles'])) ?>
+									</div>
+									
+									<?php if(!in_array($semana[$i], $data['diasHabiles'])) : ?>
+										<button data-item-edit="<?php echo $i ?>"  class="btn_horario px-2 text-xl text-neutral hover:bg-cta rounded-xl">
+											<i class="fas fa-plus-circle"></i>
+										</button>
+									<?php endif; ?>
+									<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_horario.php'; ?>
+
+								</div>
+							<?php endfor; ?>
+						</div>
 					</div>
 				</div>
 
@@ -362,118 +403,148 @@
 
 <?php 
 
-// echo "<pre>";
-// print_r($data['perfil']);
-// print_r($data['imagenes_perfil']);
-// echo "</pre>";
+echo "<pre>";
+print_r($data['perfil']);
+print_r($data['imagenes_perfil']);
+echo "</pre>";
 
  ?>
 
 <?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_add.php'; ?>
 
 
-<script >
-	window.addEventListener('DOMContentLoaded', ()=> { 
+	<script >
 
-		const allBtnClose = document.querySelectorAll('.btn_close')
-	  allBtnClose.forEach( btn => {
-	    btn.addEventListener('click', () => {
-	      let active_modal = document.querySelector('.active-modal')
-	      active_modal.classList.toggle('active-modal')
-	      active_modal.classList.toggle('hidden')
-	    })
-	  })
+window.addEventListener('DOMContentLoaded', ()=> { 
 
-	}) // end DOMcontentLoaded
+	const allBtnClose = document.querySelectorAll('.btn_close')
+  allBtnClose.forEach( btn => {
+    btn.addEventListener('click', () => {
+      let active_modal = document.querySelector('.active-modal')
+      active_modal.classList.toggle('active-modal')
+      active_modal.classList.toggle('hidden')
+    })
+  })
 
-	const modal_Add = document.querySelector('#modal_add')
-	const btn_Add = document.querySelector('#btn_add')
-	btn_Add?.addEventListener('click', () => {
-	  modal_Add.classList.toggle('hidden')
-	  modal_Add.classList.toggle('active-modal')
-	  // console.log(modal_Add)
+	const allBtnHorario = document.querySelectorAll('.btn_horario')
+	allBtnHorario?.forEach( btn => {
+		btn.addEventListener('click', (e) => {
+			// console.log(btn)
+			let id = e.currentTarget.getAttribute('data-item-edit')
+			let modalHorario = document.querySelector('#modal_horario_'+id)
+			modalHorario.classList.toggle('hidden')
+			modalHorario.classList.toggle('active-modal')
+
+		})
 	})
 
-	window.addEventListener('click', (e) => {
-	  let activeModal = document.querySelector('.active-modal')
-	  if (e.target == activeModal) {
-	    activeModal.classList.toggle('active-modal')
-	    activeModal.classList.toggle('hidden')
-	  }
-	})
 
-	if ( window.history.replaceState ) {
-	  window.history.replaceState( null, null, window.location.href );
-	}
+})
 
-	// change password
-	const form = document.querySelector('#change_form')
-	form.addEventListener('submit', e => {
-	  if(form.classList.contains('invalid')) {
-	    e.preventDefault()
-	    // console.log(form)
-	  } 
-	})
+// end DOMcontentLoaded
 
-	const passValidation = (value) => {
-	  let i = 0
 
-	  if(value.length > 5) {
-	    i++
-	  }
 
-	  if(/[A-Z]/.test(value)) {
-	    i++
-	  }
+const modal_Add = document.querySelector('#modal_add')
 
-	  if(/[1-9]/.test(value)) {
-	    i++
-	  }
+const btn_Add = document.querySelector('#btn_add')
+btn_Add?.addEventListener('click', () => {
+  modal_Add.classList.toggle('hidden')
+  modal_Add.classList.toggle('active-modal')
+  // console.log(modal_Add)
+})
 
-	  if(/[A-Za-z0-3]/.test(value)) {
-	    i++
-	  }
 
-	  return i
-	}
 
-	const pass = document.querySelector('#contrasenia')
-	pass.addEventListener('keyup', (e) => {
+window.addEventListener('click', (e) => {
+  let activeModal = document.querySelector('.active-modal')
+  if (e.target == activeModal) {
+    activeModal.classList.toggle('active-modal')
+    activeModal.classList.toggle('hidden')
+  }
+})
 
-	  let passValid = passValidation(pass.value)
-	  const alertPass = document.querySelector('#alert-pass')
-	  // console.log(numDoc.value.length)
-	  if(passValid === 4) {
-	    alertPass.classList.add('hidden')
-	    alertPass.parentElement.previousElementSibling.classList.remove('hidden')
-	  } else {
-	    alertPass.classList.remove('hidden')
-	    alertPass.parentElement.previousElementSibling.classList.add('hidden')
-	  }
 
-	})
+if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );
+}
 
-	const rpass = document.querySelector('#repetirContrasenia')
-	rpass.addEventListener('keyup', (e) => {
 
-	  const alertRpass = document.querySelector('#alert-rpass')
-	  // console.log(numDoc.value.length)
-	  if (rpass.value.length > 3) {
-	    if(rpass.value == pass.value) {
-	      alertRpass.classList.add('hidden')
-	      alertRpass.parentElement.previousElementSibling.classList.remove('hidden')
-	      form.classList.remove('invalid')
-	      // console.log(form)
-	    } else {
-	      alertRpass.classList.remove('hidden')
-	      alertRpass.parentElement.previousElementSibling.classList.add('hidden')
-	      form.classList.add('invalid')
-	    }
-	  }
+// change password
+const form = document.querySelector('#change_form')
+form.addEventListener('submit', e => {
+  if(form.classList.contains('invalid')) {
+    e.preventDefault()
+    // console.log(form)
+  } 
+})
 
-	})
 
-</script>
+const passValidation = (value) => {
+  let i = 0
+
+  if(value.length > 5) {
+    i++
+  }
+
+  if(/[A-Z]/.test(value)) {
+    i++
+  }
+
+  if(/[1-9]/.test(value)) {
+    i++
+  }
+
+  if(/[A-Za-z0-3]/.test(value)) {
+    i++
+  }
+
+  return i
+}
+
+
+const pass = document.querySelector('#contrasenia')
+pass.addEventListener('keyup', (e) => {
+
+  let passValid = passValidation(pass.value)
+  const alertPass = document.querySelector('#alert-pass')
+  // console.log(numDoc.value.length)
+
+  if(passValid === 4) {
+    alertPass.classList.add('hidden')
+    alertPass.parentElement.previousElementSibling.classList.remove('hidden')
+  } else {
+    alertPass.classList.remove('hidden')
+    alertPass.parentElement.previousElementSibling.classList.add('hidden')
+  }
+
+
+})
+
+const rpass = document.querySelector('#repetirContrasenia')
+rpass.addEventListener('keyup', (e) => {
+
+  const alertRpass = document.querySelector('#alert-rpass')
+  // console.log(numDoc.value.length)
+  if (rpass.value.length > 3) {
+    if(rpass.value == pass.value) {
+      alertRpass.classList.add('hidden')
+      alertRpass.parentElement.previousElementSibling.classList.remove('hidden')
+      form.classList.remove('invalid')
+      // console.log(form)
+    } else {
+      alertRpass.classList.remove('hidden')
+      alertRpass.parentElement.previousElementSibling.classList.add('hidden')
+      form.classList.add('invalid')
+
+    }
+
+  }
+
+})
+
+
+	</script>
 
 
 <?php require APPROOT . '/views/' . $data['controller'] . '/partials/footer.php'; 

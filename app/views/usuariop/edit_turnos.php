@@ -138,9 +138,9 @@
 
 <?php 
 
-echo "<pre>";
-print_r($data);
-echo "</pre>";
+// echo "<pre>";
+// print_r($data);
+// echo "</pre>";
  ?>
 
 
@@ -203,7 +203,6 @@ window.addEventListener('DOMContentLoaded', ()=> {
 
 // end DOMcontentLoaded
 
-
 window.addEventListener('click', (e) => {
   let activeModal = document.querySelector('.active-modal')
   if (e.target == activeModal) {
@@ -213,7 +212,7 @@ window.addEventListener('click', (e) => {
 })
 
 
-	</script>
+</script>
 
 	<script src="<?php echo URLROOT; ?>/js/_usuariop_calendar.js"></script>
 
