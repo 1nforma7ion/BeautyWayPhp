@@ -14,7 +14,7 @@
 					<?php if($row->descuento > 10) : ?>
 
 					<div class="relative flex  w-full rounded-lg">
-						<img src="<?php echo URLROOT . $row->imagen ?>" alt="imagen logo" class="w-full object-cover rounded-lg">
+						<img src="<?php echo URLROOT . $row->imagen ?>" alt="imagen logo" class="w-full h-56 object-cover rounded-lg">
 						<span class="date_post absolute w-max h-max bottom-4 left-0 rounded-r-lg  text-white p-2 bg-neutral "> 
 						<?php echo $row->servicio ?>  </span>
 
