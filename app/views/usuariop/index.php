@@ -33,7 +33,7 @@
 					<div class="relative md:h-96 w-full flex flex-col p-4 md:w-1/3 space-y-4 ">
 						<div class="flex space-x-4">
 
-							<div class="flex flex-col space-y-4">
+							<div class="flex flex-col justify-center items-center space-y-4">
 								<div class="w-full flex items-center space-x-4">
 									<?php if (!empty($data['imagenes_perfil'])) : ?>
 										<img src="<?php echo URLROOT . $data['imagenes_perfil']->imagen_comercial ?>" class="h-16 w-16 rounded-full object-cover ">
@@ -44,7 +44,7 @@
 									<h1 ><a href="" class="text-dark hover:text-fbk text-xl  font-bold"> <?php echo $row->nombre_comercial ?></a></h1>
 								</div>
 								
-								<div class="flex w-full justify-center bg-primary rounded-xl p-1">
+								<div class="flex w-max justify-center items-center bg-primary rounded-xl p-1">
 									<i class="fas fa-calendar-alt mr-2"></i>
 									<span class="text-sm"> <?php echo fixedFecha($row->creado) ?> </span>	
 								</div>
@@ -65,12 +65,7 @@
 				</div>
 				<?php endforeach; ?>
 
-
-
-
-
 			</div>
-
 
 		</div>
 

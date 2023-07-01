@@ -754,11 +754,6 @@ video {
   width: 11rem;
 }
 
-.w-fit {
-  width: -moz-fit-content;
-  width: fit-content;
-}
-
 .w-full {
   width: 100%;
 }
@@ -770,6 +765,10 @@ video {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-64 {
+  width: 16rem;
 }
 
 .cursor-pointer {
@@ -1073,11 +1072,6 @@ video {
 .py-1 {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
-}
-
-.py-10 {
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
 }
 
 .py-2 {

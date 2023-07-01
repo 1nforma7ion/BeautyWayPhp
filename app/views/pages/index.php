@@ -8,11 +8,10 @@
 		<!-- columna izquierda -->	
 		<div class="hidden md:block w-1/4 py-4">
 
-			<div class="p-4 flex flex-col space-y-4 h-full rounded-lg bg-white font-dmsans">
+			<div class="p-4 flex flex-col space-y-8 h-full rounded-lg bg-white font-dmsans">
 				<h2 class="text-center text-2xl font-bold">	Destacados</h2>	
-				<?php foreach($data['publicaciones'] as $row) : ?>
+				<?php foreach($data['descuentos'] as $row) : ?>
 					<?php if($row->descuento > 10) : ?>
-
 
 					<div class="relative flex  w-full rounded-lg">
 						<img src="<?php echo URLROOT . $row->imagen ?>" alt="imagen logo" class="w-full object-cover rounded-lg">
@@ -23,11 +22,11 @@
 							$desc = explode('.', $row->descuento);
 							$desc = $desc[0];
 						?>
-						<button class="absolute top-0 right-0 h-16 w-16 rounded-full text-dark bg-neutral text-xl text-center text-white"> <?php echo $desc . ' %' ?>  </button>
-
+						<button class="absolute top-0 right-0 h-12 w-12 rounded-full text-dark bg-neutral text-center text-white">
+							<span class="text-xl"><?php echo $desc . ' '?></span>% 
+						</button>
 
 					</div>
-
 
 					<?php endif; ?>
 				<?php endforeach; ?>
@@ -36,7 +35,7 @@
 
 		<!-- columna derecha -->
 		<div class="flex w-full md:w-3/4 overflow-hidden font-dmsans">
-			<div class="flex flex-col w-full  md:p-4  space-y-4  overflow-y-scroll no-scrollbar">
+			<div class="flex flex-col w-full  md:p-4  space-y-8  overflow-y-scroll no-scrollbar">
 
 				<!-- publicaciones -->
 				<?php foreach($data['publicaciones'] as $row) : ?>
@@ -57,13 +56,19 @@
 					<div class="relative md:h-96 w-full flex flex-col p-4 md:w-1/3 space-y-4 ">
 						<div class="flex space-x-4">
 
-							<div class="flex flex-col space-y-4">
+							<div class="flex flex-col justify-center items-center space-y-4">
+
 								<div class="w-full flex items-center space-x-4">
-									<img src="<?php echo URLROOT; ?>/img/logo.png" alt="imagen logo" class="h-16 w-16 rounded-full">
+									<?php if (!empty($row->imagen_comercial)) : ?>
+										<img src="<?php echo URLROOT . $row->imagen_comercial ?>" class="h-16 w-16 rounded-full object-cover ">
+									<?php else: ?>
+										<img src="<?php echo URLROOT . '/img/user.png' ?>" alt="imagen usuario" class="h-16 w-16 rounded-full object-cover ">
+									<?php endif; ?>
+
 									<h1 ><a href="" class="text-dark hover:text-fbk text-xl  font-bold"> <?php echo $row->nombre_comercial ?></a></h1>
 								</div>
-								
-								<div class="flex w-full justify-center bg-primary rounded-xl p-1">
+
+								<div class="flex w-full justify-center items-center bg-primary rounded-xl p-1">
 									<i class="fas fa-calendar-alt mr-2"></i>
 									<span class="text-sm"> <?php echo fixedFecha($row->creado) ?> </span>	
 								</div>

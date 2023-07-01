@@ -3,18 +3,25 @@
 		public function __construct() {
 			$this->usuario = $this->model('User');
 			$this->admin = $this->model('Administrador');
-			
+			$this->page = $this->model('Page');
 		}
 
 		public function index() {
 			if (usuarioLoggedIn()) {
+
+				$imagenes_perfil = $this->usuario->getImageById($_SESSION['user_id']);
+				$publicaciones = $this->page->getAllPublicaciones();
+
 				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
 
 				$data = [
+					'imagenes_perfil' => $imagenes_perfil,
+					'publicaciones' => $publicaciones,
 					'sidebar' => $sidebar,
 					'controller' => strtolower(get_called_class()),
 					'page' => __FUNCTION__
 				];
+
 				$this->view('usuario/index',$data);
 
 			} else {
@@ -22,22 +29,55 @@
 			}
 		}
 
-		public function publicar() {
-			if (usuarioLoggedIn()) {
-				
-				$zonas = $this->usuariop->getZonas();
 
+		public function mensajes($success = null) {
+			if (usuarioLoggedIn()) {
+
+				if (isset($_POST['responder_mensaje'])) {
+					$recibido_por = $_POST['recibido_por'];
+					$enviado_por = $_SESSION['user_id'];
+					$mensaje = $_POST['mensaje'];
+
+					$added = $this->usuario->createMensaje($recibido_por, $enviado_por, $mensaje);
+					if ($added) {
+						$success = 1;
+						redirect('usuario/mensajes/' . $success );
+					}
+				}
+
+
+				$imagenes_perfil = $this->usuario->getImageById($_SESSION['user_id']);
+				$mensajes = $this->usuario->getMensajesById($_SESSION['user_id']);
+
+				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
 
 				$data = [
-					// 'comic' => $project,
-					// 'chapter' => $chapter,
-
-					'zonas' => $zonas,
+					'success' => $success,
+					'imagenes_perfil' => $imagenes_perfil,
+					'mensajes' => $mensajes,
+					'sidebar' => $sidebar,
 					'controller' => strtolower(get_called_class()),
 					'page' => __FUNCTION__
 				];
 
-				$this->view('usuariop/publicar', $data);
+				$this->view('usuario/mensajes',$data);
+
+			} else {
+				redirect('pages/login');
+			}
+		}
+
+		public function reservas() {
+			if (usuarioLoggedIn()) {
+
+				$reservas = $this->usuario->getReservasByUser($_SESSION['user_id']);
+				$data = [
+					'reservas' => $reservas,
+					'controller' => strtolower(get_called_class()),
+					'page' => __FUNCTION__
+				];
+
+				$this->view('usuario/reservas',$data);
 
 			} else {
 				redirect('pages/login');
@@ -45,71 +85,28 @@
 		}
 
 
+		public function reservar() {
+			if (usuarioLoggedIn()) {
 
-		public function registrar() {
-			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+				$horarios = $this->usuario->getHorarios($_SESSION['user_id']);
+				$turnos = $this->usuario->getTurnosByUser($_SESSION['user_id']);
 
-					$tipo = $_POST['tipo_documento'];
-					$doc = $_POST['num_documento'];
-					$nombre = $_POST['nombre'];
-					$apellido = $_POST['apellido'];
-					$calle = $_POST['calle'];
-					$altura = $_POST['altura'];
-					$piso = $_POST['piso'];
-					$depto = $_POST['depto'];
-					$barrio = $_POST['barrio'];
-					$localidad = $_POST['localidad'];
-					$telefono = $_POST['telefono'];
-					$email = $_POST['email'];
-					$pass = $_POST['contrasenia'];
-					$rep_pass = $_POST['repetirContrasenia'];
-					$comercial = $_POST['nombre_comercial'];
-					$profesion = $_POST['profesion'];
-					$modalidad = $_POST['modalidad'];
-					$zona = $_POST['zona'];
+				$data = [
+					'turnos' => $turnos,
+					'horarios' => $horarios,
+					'sidebar' => $sidebar,
+					'controller' => strtolower(get_called_class()),
+					'page' => __FUNCTION__
+				];
 
-					if(!empty($_POST['nombre_comercial'])) {
-						$rol = ID_USER_PRO;
-					} else {
-						$rol = ID_USER_NORMAL;
-					}
+				$this->view('usuario/reservar',$data);
 
-					if ($pass !== $rep_pass) {
-						$_SESSION['msg'] = 'Contraseñas no coinciden.';
-						redirect('pages/registrar');
-					}
-
-					// echo "<pre>";
-					// print_r($_POST);
-					// die();
-		
-					$userExists = $this->page->findEmail($email);
-
-					if ($userExists) {
-						$_SESSION['msg'] = 'El email ya se encuentra registrado.';
-						redirect('pages/registrar');
-					} else {
-						$pass = password_hash($pass, PASSWORD_DEFAULT);
-
-						$this->page->register($rol,$tipo,$doc,$nombre,$apellido,$calle,$altura,$piso,$depto,$barrio,$localidad,$telefono,$email,$pass,$comercial,$profesion,$modalidad,$zona);
-
-						$_SESSION['msg'] = 'Registrado Correctamente.';
-						redirect('pages/login');
-					}
-
-				} else {
-					$profesiones = $this->page->getProfesiones();
-					$controller = strtolower(get_called_class());
-					$data = [
-						'profesiones' => $profesiones,
-						'controller' => $controller,
-						'page' => __FUNCTION__
-					];
-					$this->view('pages/registrar', $data);
-				}
-
+			} else {
+				redirect('pages/login');
+			}
 		}
+
 
 
 		

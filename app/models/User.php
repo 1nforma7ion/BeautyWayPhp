@@ -6,59 +6,43 @@
 			$this->db = new Database;
 		}
 
-		public function findEmail($email) {
-			$this->db->query('SELECT *, u.id AS user_id FROM usuarios u INNER JOIN roles r ON r.id = u.rol_id WHERE email = :email');
-			$this->db->bind(':email', $email);
-			$user = $this->db->getSingle();
+		public function getUserById($id) {
+			$this->db->query('SELECT *, u.id as user_id FROM usuarios u INNER JOIN zonas z ON u.id_zona_trabajo = z.id	WHERE u.id = :id');
+			$this->db->bind(':id', $id);
 
-			if ($user) {
-				return $user;
+			$perfil = $this->db->getSingle();
+			return $perfil;
+		}
+
+		public function getImageById($id) {
+			$this->db->query('SELECT * FROM perfiles WHERE id_usuario = :id');
+			$this->db->bind(':id', $id);
+			$perfil = $this->db->getSingle();
+			return $perfil;
+		}
+
+		public function getMensajesById($user_id) {
+			$this->db->query('SELECT *, m.id AS mensaje_id FROM mensajes m INNER JOIN usuarios u ON m.enviado_por = u.id WHERE m.recibido_por = :user_id ORDER BY m.fecha');
+			$this->db->bind(':user_id', $user_id);
+
+			$profesiones = $this->db->getSet();
+			return $profesiones;
+		}
+
+		public function createMensaje($recibido_por, $enviado_por, $mensaje) {
+			$this->db->query('INSERT INTO mensajes (recibido_por, enviado_por, mensaje) VALUES (:recibido_por, :enviado_por, :mensaje)');
+			$this->db->bind(':recibido_por', $recibido_por);
+			$this->db->bind(':enviado_por', $enviado_por);
+			$this->db->bind(':mensaje', $mensaje);
+			$creado = $this->db->execute();
+
+			if ($creado) {
+				return true;
 			} else {
 				return false;
 			}
+
 		}
-
-		public function getProfesiones() {
-			$this->db->query('SELECT * FROM profesiones');
-			$projects = $this->db->getSet();
-			return $projects;
-		}
-
-
-
-		public function getChapters($id,$estado1) {
-			$this->db->query("SELECT * FROM capitulos WHERE proyecto_id = :id AND estado = :estado1 ORDER BY created_at DESC");
-			$this->db->bind(':id',$id);
-			$this->db->bind(':estado1',$estado1);
-			$chapters = $this->db->getSet();
-			return $chapters;
-		}
-
-		public function getUpcoming($id,$estado2) {
-			$this->db->query("SELECT * FROM capitulos WHERE proyecto_id = :id AND estado = :estado2");
-			$this->db->bind(':id',$id);
-			$this->db->bind(':estado2',$estado2);
-			$upcoming = $this->db->getSet();
-			return $upcoming;
-		}
-
-		public function getDataChapter($id,$num) {
-			$this->db->query("SELECT * FROM capitulos WHERE proyecto_id = :id AND cap_num = :num");
-			$this->db->bind(':id',$id);
-			$this->db->bind(':num',$num);
-			$chapter = $this->db->getSingle();
-			return $chapter;
-		}
-
-
-
-		public function getAuthors() {
-			$this->db->query('SELECT * FROM autores');
-			$autores = $this->db->getSet();
-			return $autores;
-		}
-
-
 
 
 	}

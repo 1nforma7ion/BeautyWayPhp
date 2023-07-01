@@ -9,8 +9,19 @@
 		public function getAllPublicaciones() {
 			$this->db->query('SELECT * FROM publicaciones p 
 				INNER JOIN usuarios u ON p.id_usuario = u.id 
+				INNER JOIN perfiles pe ON p.id_usuario = pe.id_usuario 
 				INNER JOIN zonas z ON z.id = u.id_zona_trabajo 
 				ORDER BY p.creado DESC');
+			$publicaciones = $this->db->getSet();
+			return $publicaciones;
+		}
+
+		public function getAllDescuentos() {
+			$this->db->query('SELECT * FROM publicaciones p 
+				INNER JOIN usuarios u ON p.id_usuario = u.id 
+				INNER JOIN perfiles pe ON p.id_usuario = pe.id_usuario 
+				INNER JOIN zonas z ON z.id = u.id_zona_trabajo 
+				ORDER BY p.descuento DESC LIMIT 3');
 			$publicaciones = $this->db->getSet();
 			return $publicaciones;
 		}

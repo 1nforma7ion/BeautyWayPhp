@@ -8,8 +8,10 @@
 			if (notSession()) {
 				
 				$publicaciones = $this->page->getAllPublicaciones();
+				$descuentos = $this->page->getAllDescuentos();
 
 				$data = [
+					'descuentos' => $descuentos,
 					'publicaciones' => $publicaciones,
 					'controller' => strtolower(get_called_class()),
 					'page' => __FUNCTION__

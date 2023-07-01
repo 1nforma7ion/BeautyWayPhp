@@ -12,10 +12,10 @@
 	}
 
 	function fixedFecha($date) {
-		setlocale(LC_TIME, "spanish");
+		setlocale(LC_TIME, "es_AR");
 		$fecha = $date;
 		$fecha = str_replace("-", "/", $fecha); 
-		$fecha = strftime("%d.%m.%Y", strtotime($fecha));
+		$fecha = strftime("%d-%m-%Y", strtotime($fecha));
 		return $fecha;
 	}
 
@@ -91,7 +91,7 @@
 
 	function showAlert() {
 		if (!empty($_SESSION['msg'])) {
-			echo '<div id="msg" class="text-center p-2 w-full bg-primaryDark text-lg rounded-xl">' . $_SESSION['msg'] . '</div>';
+			echo '<div id="msg" class="text-center p-2 w-full bg-primary text-lg rounded-xl">' . $_SESSION['msg'] . '</div>';
 			unset($_SESSION['msg']);
 		}
 	}

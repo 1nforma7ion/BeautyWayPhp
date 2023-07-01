@@ -231,19 +231,19 @@ create table usuarios_horarios (
   REFERENCES usuarios (id)
 )ENGINE=INNODB;
 
-create table usuarios_turnos (
-  id INT NOT NULL AUTO_INCREMENT,
-  id_usuario INT NOT NULL,
-  dia_nombre VARCHAR(40),
-  dia VARCHAR(40),
-  apertura VARCHAR(40),
-  cierre VARCHAR(40),
-  estado INT NOT NULL,
-  PRIMARY KEY (id),
-  CONSTRAINT fk_user_turnos
-  FOREIGN KEY (id_usuario)
-  REFERENCES usuarios (id)
-)ENGINE=INNODB;
+-- create table usuarios_turnos (
+--   id INT NOT NULL AUTO_INCREMENT,
+--   id_usuario INT NOT NULL,
+--   dia_nombre VARCHAR(40),
+--   dia VARCHAR(40),
+--   apertura VARCHAR(40),
+--   cierre VARCHAR(40),
+--   estado INT NOT NULL,
+--   PRIMARY KEY (id),
+--   CONSTRAINT fk_user_turnos
+--   FOREIGN KEY (id_usuario)
+--   REFERENCES usuarios (id)
+-- )ENGINE=INNODB;
 
 
 INSERT INTO reservas_estados (estado) VALUES ('pendiente'), ('confirmado'), ('cancelado'), ('finalizado');
@@ -263,3 +263,35 @@ INSERT INTO hora_turnos (hora) VALUES ('00:00'),
 ('11:00'), ('12:00'), ('13:00'), ('14:00'), ('15:00'),
 ('16:00'), ('17:00'), ('18:00'), ('19:00'), ('20:00'),
 ('21:00'), ('22:00'), ('23:00');
+
+
+CREATE TABLE mensajes (
+  id INT NOT NULL AUTO_INCREMENT,
+  recibido_por INT NOT NULL,
+  enviado_por INT NOT NULL,
+  mensaje TEXT NOT NULL,
+  fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+)ENGINE=INNODB;
+
+
+CREATE TABLE reservas (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_usuario INT NOT NULL,
+  id_profesional INT NOT NULL,
+  id_publicacion INT NOT NULL,
+  servicio VARCHAR(250) NOT NULL,
+  dia VARCHAR(40),
+  hora_inicio VARCHAR(40),
+  hora_fin VARCHAR(40),
+  estado VARCHAR(100),
+  motivo VARCHAR(200),
+  creado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_reserva_usuario
+  FOREIGN KEY (id_usuario)
+  REFERENCES usuarios (id),
+  CONSTRAINT fk_reserva_public
+  FOREIGN KEY (id_publicacion)
+  REFERENCES publicaciones (id)
+)ENGINE=INNODB;

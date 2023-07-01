@@ -227,6 +227,28 @@
 // FIN publicar
 
 
+		public function getMensajesById($user_id) {
+			$this->db->query('SELECT *, m.id AS mensaje_id FROM mensajes m INNER JOIN usuarios u ON m.enviado_por = u.id WHERE m.recibido_por = :user_id ORDER BY m.fecha');
+			$this->db->bind(':user_id', $user_id);
+
+			$profesiones = $this->db->getSet();
+			return $profesiones;
+		}
+
+		public function createMensaje($recibido_por, $enviado_por, $mensaje) {
+			$this->db->query('INSERT INTO mensajes (recibido_por, enviado_por, mensaje) VALUES (:recibido_por, :enviado_por, :mensaje)');
+			$this->db->bind(':recibido_por', $recibido_por);
+			$this->db->bind(':enviado_por', $enviado_por);
+			$this->db->bind(':mensaje', $mensaje);
+			$creado = $this->db->execute();
+
+			if ($creado) {
+				return true;
+			} else {
+				return false;
+			}
+
+		}
 
 
 	}

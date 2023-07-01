@@ -387,6 +387,43 @@
 			}
 		}
 
-		
+
+		public function mensajes($success = null) {
+			if (usuariopLoggedIn()) {
+
+				if (isset($_POST['responder_mensaje'])) {
+					$recibido_por = $_POST['recibido_por'];
+					$enviado_por = $_SESSION['user_id'];
+					$mensaje = $_POST['mensaje'];
+
+					$added = $this->usuariop->createMensaje($recibido_por, $enviado_por, $mensaje);
+					if ($added) {
+						$success = 1;
+						redirect('usuariop/mensajes/' . $success );
+					}
+				}
+
+
+				$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
+				$mensajes = $this->usuariop->getMensajesById($_SESSION['user_id']);
+
+				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+
+				$data = [
+					'success' => $success,
+					'imagenes_perfil' => $imagenes_perfil,
+					'mensajes' => $mensajes,
+					'sidebar' => $sidebar,
+					'controller' => strtolower(get_called_class()),
+					'page' => __FUNCTION__
+				];
+
+				$this->view('usuariop/mensajes',$data);
+
+			} else {
+				redirect('pages/login');
+			}
+		}
+	
 	}
 ?>
