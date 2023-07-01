@@ -13,10 +13,10 @@
 				<input type="hidden" name="recibido_por" value="<?php echo $row->enviado_por ?>">
 
 				<div class="w-full flex flex-col space-y-4 justify-around">
-					<span class="text-2xl font-bold text-dark">Enviado por : <?php echo $row->nombre_comercial ?></span>
+					<span class="text-xl font-bold text-dark">Enviado por : <?php echo $row->nombre_comercial ?></span>
 
 		      <div class="w-full px-2  border-2 border-primary">
-		      		<?php echo $row->mensaje ?>
+		      		<span class="text-xl text-dark">Mensaje: </span><?php echo $row->mensaje ?>
 		      </div>
 
 		      <div class="w-full">

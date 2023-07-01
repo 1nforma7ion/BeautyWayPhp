@@ -44,7 +44,7 @@
 									<h1 ><a href="" class="text-dark hover:text-fbk text-xl  font-bold"> <?php echo $row->nombre_comercial ?></a></h1>
 								</div>
 								
-								<div class="flex w-max justify-center items-center bg-primary rounded-xl p-1">
+								<div class="flex w-full justify-center items-center bg-primary rounded-xl p-1">
 									<i class="fas fa-calendar-alt mr-2"></i>
 									<span class="text-sm"> <?php echo fixedFecha($row->creado) ?> </span>	
 								</div>
