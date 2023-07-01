@@ -43,7 +43,7 @@
 
 				$userExists = $this->page->findEmail($email);
 
-				if($userExists->user_estado != 1) {
+				if($userExists->user_estado == 1) {
 					if ($userExists) {
 						$user_pass = $userExists->contrasenia;
 
