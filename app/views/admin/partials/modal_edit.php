@@ -312,7 +312,7 @@
 			</div>
 
 			<div class="flex flex-col w-full items-center text-lg font-bold md:flex-row md:justify-around md:space-y-0">
-				<button name="edit_servicio" type="submit" class="w-2/4 p-4 rounded-xl text-dark bg-ctaLight hover:bg-ctaDark md:w-1/2 border">Agregar Servicio</button>
+				<button name="edit_servicio" type="submit" class="w-2/4 p-4 rounded-xl text-dark bg-ctaLight hover:bg-ctaDark md:w-1/2 border">Actualizar Servicio</button>
 			</div>
 			<!-- end modal body -->
 

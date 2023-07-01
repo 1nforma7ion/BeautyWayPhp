@@ -43,22 +43,27 @@
 
 				$userExists = $this->page->findEmail($email);
 
-				if ($userExists) {
-					$user_pass = $userExists->contrasenia;
+				if($userExists->estado != 1) {
+					if ($userExists) {
+						$user_pass = $userExists->contrasenia;
 
-					if (password_verify($password, $user_pass)) {
-						// echo "<pre>";
-						// print_r($userExists);
-						// die();
+						if (password_verify($password, $user_pass)) {
+							// echo "<pre>";
+							// print_r($userExists);
+							// die();
 
-						$this->createSession($userExists);
+							$this->createSession($userExists);
+						} else {
+							$_SESSION['msg'] = 'Contraseña incorrecta.';
+							redirect('pages/login');
+						}
 					} else {
-						$_SESSION['msg'] = 'Contraseña incorrecta.';
+						$_SESSION['msg'] = 'Email no registrado.';
 						redirect('pages/login');
 					}
 				} else {
-					$_SESSION['msg'] = 'Email no registrado.';
-					redirect('pages/login');
+					$_SESSION['msg'] = 'Usuario Inactivo.';
+					redirect('pages/login');		
 				}
 
 			} else {

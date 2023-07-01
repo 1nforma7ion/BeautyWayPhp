@@ -10,7 +10,7 @@
       <form  class="flex flex-col font-dmsans" action="<?php echo URLROOT; ?>/pages/login" method="post" autocomplete="off" >
         
         <div class="mb-10 space-y-2 md:mb-6 flex flex-col items-center">
-          <img class="h-32 object-cover" src="<?php echo URLROOT; ?>/img/logo.png" alt="">
+          <a href="<?php echo URLROOT; ?>"> <img class="h-32 object-cover" src="<?php echo URLROOT; ?>/img/logo.png" alt=""></a>
           <?php showAlert(); ?>
         </div>
 
