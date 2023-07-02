@@ -29,19 +29,73 @@
 			}
 		}
 
+		public function detalles($id_profesional=null, $id_public = null) {
+			if (usuarioLoggedIn()) {
+
+				$imagenes_perfil = $this->usuario->getImageById($_SESSION['user_id']);
+				$publicacion = $this->usuario->getPublicById($id_public);
+				$dias = $this->usuario->getDiasByUser($id_profesional);
+
+				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+
+				$data = [
+					'imagenes_perfil' => $imagenes_perfil,
+					'dias' => $dias,
+					'publicacion' => $publicacion,
+					'sidebar' => $sidebar,
+					'controller' => strtolower(get_called_class()),
+					'page' => __FUNCTION__
+				];
+
+				$this->view('usuario/detalles',$data);
+
+			} else {
+				redirect('pages/login');
+			}
+		}
+
+		public function turnos($id_profesional = null, $dia=null) {
+
+			$turnos = $this->usuario->getTurnosByUser($id_profesional,$dia);
+
+			// convertir PDO objecto to array & send to frontend page
+			echo json_encode($turnos);
+			// echo $turnos;
+			// print_r($turnos);
+		}
 
 		public function mensajes($success = null) {
 			if (usuarioLoggedIn()) {
 
 				if (isset($_POST['responder_mensaje'])) {
+					ob_start();
+
 					$recibido_por = $_POST['recibido_por'];
 					$enviado_por = $_SESSION['user_id'];
 					$mensaje = $_POST['mensaje'];
 
 					$added = $this->usuario->createMensaje($recibido_por, $enviado_por, $mensaje);
 					if ($added) {
-						$success = 1;
-						redirect('usuario/mensajes/' . $success );
+						// $success = 1;
+						$_SESSION['msg'] = "enviado correctamente";
+
+						
+						$imagenes_perfil = $this->usuario->getImageById($_SESSION['user_id']);
+						$mensajes = $this->usuario->getMensajesById($_SESSION['user_id']);
+
+						$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+
+						$data = [
+							'success' => $success,
+							'imagenes_perfil' => $imagenes_perfil,
+							'mensajes' => $mensajes,
+							'sidebar' => $sidebar,
+							'controller' => strtolower(get_called_class()),
+							'page' => __FUNCTION__
+						];
+
+						$this->view('usuario/mensajes', $data);
+						// redirect('usuario/mensajes/' . $success );
 					}
 				}
 
@@ -106,6 +160,172 @@
 				redirect('pages/login');
 			}
 		}
+
+
+		public function perfil() {
+			if (usuarioLoggedIn()) {
+
+				if (isset($_POST['create_imagen_perfil'])) {
+
+					$imagen = $_FILES['imagen']['name'];
+
+			  	if ($imagen) {
+
+			  		$archivo = $_FILES['imagen'];
+						$user_id = $_SESSION['user_id'];
+
+		      	if(file_exists('../public/files/perfiles/' . $user_id)) {
+							$filesDir = '../public/files/perfiles/' . $user_id . '/';
+		      	} else {
+		    			mkdir('../public/files/perfiles/' . $user_id);
+							$filesDir = '../public/files/perfiles/' . $user_id . '/';
+		      	}
+
+	        	$i_name = $archivo['name'];
+						$i_tmp = $archivo['tmp_name'];
+
+						move_uploaded_file($i_tmp, $filesDir . $i_name);
+
+						$urlImagen = '/files/perfiles/' . $user_id . '/' . $i_name;
+
+		        $added = $this->usuario->createImagenPerfil($_SESSION['user_id'], $urlImagen);
+
+		        if ($added) {
+				      redirect('usuario/perfil');
+						} else {
+							die('ocurrio un error');
+						}
+
+		      }
+
+				}
+
+				if(isset($_POST['update_perfil'])) {
+					ob_start();
+
+					$nombre = $_POST['nombre'];
+					$apellido = $_POST['apellido'];
+					$telefono = $_POST['telefono'];
+
+					$updated = $this->usuario->updatePerfil($_SESSION['user_id'],$nombre, $apellido, $telefono);
+
+					if ($updated) {
+						
+						$_SESSION['msg'] = 'Perfil Actualizado.';
+
+						$perfil = $this->usuario->getUserById($_SESSION['user_id']);
+						$imagenes_perfil = $this->usuario->getImageById($_SESSION['user_id']);
+
+						$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+
+						$data = [
+							'perfil' => $perfil,
+							'imagenes_perfil' => $imagenes_perfil,
+
+							'sidebar' => $sidebar,
+							'controller' => strtolower(get_called_class()),
+							'page' => __FUNCTION__
+						];
+
+						$this->view('usuario/perfil',$data);
+					}
+					 
+				}
+
+
+				if (isset($_POST['update_imagen_perfil'])) {
+
+					$imagen = $_FILES['imagen']['name'];
+
+			  	if ($imagen) {
+
+			  		$archivo = $_FILES['imagen'];
+						$user_id = $_SESSION['user_id'];
+
+		      	if(file_exists('../public/files/perfiles/' . $user_id)) {
+							$filesDir = '../public/files/perfiles/' . $user_id . '/';
+		      	} else {
+		    			mkdir('../public/files/perfiles/' . $user_id);
+							$filesDir = '../public/files/perfiles/' . $user_id . '/';
+		      	}
+
+	        	$i_name = $archivo['name'];
+						$i_tmp = $archivo['tmp_name'];
+
+						move_uploaded_file($i_tmp, $filesDir . $i_name);
+
+						$urlImagen = '/files/perfiles/' . $user_id . '/' . $i_name;
+
+		        $added = $this->usuario->updateImagenPerfil($_SESSION['user_id'], $urlImagen);
+
+		        if ($added) {
+				      redirect('usuario/perfil');
+						} else {
+							die('ocurrio un error');
+						}
+
+		      }
+
+				}
+
+
+				if(isset($_POST['change_password'])) {
+
+					$password = $_POST['contrasenia'];
+					$confirm_password = $_POST['repetirContrasenia'];
+
+					if ($password == $confirm_password) {
+
+						$password = password_hash($password, PASSWORD_DEFAULT);
+
+						$updated = $this->usuario->updatePassword($_SESSION['user_id'],$password);
+
+						if ($updated) {
+							
+							$_SESSION['msg'] = 'Contraseña Actualizada.';
+
+							$perfil = $this->usuario->getUserById($_SESSION['user_id']);
+							$imagenes_perfil = $this->usuario->getImageById($_SESSION['user_id']);
+
+							$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+
+							$data = [
+								'perfil' => $perfil,
+								'imagenes_perfil' => $imagenes_perfil,
+
+								'sidebar' => $sidebar,
+								'controller' => strtolower(get_called_class()),
+								'page' => __FUNCTION__
+							];
+
+							$this->view('usuario/perfil',$data);
+						}
+					} 
+
+				}
+
+				$perfil = $this->usuario->getUserById($_SESSION['user_id']);
+				$imagenes_perfil = $this->usuario->getImageById($_SESSION['user_id']);
+
+
+				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+
+				$data = [
+					'perfil' => $perfil,
+					'imagenes_perfil' => $imagenes_perfil,
+
+					'sidebar' => $sidebar,
+					'controller' => strtolower(get_called_class()),
+					'page' => __FUNCTION__
+				];
+
+				$this->view('usuario/perfil',$data);
+
+			} else {
+				redirect('pages/login');
+			}
+		}
+
 
 
 

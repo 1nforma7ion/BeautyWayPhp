@@ -7,7 +7,7 @@
 		}
 
 		public function getAllPublicaciones() {
-			$this->db->query('SELECT * FROM publicaciones p 
+			$this->db->query('SELECT *, p.id_usuario AS id_profesional, p.id AS id_public FROM publicaciones p 
 				INNER JOIN usuarios u ON p.id_usuario = u.id 
 				INNER JOIN perfiles pe ON p.id_usuario = pe.id_usuario 
 				INNER JOIN zonas z ON z.id = u.id_zona_trabajo 
@@ -92,7 +92,6 @@
 
 
 
-
 		public function getProfesiones() {
 			$this->db->query('SELECT * FROM profesiones');
 			$profesiones = $this->db->getSet();
@@ -128,37 +127,6 @@
 
 
 
-		public function getComic($name) {
-			$this->db->query('SELECT * FROM proyectos WHERE nombre = :name');
-			$this->db->bind(':name',$name);
-			$comic = $this->db->getSingle();
-			return $comic;
-		}
-
-		public function getChapters($id,$estado1) {
-			$this->db->query("SELECT * FROM capitulos WHERE proyecto_id = :id AND estado = :estado1 ORDER BY created_at DESC");
-			$this->db->bind(':id',$id);
-			$this->db->bind(':estado1',$estado1);
-			$chapters = $this->db->getSet();
-			return $chapters;
-		}
-
-		public function getUpcoming($id,$estado2) {
-			$this->db->query("SELECT * FROM capitulos WHERE proyecto_id = :id AND estado = :estado2");
-			$this->db->bind(':id',$id);
-			$this->db->bind(':estado2',$estado2);
-			$upcoming = $this->db->getSet();
-			return $upcoming;
-		}
-
-		public function getDataChapter($id,$num) {
-			$this->db->query("SELECT * FROM capitulos WHERE proyecto_id = :id AND cap_num = :num");
-			$this->db->bind(':id',$id);
-			$this->db->bind(':num',$num);
-			$chapter = $this->db->getSingle();
-			return $chapter;
-		}
-
 		public function register($rol,$tipo,$doc,$nombre,$apellido,$calle,$altura,$piso,$depto,$barrio,$localidad,$telefono,$email,$pass,$comercial,$profesion,$modalidad,$zona,$estado) {
 			$this->db->query("INSERT INTO usuarios (rol_id, tipo_documento, num_documento, nombre, apellido, nombre_comercial, id_profesion, id_zona_trabajo, modalidad, calle, altura, piso, depto, barrio, localidad, telefono, email, contrasenia, estado) 
 				VALUES (:rol,:tipo,:doc,:nombre,:apellido,:comercial,:profesion,:zona,:modalidad,:calle,:altura,:piso,:depto,:barrio,:localidad,:telefono,:email,:pass, :estado)");
@@ -190,12 +158,6 @@
 			} else {
 				return false;
 			}
-		}
-
-		public function getAuthors() {
-			$this->db->query('SELECT * FROM autores');
-			$autores = $this->db->getSet();
-			return $autores;
 		}
 
 

@@ -14,138 +14,28 @@
 		<div class="flex w-full  md:w-3/4  font-dmsans ">
 			
 			<!-- Perfil columna izquierda -->
-			<div class="flex flex-col w-2/3  md:p-4  space-y-8">
+			<div class="flex flex-col w-full  md:p-4  space-y-8">
 
 				<div class="w-full rounded-xl h-full bg-white ">
 
 					<div class="flex flex-col   md:p-4 space-y-4 ">
 
-						<!-- perfil comercial -->
-						<div class="p-2 flex flex-col font-dmsans">
-							
-				      <div class=" pb-4 ">
-			          <h5 class="text-dark text-2xl font-bold text-neutral"> Perfil Comercial </h5>
-						    <?php echo showAlert(); ?>
-			        </div>
-
-							<form action="<?php echo URLROOT . '/' . $data['controller'] . '/perfil'; ?>" id="form_register" method="post" autocomplete="off" >
-
-								<div class="group-col relative">
-									<div class="absolute hidden right-0 bottom-0"><i class="fas fa-check bg-cta p-2 rounded-full"></i></div>
-							    <label for="nombre_comercial">Nombre Comercial:
-							    	<span id="alert-comercial" class="hidden italic text-sm text-red">Minimo 6 caracteres</span>
-							    </label>
-							    <input type="text" id="nombre_comercial" name="nombre_comercial" value="<?php echo $data['perfil']->nombre_comercial ?>">
-								</div>
-
-							  <div class="group-row">
-
-									<div class="group-col">
-								    <label for="modalidad">Modalidad de Trabajo:</label>
-								    <select id="modalidad" name="modalidad">
-								 
-								     	<?php if(isset($data['modalidades'])) : ?>
-												<?php foreach ($data['modalidades'] as $row) : ?>
-													<?php if($row->modalidad == $data['perfil']->modalidad ) : ?>
-														<option selected class="bg-cta" value="<?php echo $row->modalidad ?>"><?php echo $row->modalidad ?></option>
-													<?php endif; ?>
-													<option value="<?php echo $row->modalidad ?>"><?php echo $row->modalidad ?></option>
-												<?php endforeach; ?>
-											<?php endif; ?> 
-								    </select>
-								  </div>
-
-									<div class="group-col">
-								    <label for="zona">Zona de Trabajo:</label>
-								    <select id="zona" name="zona">
-								     	<?php if(isset($data['zonas'])) : ?>
-												<?php foreach ($data['zonas'] as $row) : ?>
-													<?php if($row->id == $data['perfil']->id_zona_trabajo ) : ?>
-														<option selected class="bg-cta" value="<?php echo $row->id ?>"><?php echo $row->zona ?></option>
-													<?php endif; ?>
-													<option value="<?php echo $row->id ?>"><?php echo $row->zona ?></option>
-												<?php endforeach; ?>
-											<?php endif; ?> 
-								      
-								    </select>
-								  </div>
-
-							  </div>
-
-
-							  <div class="w-full flex space-x-8 mb-4">
-							    <div class="group-col relative w-1/3">
-							    	<div class="absolute hidden right-0 bottom-0"><i class="fas fa-check bg-cta p-2 rounded-full"></i></div>
-							  		<label for="calle">Calle:
-								    	<span id="alert-calle" class="hidden italic text-sm text-red">Minimo 4 caracteres</span>
-							  		</label>
-							    	<input type="text" id="calle" name="calle" required value="<?php echo $data['perfil']->calle ?>">
-							    </div>
-							    <div class="group-col relative w-1/3">
-							    	<div class="absolute hidden right-0 bottom-0"><i class="fas fa-check bg-cta p-2 rounded-full"></i></div>
-								    <label for="altura">Altura:
-								    	<span id="alert-altura" class="hidden italic text-sm text-red">Minimo 2 números</span>
-								  	</label>
-								    <input type="number" id="altura" name="altura" min="1" max="9999" required value="<?php echo $data['perfil']->altura ?>">
-							    </div>
-							    <div class="group-col w-1/3">
-							   		<label for="piso">Piso: (Opcional)</label>
-							    	<input type="text" id="piso" name="piso" maxlength="5" value="<?php echo $data['perfil']->piso ?>">
-							    </div>
-							  </div>
-
-							  <div class="w-full flex space-x-8 mb-4">
-
-							    <div class="group-col w-1/3">
-								    <label for="depto">Depto.: (Opcional)  </label>
-								    <input type="text" id="depto" name="depto" value="<?php echo $data['perfil']->depto ?>">
-							    </div>
-							    <div class="group-col relative w-1/3">
-							  		<div class="absolute hidden right-0 bottom-0"><i class="fas fa-check bg-cta p-2 rounded-full"></i></div>
-								    <label for="barrio">Barrio:
-								    	<span id="alert-barrio" class="hidden italic text-sm text-red">Minimo 4 caracteres</span>
-								    </label>
-								    <input type="text" id="barrio" name="barrio" required value="<?php echo $data['perfil']->barrio ?>">
-							    </div>
-
-							    <div class="group-col  w-1/3">
-								    <label for="localidad">Localidad: </label>
-								    <select id="localidad" name="localidad" required>
-								     	<?php if(isset($data['localidades'])) : ?>
-												<?php foreach ($data['localidades'] as $row) : ?>
-								      		<?php if($row->localidad == $data['perfil']->localidad ) : ?>
-														<option selected class="bg-cta" value="<?php echo $row->localidad ?>"><?php echo $row->localidad ?></option>
-													<?php endif; ?>
-													<option value="<?php echo $row->localidad ?>"><?php echo $row->localidad ?></option>
-												<?php endforeach; ?>
-											<?php endif; ?> 
-								    </select>
-							    </div>
-
-							  </div>
-
-						    <div class="mb-6">
-						      <button type="submit" name="update_comercial" class="w-1/2 p-2 text-xl rounded-md font-bold text-dark bg-cta hover:bg-ctaDark">Actualizar Perfil Comercial</button>
-						    </div>
-
-							</form>
-
-						</div>
 
 						<!-- perfil Usuario -->
 						<div class="p-2 flex flex-col font-dmsans">
 
-						  <div class="border-t-4 border-neutral py-4 ">
-						    <h5 class="text-dark text-2xl font-bold text-neutral"> Perfil de Usuario </h5>
+						  <div class="w-full flex justify-between py-4 ">
+						    <h5 class="w-1/2 text-dark text-2xl font-bold text-neutral"> Perfil de Usuario </h5>
+						    <?php echo showAlert(); ?>
 						  </div>
 
 						  <form action="<?php echo URLROOT . '/' . $data['controller'] . '/perfil'; ?>" class="py-4" method="post" autocomplete="off" enctype="multipart/form-data">
 							  <div class="flex justify-around items-center">
 							  	<input type="hidden" name="user_id" value="<?php echo $data['perfil']->tipo_documento ?>">
-							  	<?php if($data['perfil']->rol_id == 3 ) : ?>
+							  	<?php if($data['perfil']->rol_id == 2 ) : ?>
 							  		<?php if (!empty($data['imagenes_perfil'])) : ?>
 									    <div class="flex ">
-												<img src="<?php echo URLROOT . $data['imagenes_perfil']->imagen_comercial ?>" class="w-32 h-32 rounded-full object-cover bg-primary">
+												<img src="<?php echo URLROOT . $data['imagenes_perfil']->imagen_usuario ?>" class="w-32 h-32 rounded-full object-cover bg-primary">
 									    </div>
 
 									    <div class="flex flex-col space-y-8 items-center">
@@ -166,6 +56,7 @@
 										    </div>
 									    </div>
 							  		<?php endif; ?>
+
 							    <?php endif; ?>	
 							  </div>
 						  </form>
@@ -218,7 +109,7 @@
 								    	<span id="alert-email" class="hidden italic text-sm text-red">Email inválido.</span>
 
 								    </label>
-								    <input type="email" id="email" name="email" class="bg-primary" value="<?php echo $data['perfil']->email ?>" disabled>	
+								    <input type="email" id="email" name="email" class="bg-primary" value="<?php echo $data['perfil']->email ?>" required disabled>	
 							    </div>
 							  </div>
 
@@ -227,14 +118,12 @@
 						      <button type="submit" name="update_perfil" class="w-1/2 p-2 text-xl rounded-md font-bold text-dark bg-cta hover:bg-ctaDark">Actualizar Perfil</button>
 						    </div>
 
-
 						  </form>
 						</div>
 
 
-
 					  <!-- change password  -->
-			      <form id="change_form" class="p-2 flex flex-col font-dmsans" action="<?php echo URLROOT . '/' . $data['controller'] . '/perfil'; ?>" method="post">
+			      <form id="change_form" class="w-1/2 p-2 flex flex-col font-dmsans" action="<?php echo URLROOT . '/' . $data['controller'] . '/perfil'; ?>" method="post">
 			        
 			        <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']  ?>">
 
@@ -279,58 +168,6 @@
 
 			</div>
 
-			<!-- Perfil columna derecha -->
-			<div class="w-1/3 flex flex-col space-y-4 md:p-4 ">
-			<!-- seccion horarios -->
-				<div class="w-full rounded-xl bg-white ">
-					<div class="flex flex-col  md:p-4 space-y-4 ">
-						<div class="w-full flex justify-between ">
-							<h1 class="text-dark text-2xl text-neutral "> Horarios de Atención </h1>
-						</div>
-
-						<a href="<?php echo URLROOT . '/' . $data['controller'] . '/edit_turnos' ?>" class="w-max px-4 py-2 bg-ctaDark  cursor-pointer font-bold rounded-xl">
-							 <span><i class="fas fa-edit mr-2"></i></span> 
-							 <span>Editar Turnos</span> 
-						</a>
-
-					</div>
-				</div>
-
-			<!-- seccion profesiones -->
-				<div class="w-full rounded-xl bg-white ">
-					<div class="flex flex-col   md:p-4  space-y-4">
-
-						<div class="w-full flex justify-between ">
-							<h1 class="text-dark text-2xl text-neutral "> Profesion(es) </h1>
-						</div>
-						
-						<button id="btn_add" class="w-44 bg-ctaDark  cursor-pointer p-2 font-bold rounded-xl">
-							<i class="fas fa-plus mr-2"></i>Agregar Profesion
-						</button>
-
-						<div class="flex flex-col ">
-
-				      <?php if(isset($data['profesiones'])) : ?>
-		            <?php foreach ($data['profesiones'] as $row) : ?>
-									<div class="w-full flex items-center justify-between bg-primary p-1 border-b">
-										<div class="space-x-2">
-											<i class="fas fa-chevron-right mr-2"></i>
-											<span><?php echo $row->profesion ?></span>
-										</div>
-
-										<a href="<?php echo URLROOT . '/' . $data['controller'] . '/edit_profesion/' . $row->id_profesion ?>" class="cursor-pointer p-1 text-2xl hover:bg-cta ">
-											<i class="fas fa-edit"></i>
-										</a>
-									</div>
-		            <?php endforeach; ?>
-		          <?php endif; ?> 
-						</div>
-
-					</div>
-				</div>
-
-			</div>
-
 
 		
 		</div>
@@ -347,7 +184,6 @@
 
  ?>
 
-<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_add.php'; ?>
 
 
 <script >

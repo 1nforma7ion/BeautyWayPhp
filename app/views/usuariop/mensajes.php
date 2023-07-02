@@ -3,7 +3,7 @@
 <div class="flex flex-col w-full">
 	<?php require APPROOT . '/views/' . $data['controller'] . '/partials/navbar.php'; ?>
 
-	<div class="w-full md:h-screen flex flex-col md:flex-row md:space-x-4 pt-0 pb-4 px-4 md:px-6.5">
+	<div class="w-full flex flex-col md:flex-row md:space-x-4 pt-0 pb-4 px-4 md:px-6.5">
 
 		<!-- columna izquierda -->	
 		<div class="w-full md:w-1/4  p-4 ">	
@@ -19,7 +19,7 @@
 				<div class="w-full flex justify-between py-4 text-2xl text-neutral text-center">
 					<h2 class="text-4xl">Mensajes Recibidos</h2>  
 					<div class="w-1/3">
-						<?php echo $data['success'] ? 'MEnsaje enviado' : ''; ?>
+						<?php echo showAlert(); ?>
 					</div>
           
 				</div>

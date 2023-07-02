@@ -38,10 +38,9 @@
           <button type="submit" class="w-full p-3 text-xl rounded-md font-bold text-dark bg-cta hover:bg-ctaDark">Iniciar Sesión</button>
         </div>
 
-        <div class=" flex items-center text-center mx-auto md:w-1/2">
+        <div class="w-full flex items-center text-center mx-auto md:w-1/2">
           <a class="p-3  bg-neutral text-white hover:bg-neutralDark w-full rounded-full " href="<?php echo URLROOT . '/' . $data['controller'] . '/registrar' ?>"> Registrarme </a>
         </div>
-        
         
         
       </form>     

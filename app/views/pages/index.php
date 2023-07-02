@@ -42,17 +42,24 @@
 					<div class=" flex flex-col-reverse md:flex-row bg-white text-dark drop-shadow-lg hover:drop-shadow-card rounded-lg">
 
 					<div class="img_post relative flex w-full md:w-2/3 items-center ">
-						<img src="<?php echo URLROOT . $row->imagen ?>" alt="imagen logo" class="w-full h-72 md:h-96 object-cover rounded-b-lg md:rounded-l-lg">
+						<img src="<?php echo URLROOT . $row->imagen ?>" alt="imagen logo" class="w-full h-72 md:h-96 object-cover rounded-b-lg md:rounded-br-none md:rounded-l-lg">
 						<span class="date_post absolute w-max h-max top-4 left-0 rounded-r-lg text-sm text-dark p-2 bg-ctaDark md:text-xl font-bold"> 
 						<?php echo $row->servicio ?>  </span>
 
 						<div class="date_post absolute w-full flex justify-around h-max bottom-4 right-0 md:bottom-4  md:text-2xl font-bold">
-							<button class="w-44 rounded-full text-sm text-dark p-2 bg-ctaDark "> <i class="fas fa-heart "></i> Me gusta  </button>
-							<button class="w-44 rounded-full text-sm text-dark p-2 bg-ctaDark "> <i class="fas fa-comment "></i> Comentarios  </button>
+							<button class="btn_alert w-44 rounded-full text-sm text-dark p-2 bg-ctaDark "> <?php echo $row->me_gusta ?>   <i class="fas fa-heart "></i> Me gusta  </button>
+							<button class="btn_alert w-44 rounded-full text-sm text-dark p-2 bg-ctaDark "> <?php echo $row->comentarios ?>   <i class="fas fa-comment "></i> Comentarios  </button>
 						</div>
+
+						<span class="hidden absolute w-max h-max top-4 right-4 rounded-xl text-xl p-4 bg-cta"> 
+							<a class="px-3 py-2 text-2xl " href="<?php echo URLROOT . '/pages/login' ?>">
+								<span class="ml-2 underline">Iniciar Sesión</span> 
+							</a>
+						</span>
+
 					</div>
 										
-					<div class="relative md:h-96 w-full flex flex-col p-4 md:w-1/3 space-y-4 ">
+					<div class="relative md:h-96 w-full flex flex-col items-center p-4 md:w-1/3 space-y-4 ">
 						<div class="flex space-x-4">
 
 							<div class="flex flex-col justify-center items-center space-y-4">
@@ -76,11 +83,6 @@
 						</div>
 			      <span class=" text-sm"> <?php echo $row->descripcion ?>  </span>
 	  				
-	  				<div class="absolute hidden md:flex z-30 bottom-4 self-center text-sm text-fbk">
-							<a href="<?php echo URLROOT . '/' . $data['controller'] . '/reservar' ?>" class=" rounded-full text-white text-xl px-4 py-2 md:w-max bg-neutralDark "> 
-			      		Ver detalles<i class="fas fa-arrow-right ml-4 "></i>
-			      	</a>
-						</div>
 
 					</div>
 
@@ -98,7 +100,22 @@
 	</div>
 </div>
 
+<script>
+	const allBtnAlert = document.querySelectorAll('.btn_alert')
+  allBtnAlert.forEach( btn => {
+    btn.addEventListener('click', (e) => {
+    	const loginAlert = e.currentTarget.parentElement.nextElementSibling
+    	if(loginAlert.classList.contains('hidden')) {
+    		loginAlert.classList.toggle('hidden')
 
+	    	setTimeout(() => {
+	      	loginAlert.classList.toggle('hidden')
+	    	},6000)
+    	}
+
+    })
+  })
+</script>
 
 
 <?php require APPROOT . '/views/' . $data['controller'] . '/partials/footer.php'; ?>

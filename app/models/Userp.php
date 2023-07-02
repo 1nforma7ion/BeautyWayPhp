@@ -195,6 +195,81 @@
 				return false;
 			}
 		}
+
+
+		public function updatePassword($user_id,$password) {
+      $this->db->query('UPDATE usuarios SET contrasenia = :password  WHERE id = :user_id');
+      $this->db->bind(':user_id', $user_id);
+      $this->db->bind(':password', $password);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+		public function updateImagenPerfil($user_id,$imagen) {
+      $this->db->query('UPDATE perfiles SET imagen_comercial = :imagen  WHERE id_usuario = :user_id');
+      $this->db->bind(':user_id', $user_id);
+      $this->db->bind(':imagen', $imagen);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+		public function updatePerfil($user_id,$nombre,$apellido,$telefono) {
+      $this->db->query('UPDATE usuarios SET 
+      	nombre = :nombre,
+      	apellido = :apellido,
+      	telefono = :telefono
+      	WHERE id = :user_id');
+      $this->db->bind(':user_id', $user_id);
+      $this->db->bind(':nombre', $nombre);
+      $this->db->bind(':apellido', $apellido);
+      $this->db->bind(':telefono', $telefono);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+		public function updateComercial($user_id,$comercial, $modalidad, $localidad, $zona,$calle,$altura,$piso,$depto,$barrio) {
+      $this->db->query('UPDATE usuarios SET 
+      	nombre_comercial = :comercial,
+      	modalidad = :modalidad,
+      	id_zona_trabajo = :zona,
+      	calle = :calle,
+      	altura = :altura,
+      	piso = :piso,
+      	depto = :depto,
+      	barrio = :barrio,
+      	localidad = :localidad
+      	WHERE id = :user_id');
+      $this->db->bind(':user_id', $user_id);
+      $this->db->bind(':comercial', $comercial);
+      $this->db->bind(':modalidad', $modalidad);
+      $this->db->bind(':zona', $zona);
+      $this->db->bind(':calle', $calle);
+      $this->db->bind(':altura', $altura);
+      $this->db->bind(':piso', $piso);
+      $this->db->bind(':depto', $depto);
+      $this->db->bind(':barrio', $barrio);
+      $this->db->bind(':localidad', $localidad);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+
 // FIN perfil
 
 

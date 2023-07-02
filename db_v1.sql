@@ -284,8 +284,9 @@ CREATE TABLE reservas (
   dia VARCHAR(40),
   hora_inicio VARCHAR(40),
   hora_fin VARCHAR(40),
-  estado VARCHAR(100),
+  status VARCHAR(100),
   motivo VARCHAR(200),
+  estado INT NOT NULL DEFAULT 1,
   creado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   CONSTRAINT fk_reserva_usuario

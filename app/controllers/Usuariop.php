@@ -149,6 +149,180 @@
 
 				}
 
+				if (isset($_POST['update_imagen_perfil'])) {
+
+					$imagen = $_FILES['imagen']['name'];
+
+			  	if ($imagen) {
+
+			  		$archivo = $_FILES['imagen'];
+						$user_id = $_SESSION['user_id'];
+
+		      	if(file_exists('../public/files/perfiles/' . $user_id)) {
+							$filesDir = '../public/files/perfiles/' . $user_id . '/';
+		      	} else {
+		    			mkdir('../public/files/perfiles/' . $user_id);
+							$filesDir = '../public/files/perfiles/' . $user_id . '/';
+		      	}
+
+	        	$i_name = $archivo['name'];
+						$i_tmp = $archivo['tmp_name'];
+
+						move_uploaded_file($i_tmp, $filesDir . $i_name);
+
+						$urlImagen = '/files/perfiles/' . $user_id . '/' . $i_name;
+
+		        $added = $this->usuariop->updateImagenPerfil($_SESSION['user_id'], $urlImagen);
+
+		        if ($added) {
+				      redirect('usuariop/perfil');
+						} else {
+							die('ocurrio un error');
+						}
+
+		      }
+
+				}
+
+				if(isset($_POST['update_perfil'])) {
+					ob_start();
+					
+					$nombre = $_POST['nombre'];
+					$apellido = $_POST['apellido'];
+					$telefono = $_POST['telefono'];
+
+					$updated = $this->usuariop->updatePerfil($_SESSION['user_id'],$nombre, $apellido, $telefono);
+
+					if ($updated) {
+						
+						$_SESSION['msg'] = 'Perfil Actualizado.';
+
+						$perfil = $this->usuariop->getUserById($_SESSION['user_id']);
+						$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
+						$profesiones = $this->usuariop->getProfesionesByUser($_SESSION['user_id']);
+
+						$modalidades = $this->page->getModalidades();
+						$zonas = $this->page->getZonas();
+						$localidades = $this->page->getLocalidades();
+						$listaProfesiones = $this->admin->getProfesiones();
+
+						$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+
+						$data = [
+							'perfil' => $perfil,
+							'imagenes_perfil' => $imagenes_perfil,
+							'zonas' => $zonas,
+							'localidades' => $localidades,
+							'modalidades' => $modalidades,
+							'profesiones' => $profesiones,
+							'listaProfesiones' => $listaProfesiones,
+							'sidebar' => $sidebar,
+							'controller' => strtolower(get_called_class()),
+							'page' => __FUNCTION__
+						];
+
+						$this->view('usuariop/perfil',$data);					
+					}
+					 
+				}
+
+				if(isset($_POST['update_comercial'])) {
+					ob_start();
+					$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+					$calle = $_POST['calle'];
+					$altura = $_POST['altura'];
+					$piso = $_POST['piso'];
+					$depto = $_POST['depto'];
+					$barrio = $_POST['barrio'];
+					$localidad = $_POST['localidad'];
+					$comercial = $_POST['nombre_comercial'];
+					$modalidad = $_POST['modalidad'];
+					$zona = $_POST['zona'];
+
+
+					$updated = $this->usuariop->updateComercial($_SESSION['user_id'],$comercial, $modalidad, $localidad, $zona,$calle,$altura,$piso,$depto,$barrio);
+
+					if ($updated) {
+						
+						$_SESSION['msg'] = 'Perfil Actualizado.';
+
+						$perfil = $this->usuariop->getUserById($_SESSION['user_id']);
+						$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
+						$profesiones = $this->usuariop->getProfesionesByUser($_SESSION['user_id']);
+
+						$modalidades = $this->page->getModalidades();
+						$zonas = $this->page->getZonas();
+						$localidades = $this->page->getLocalidades();
+						$listaProfesiones = $this->admin->getProfesiones();
+
+						$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+
+						$data = [
+							'perfil' => $perfil,
+							'imagenes_perfil' => $imagenes_perfil,
+							'zonas' => $zonas,
+							'localidades' => $localidades,
+							'modalidades' => $modalidades,
+							'profesiones' => $profesiones,
+							'listaProfesiones' => $listaProfesiones,
+							'sidebar' => $sidebar,
+							'controller' => strtolower(get_called_class()),
+							'page' => __FUNCTION__
+						];
+
+						$this->view('usuariop/perfil',$data);					
+					}
+					 
+				}
+
+				if(isset($_POST['change_password'])) {
+
+					$password = $_POST['contrasenia'];
+					$confirm_password = $_POST['repetirContrasenia'];
+
+					if ($password == $confirm_password) {
+
+						$password = password_hash($password, PASSWORD_DEFAULT);
+
+						$updated = $this->usuariop->updatePassword($_SESSION['user_id'],$password);
+
+						if ($updated) {
+							
+							$_SESSION['msg'] = 'Contraseña Actualizada.';
+
+							$perfil = $this->usuariop->getUserById($_SESSION['user_id']);
+							$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
+							$profesiones = $this->usuariop->getProfesionesByUser($_SESSION['user_id']);
+
+							$modalidades = $this->page->getModalidades();
+							$zonas = $this->page->getZonas();
+							$localidades = $this->page->getLocalidades();
+							$listaProfesiones = $this->admin->getProfesiones();
+
+							$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+
+							$data = [
+								'perfil' => $perfil,
+								'imagenes_perfil' => $imagenes_perfil,
+								'zonas' => $zonas,
+								'localidades' => $localidades,
+								'modalidades' => $modalidades,
+								'profesiones' => $profesiones,
+								'listaProfesiones' => $listaProfesiones,
+								'sidebar' => $sidebar,
+								'controller' => strtolower(get_called_class()),
+								'page' => __FUNCTION__
+							];
+
+							$this->view('usuariop/perfil',$data);	
+
+						}
+					} 
+
+				}
+
+
 				if (isset($_POST['add_profesion'])) {
 					$id_profesion = $_POST['profesion'];
 
@@ -398,8 +572,24 @@
 
 					$added = $this->usuariop->createMensaje($recibido_por, $enviado_por, $mensaje);
 					if ($added) {
-						$success = 1;
-						redirect('usuariop/mensajes/' . $success );
+
+						$_SESSION['msg'] = 'Mensaje Enviado';
+
+						$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
+						$mensajes = $this->usuariop->getMensajesById($_SESSION['user_id']);
+
+						$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+
+						$data = [
+							'success' => $success,
+							'imagenes_perfil' => $imagenes_perfil,
+							'mensajes' => $mensajes,
+							'sidebar' => $sidebar,
+							'controller' => strtolower(get_called_class()),
+							'page' => __FUNCTION__
+						];
+
+						$this->view('usuariop/mensajes',$data);
 					}
 				}
 
