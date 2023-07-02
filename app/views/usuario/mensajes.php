@@ -13,8 +13,6 @@
 		<!-- columna derecha -->
 		<div class="flex flex-col p-4 space-y-4 w-full md:w-3/4 font-dmsans">
 
-
-			<?php if(!empty($data['mensajes'])) : ?>
 			<div class="w-full p-4 bg-white flex flex-col rounded-xl ">
 				<!-- Tabla Datatable -->
 				<div class="w-full flex justify-between py-4 text-2xl text-neutral text-center">
@@ -37,6 +35,7 @@
 	          </thead>
 	          
 	          <tbody >
+	          	<?php if(!empty($data['mensajes'])) : ?>
 	            <?php foreach($data['mensajes'] as $row): ?>
 	             <tr>
 	                <td><div class="w-64"><?php echo $row->nombre_comercial; ?></div> </td>
@@ -54,12 +53,13 @@
 	                </td>
 	             </tr>
 
-	            <?php endforeach; ?>            
+	            <?php endforeach; ?> 
+							<?php endif; ?>
+
 	          </tbody>
 	      	</table>
 				</div>
 			</div>
-			<?php endif; ?>
 
 		</div>
 
