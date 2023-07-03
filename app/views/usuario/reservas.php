@@ -1,6 +1,6 @@
 <?php require APPROOT . '/views/' . $data['controller'] . '/partials/header.php'; ?>
 
-<div class="flex flex-col w-full">
+<div class="flex flex-col w-full ">
 	<?php require APPROOT . '/views/' . $data['controller'] . '/partials/navbar.php'; ?>
 
 	<div class="w-full flex flex-col md:flex-row md:space-x-4 pt-0 pb-4 px-4 md:px-6.5">
@@ -16,45 +16,54 @@
 			<div class="w-full p-4 bg-white flex flex-col rounded-xl ">
 				<!-- Tabla Datatable -->
 				<div class="w-full flex justify-between py-4 text-2xl text-neutral text-center">
-					<h2 class="text-4xl">Mensajes Recibidos</h2>  
-					<div class="w-1/3">
-						<?php echo showAlert(); ?>
-					</div>
-          
+					<h2 class="text-4xl">Mis Reservas</h2>  
 				</div>
 
 				<div class="w-full  bg-primary rounded-lg ">
 					<table class="bg-white datatable " >
 	          <thead>
 	            <tr>
-	              <th>Enviado Por</th>
-	              <th>Mensaje</th>
-	              <th>Fecha</th>
+	              <th>Servicio</th>
+	              <th>Profesional</th>
+	              <th>Dia</th>
+	              <th>Hora Turno</th>
+	              <th>Estado</th>
 	              <th>Opciones</th>
 	            </tr>
 	          </thead>
 	          
 	          <tbody >
-							<?php if(!empty($data['mensajes'])) : ?>
-
-	            <?php foreach($data['mensajes'] as $row): ?>
+	          	<?php if(!empty($data['reservas'])) : ?>
+	            <?php foreach($data['reservas'] as $row): ?>
 	             <tr>
-	                <td><div class="w-64"><?php echo $row->nombre . ' ' . $row->apellido; ?></div> </td>
-	                <td> <div class="w-full"> <?php echo $row->mensaje; ?></div> </td>
-	                <td><div class="w-max"><?php echo $row->fecha; ?> </div></td>
+	                <td> <div class="w-full"> <?php echo $row->servicio; ?></div> </td>
+	                <td><div class="w-64"><?php echo $row->nombre_comercial; ?></div> </td>
+	                <td> <div class="w-full"> <?php echo $row->dia; ?></div> </td>
+	                <td><div class="w-max"><?php echo $row->hora_inicio; ?> </div></td>
+	                <td><div class="w-max "><?php setReservaStatus($row->status); ?> </div></td>
 	                <td>
-	                	<div class="w-max flex space-x-8 ">
-	             		    <button data-item-edit="<?php echo $row->mensaje_id ?>"  class="btn_responder text-white bg-neutral py-2 px-6 rounded text-xl ">
-	             		    	<i class="fas fa-reply"></i>
+	                	<?php if($row->status == 'cancelado' || $row->status == 'finalizado') : ?>
+	                	<div class="w-max flex items-center justify-center ">
+	             		    <button class=" text-dark py-1 px-4 rounded ">
+	             		    	<i class="fas fa-align-justify"></i>
 	             		    </button>
 	                		 		
 	                	</div>
-	                	<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_responder.php'; ?>
 	                	
+	                	<?php else : ?>
+	                		<div class="w-max flex ">
+		             		    <button data-item-edit="<?php echo $row->id_reserva ?>"  class="btn_reserva text-white text-sm bg-red py-1 px-2 rounded ">
+		             		    	<i class="fas fa-xmark mr-2"></i>Cancelar
+		             		    </button>
+		                		 		
+		                	</div>
+	                		<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_reserva.php'; ?>
+
+	                	<?php endif; ?>
 	                </td>
 	             </tr>
 
-	            <?php endforeach; ?>
+	            <?php endforeach; ?> 
 							<?php endif; ?>
 
 	          </tbody>
@@ -69,9 +78,9 @@
 
 <?php 
 
-// echo "<pre>";
+echo "<pre>";
 // print_r($data);
-// echo "</pre>";
+echo "</pre>";
  ?>
 
 
@@ -81,12 +90,19 @@
 
 window.addEventListener('DOMContentLoaded', ()=> {
 
+ 	const successAlert = document.querySelector('#success_msg')
+
+  	setTimeout(() => {
+    	successAlert.remove()
+  	}, 5000)
+    	
+    	
 	const datatables = document.querySelectorAll('.datatable')
 	datatables.forEach(datatable => {
 		new simpleDatatables.DataTable(datatable, {
 
 			searchable: true,
-			fixedHeight: true,
+			// fixedHeight: true,
 	    labels: {
 		    placeholder: "Buscar...",
 		    perPage: "Elementos por página",
@@ -105,29 +121,18 @@ window.addEventListener('DOMContentLoaded', ()=> {
 		})
 	})
 
-	const allBtnEdit = document.querySelectorAll('.btn_responder')
+	const allBtnEdit = document.querySelectorAll('.btn_reserva')
 	allBtnEdit?.forEach( btn => {
 		btn.addEventListener('click', (e) => {
 			// console.log(btn)
-			let id = e.target.parentElement.getAttribute('data-item-edit')
-			let modalEdit = document.querySelector('#modal_responder_'+id)
+			let id = e.currentTarget.getAttribute('data-item-edit')
+			let modalEdit = document.querySelector('#modal_reserva_'+id)
 			modalEdit.classList.toggle('hidden')
 			modalEdit.classList.toggle('active-modal')
 
 		})
 	})
 
-	const allBtnDelete = document.querySelectorAll('.btn_delete')
-	allBtnDelete?.forEach( btn => {
-		btn.addEventListener('click', (e) => {
-			// console.log(btn)
-			let id = e.target.parentElement.getAttribute('data-item-delete')
-			let modalDelete = document.querySelector('#modal_delete_'+id)
-			modalDelete.classList.toggle('hidden')
-			modalDelete.classList.toggle('active-modal')
-
-		})
-	})
 
 
 	})

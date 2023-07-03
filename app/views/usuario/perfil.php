@@ -114,7 +114,7 @@
 							  </div>
 
 						    <div class="flex flex-col space-y-4 mb-6">
-						    	<p class="font-bold italic"> * Para cambios de Documento o Email debe comunicarse con el Administrador. </p>
+						    	<p class="text-red italic"> * Para cambios de Documento o Email debe comunicarse con el Administrador. </p>
 						      <button type="submit" name="update_perfil" class="w-1/2 p-2 text-xl rounded-md font-bold text-dark bg-cta hover:bg-ctaDark">Actualizar Perfil</button>
 						    </div>
 

@@ -43,7 +43,7 @@
 										<img src="<?php echo URLROOT . '/img/user.png' ?>" alt="imagen usuario" class="h-16 w-16 rounded-full object-cover ">
 									<?php endif; ?>
 
-									<h1 ><a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $row->id_public ?>" class="text-dark hover:text-fbk text-xl  font-bold"> <?php echo $row->nombre_comercial ?></a></h1>
+									<h1 ><a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $row->id_profesional . '/' . $row->id_public ?>" class="text-dark hover:text-fbk text-xl  font-bold"> <?php echo $row->nombre_comercial ?></a></h1>
 								</div>
 								
 								<div class="flex w-full justify-center items-center bg-primary rounded-xl p-1">
@@ -73,7 +73,19 @@
 	</div>
 </div>
 
+<script>
+	window.addEventListener('DOMContentLoaded', () => {
+	const successAlert = document.querySelector('#success_msg')
 
+  	setTimeout(() => {
+    	successAlert.remove()
+  	}, 5000)
+    	
+
+	})
+
+  
+</script>
 
 
 <?php require APPROOT . '/views/' . $data['controller'] . '/partials/footer.php'; ?>

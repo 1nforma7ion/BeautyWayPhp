@@ -90,7 +90,7 @@
 						  </div>
 
 		  				<div class="py-4 flex flex-col space-y-4 items-center w-full ">
-				      	<button type="submit" class=" rounded-full text-white text-2xl px-4 py-3 w-3/4 bg-neutralDark "> <i class="fas fa-book mr-2"></i> Reservar  </button>
+				      	<button type="submit" name="crear_reserva" class=" rounded-full text-white text-2xl px-4 py-3 w-3/4 bg-neutralDark "> <i class="fas fa-book mr-2"></i> Reservar  </button>
 				      	<a href="<?php echo URLROOT . '/' . $data['controller'] . '/index' ?>" class="btn_reservar rounded-full text-white text-xl px-4 py-2 w-3/4 bg-red text-center "> <i class="fas fa-xmark mr-2"></i> Cancelar  </a>
 							</div>
 						</form>
@@ -112,7 +112,7 @@
 <?php 
 
 echo "<pre>";
-print_r($data);
+// print_r($data);
 // print_r($data['imagenes_perfil']);
 echo "</pre>";
 

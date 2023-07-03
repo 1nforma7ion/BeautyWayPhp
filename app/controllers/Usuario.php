@@ -32,6 +32,29 @@
 		public function detalles($id_profesional=null, $id_public = null) {
 			if (usuarioLoggedIn()) {
 
+				if (isset($_POST['crear_reserva'])) {
+					ob_start();
+
+					$user_id = $_SESSION['user_id'];
+					$servicio = $_POST['servicio'];
+					$dia = $_POST['dia'];
+					$turno = $_POST['turno'];
+					$status = 'pendiente';
+
+					$turno = explode('-', $turno);
+					$hora_inicio = $turno[0];
+					$hora_fin = $turno[1];
+
+					$added = $this->usuario->createReserva($user_id, $id_profesional, $id_public, $servicio, $dia, $hora_inicio, $hora_fin, $status);
+					if ($added) {
+						$estado = 0;
+						$this->usuario->updateTurnosByUser($id_profesional, $dia, $hora_inicio, $estado);
+						$_SESSION['success_msg'] = "Reserva Creada Exitosamente.";
+						redirect('usuario/reservas');
+					}
+				}
+
+
 				$imagenes_perfil = $this->usuario->getImageById($_SESSION['user_id']);
 				$publicacion = $this->usuario->getPublicById($id_public);
 				$dias = $this->usuario->getDiasByUser($id_profesional);
@@ -124,9 +147,35 @@
 		public function reservas() {
 			if (usuarioLoggedIn()) {
 
+				if (isset($_POST['edit_reserva'])) {
+					ob_start();
+
+					$id_reserva = $_POST['id_reserva'];
+					$hora_inicio = $_POST['hora_inicio'];
+					$id_profesional = $_POST['id_profesional'];
+					$dia = $_POST['dia'];
+
+					$status = 'cancelado';
+					$updated = $this->usuario->updateReservaStatus($id_reserva, $status);
+
+					if ($updated) {
+						$estado = 1;
+						$this->usuario->updateTurnosByUser($id_profesional, $dia, $hora_inicio, $estado);
+						$_SESSION['success_msg'] = "Reserva Cancelada.";
+						redirect('usuario/reservas');
+					}
+				}
+
+
+				$imagenes_perfil = $this->usuario->getImageById($_SESSION['user_id']);
 				$reservas = $this->usuario->getReservasByUser($_SESSION['user_id']);
+
+				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+
 				$data = [
+					'imagenes_perfil' => $imagenes_perfil,
 					'reservas' => $reservas,
+					'sidebar' => $sidebar,
 					'controller' => strtolower(get_called_class()),
 					'page' => __FUNCTION__
 				];
@@ -139,27 +188,7 @@
 		}
 
 
-		public function reservar() {
-			if (usuarioLoggedIn()) {
 
-				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
-				$horarios = $this->usuario->getHorarios($_SESSION['user_id']);
-				$turnos = $this->usuario->getTurnosByUser($_SESSION['user_id']);
-
-				$data = [
-					'turnos' => $turnos,
-					'horarios' => $horarios,
-					'sidebar' => $sidebar,
-					'controller' => strtolower(get_called_class()),
-					'page' => __FUNCTION__
-				];
-
-				$this->view('usuario/reservar',$data);
-
-			} else {
-				redirect('pages/login');
-			}
-		}
 
 
 		public function perfil() {

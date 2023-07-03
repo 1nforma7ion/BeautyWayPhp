@@ -11,6 +11,12 @@
 		return $turno;
 	}
 
+	function customHour() {
+		setlocale(LC_TIME, "es_AR");
+		$fecha = date('H:i');
+		echo $fecha;
+	}
+
 	function fixedFecha($date) {
 		setlocale(LC_TIME, "es_AR");
 		$fecha = $date;
@@ -20,9 +26,15 @@
 	}
 
 	// function getMes() {
-	// 	$format = new IntlDateFormatter('es-PE', IntlDateFormatter::FULL, IntlDateFormatter::FULL, 'America/Lima', IntlDateFormatter::GREGORIAN, 'MMMM y');
-	// 	$dia = new DateTime();
-	// 	return strtoupper($format->format($dia));
+	// 	$format = new IntlDateFormatter('es-AR', 
+	// 		IntlDateFormatter::FULL, 
+	// 		IntlDateFormatter::FULL, 
+	// 		'America/Argentina/Buenos_Aires', 
+	// 		IntlDateFormatter::GREGORIAN, 'HH:mm');
+		
+	// 	$dia = new Datetime();
+	
+	// 	echo strtoupper($format->format($dia));
 	// }
 
 
@@ -40,14 +52,19 @@
 	// 	return($dates);
 	// }
 
-	// function setDayStatus($value) {
-	// 	if ($value) {
-	// 		echo '<i class="px-2 text-xl fas fa-check text-green"></i> ';
-	// 	} else {
-	// 		echo '<i class="fas fa-xmark text-red"></i>';
-	// 	}
-	// }
 
+
+	function setReservaStatus($estado) {
+		if ($estado == 'pendiente') {
+			echo '<div class="text-dark font-bold">' . ucwords($estado) .'</div>';
+		} else if ($estado == 'confirmado') {
+			echo '<div class="text-green font-bold">' . ucwords($estado) .'</div>';
+		} else if ($estado == 'cancelado'){
+			echo '<div class="text-red font-bold">' . ucwords($estado) .'</div>';
+		} else {
+			echo '<div class="text-neutral font-bold">' . ucwords($estado) . '</div>';
+		}
+	}
 
 	function setStatus($estado) {
 		if ($estado == 1) {
@@ -93,6 +110,13 @@
 		if (!empty($_SESSION['msg'])) {
 			echo '<div id="msg" class="text-center p-2 w-full bg-primary text-lg rounded-xl">' . $_SESSION['msg'] . '</div>';
 			unset($_SESSION['msg']);
+		}
+	}
+
+	function showMsg() {
+		if (!empty($_SESSION['success_msg'])) {
+			echo '<div id="success_msg" class="text-center p-4 w-full bg-ctaDark text-dark text-lg rounded-xl">' . $_SESSION['success_msg'] . '</div>';
+			unset($_SESSION['success_msg']);
 		}
 	}
 
