@@ -1,7 +1,7 @@
 <nav class="flex py-2 items-center md:py-0 md:justify-between md:px-6.5 md:bg-neutral bg-neutralDark text-lg text-dark font-dmsans tracking-wider">
 
-	<div class="hidden md:flex w-max px-4 h-16 items-center bg-white">
-		<a href="<?php echo URLROOT . '/' . $data['controller'] . '/index'?>"><img src="<?php echo URLROOT; ?>/img/logo.png" alt="imagen logo" class="h-12"></a>
+	<div class="hidden md:flex w-max items-center bg-white">
+		<a href="<?php echo URLROOT . '/' . $data['controller'] . '/index'?>"><img src="<?php echo URLROOT; ?>/img/logo.png" alt="imagen logo" class="h-16"></a>
 	</div>
 
 	<div class=" flex w-full md:w-3/4 items-center space-x-8  md:justify-end text-xl">

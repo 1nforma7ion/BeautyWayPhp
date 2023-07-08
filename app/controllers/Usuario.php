@@ -49,6 +49,12 @@
 					if ($added) {
 						$estado = 0;
 						$this->usuario->updateTurnosByUser($id_profesional, $dia, $hora_inicio, $estado);
+						
+							$recibido_por = $id_profesional;
+							$enviado_por = $_SESSION['user_id'];
+							$mensaje = "Solicita una reserva el dia " . $dia . " en el turno de " . $hora_inicio . "hrs.";
+							$this->usuario->createMensaje($recibido_por, $enviado_por, $mensaje);
+
 						$_SESSION['success_msg'] = "Reserva Creada Exitosamente.";
 						redirect('usuario/reservas');
 					}

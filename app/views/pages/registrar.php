@@ -161,6 +161,10 @@
 					</div>
 
 					<div class="flex flex-col space-y-4 ">
+						<input type="hidden" id="inputProfesion" name="profesion[]" value="1">
+						<input type="hidden"  name="modalidad_usuario" value="Domicilio">
+						<input type="hidden"  name="zona_usuario" value="1">
+
 				    <p class="text-sm">Profesion:</p>
 
 						<div class="w-full px-10 ">
@@ -168,7 +172,7 @@
 								<?php foreach ($data['profesiones'] as $row) : ?>
 							<div class="flex justify-between">
 						    <label for="profesion"><?php echo $row->profesion ?></label>
-						    <input type="checkbox" name="profesion" value="<?php echo $row->id ?>">
+						    <input type="checkbox" name="profesion[]" value="<?php echo $row->id ?>">
 						  </div>
 								<?php endforeach; ?>
 							<?php endif; ?>
@@ -181,7 +185,7 @@
 				      <option value="" selected>Selecciona ...</option>
 				     	<?php if(isset($data['modalidades'])) : ?>
 								<?php foreach ($data['modalidades'] as $row) : ?>
-									<option value="<?php echo $row->id ?>"><?php echo $row->modalidad ?></option>
+									<option value="<?php echo $row->modalidad ?>"><?php echo $row->modalidad ?></option>
 								<?php endforeach; ?>
 							<?php endif; ?> 
 				    </select>
@@ -216,6 +220,13 @@
     </div>
   </section>
 
+
+<?php 
+echo "<pre>";
+print_r($data);
+echo "</pre>";
+
+ ?>
 <script>
 
 const form = document.querySelector('#form_register')
@@ -231,6 +242,12 @@ form.addEventListener('submit', e => {
 	const btnPro = document.querySelector('#btn-pro')
 	btnPro.addEventListener('click', () => {
 		const icon = btnPro.firstElementChild
+		const inputNomComercial = document.querySelector('#nombre_comercial')
+		const inputProfesion = document.querySelector('#inputProfesion')
+		inputNomComercial.toggleAttribute('required')
+		inputProfesion.toggleAttribute('disabled')
+		console.log(inputNomComercial)
+		console.log(inputProfesion)
 		icon.classList.toggle('fa-bell')
 		icon.classList.toggle('fa-check')
 		profesional.classList.toggle('hidden')

@@ -303,7 +303,7 @@
 
 
 		public function getMensajesById($user_id) {
-			$this->db->query('SELECT *, m.id AS mensaje_id FROM mensajes m INNER JOIN usuarios u ON m.enviado_por = u.id WHERE m.recibido_por = :user_id ORDER BY m.fecha');
+			$this->db->query('SELECT *, m.id AS mensaje_id FROM mensajes m INNER JOIN usuarios u ON m.enviado_por = u.id WHERE m.recibido_por = :user_id ORDER BY m.fecha DESC');
 			$this->db->bind(':user_id', $user_id);
 
 			$profesiones = $this->db->getSet();

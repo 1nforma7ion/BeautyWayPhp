@@ -30,7 +30,7 @@
 		public function findEmail($email) {
 			$this->db->query('SELECT *, u.estado AS user_estado, u.id AS user_id, r.id AS rol_id FROM usuarios u 
 				INNER JOIN roles r ON r.id = u.rol_id 
-				INNER JOIN profesiones p ON p.id = u.id_profesion 
+				-- INNER JOIN profesiones p ON p.id = u.id_profesion 
 				INNER JOIN zonas z ON z.id = u.id_zona_trabajo 
 				WHERE email = :email');
 			$this->db->bind(':email', $email);
@@ -38,6 +38,18 @@
 
 			if ($user) {
 				return $user;
+			} else {
+				return false;
+			}
+		}
+
+		public function findDocumento($num_documento) {
+			$this->db->query('SELECT * FROM usuarios WHERE num_documento = :num_documento');
+			$this->db->bind(':num_documento', $num_documento);
+			$doc = $this->db->getSingle();
+
+			if ($doc) {
+				return $doc;
 			} else {
 				return false;
 			}
@@ -126,38 +138,82 @@
 
 
 
+		public function getFirstService($id_profesion) {
+			$this->db->query('SELECT servicio FROM servicios WHERE id_profesion = :id_profesion AND estado = 1 LIMIT 1');
+			$this->db->bind(':id_profesion', $id_profesion);
+			
+			$servicio = $this->db->getSingle();
+			return $servicio->servicio;
+		}
 
-		public function register($rol,$tipo,$doc,$nombre,$apellido,$calle,$altura,$piso,$depto,$barrio,$localidad,$telefono,$email,$pass,$comercial,$profesion,$modalidad,$zona,$estado) {
-			$this->db->query("INSERT INTO usuarios (rol_id, tipo_documento, num_documento, nombre, apellido, nombre_comercial, id_profesion, id_zona_trabajo, modalidad, calle, altura, piso, depto, barrio, localidad, telefono, email, contrasenia, estado) 
-				VALUES (:rol,:tipo,:doc,:nombre,:apellido,:comercial,:profesion,:zona,:modalidad,:calle,:altura,:piso,:depto,:barrio,:localidad,:telefono,:email,:pass, :estado)");
-			$this->db->bind(':rol',$rol);
-			$this->db->bind(':tipo',$tipo);
-			$this->db->bind(':doc',$doc);
-			$this->db->bind(':nombre',$nombre);
-			$this->db->bind(':apellido',$apellido);
-			$this->db->bind(':calle',$calle);
-			$this->db->bind(':altura',$altura);
-			$this->db->bind(':piso',$piso);
-			$this->db->bind(':depto',$depto);
-			$this->db->bind(':barrio',$barrio);
-			$this->db->bind(':localidad',$localidad);
-			$this->db->bind(':telefono',$telefono);
-			$this->db->bind(':email',$email);
-			$this->db->bind(':pass',$pass);
-			$this->db->bind(':comercial',$comercial);
-			$this->db->bind(':profesion',$profesion);
-			$this->db->bind(':modalidad',$modalidad);
-			$this->db->bind(':zona',$zona);
-			$this->db->bind(':estado',$estado);
+		public function getLastUserId() {
+			$this->db->query('SELECT MAX(id) AS user_id FROM usuarios');
+			
+			$userId = $this->db->getSingle();
 
-
-			$creado = $this->db->execute();
-
-			if ($creado) {
-				return true;
+			if ($userId) {
+				return $userId->user_id;
 			} else {
 				return false;
 			}
+		}
+
+		public function register($rol,$tipo,$doc,$nombre,$apellido,$calle,$altura,$piso,$depto,$barrio,$localidad,$telefono,$email,$pass,$comercial,$profesion,$modalidad,$zona,$estado) {
+
+			try {
+				$this->db->beginTransaction();   
+
+					$this->db->query("INSERT INTO usuarios (rol_id, tipo_documento, num_documento, nombre, apellido, nombre_comercial, id_zona_trabajo, modalidad, calle, altura, piso, depto, barrio, localidad, telefono, email, contrasenia, estado) 
+						VALUES (:rol,:tipo,:doc,:nombre,:apellido,:comercial,:zona,:modalidad,:calle,:altura,:piso,:depto,:barrio,:localidad,:telefono,:email,:pass, :estado)");
+					$this->db->bind(':rol',$rol);
+					$this->db->bind(':tipo',$tipo);
+					$this->db->bind(':doc',$doc);
+					$this->db->bind(':nombre',$nombre);
+					$this->db->bind(':apellido',$apellido);
+					$this->db->bind(':calle',$calle);
+					$this->db->bind(':altura',$altura);
+					$this->db->bind(':piso',$piso);
+					$this->db->bind(':depto',$depto);
+					$this->db->bind(':barrio',$barrio);
+					$this->db->bind(':localidad',$localidad);
+					$this->db->bind(':telefono',$telefono);
+					$this->db->bind(':email',$email);
+					$this->db->bind(':pass',$pass);
+					$this->db->bind(':comercial',$comercial);
+					$this->db->bind(':modalidad',$modalidad);
+					$this->db->bind(':zona',$zona);
+					$this->db->bind(':estado',$estado);
+					// $this->db->execute();
+					
+						if($this->db->execute()) {
+								$id_usuario = $this->getLastUserId();
+
+								if ($id_usuario > 0) {
+									foreach ($profesion as $id_profesion) {
+										$servicio = $this->getFirstService($id_profesion);
+
+										$this->db->query('INSERT INTO usuarios_servicios (id_usuario, id_profesion, servicio) VALUES (:id_usuario, :id_profesion, :servicio)');
+										$this->db->bind(':servicio', $servicio);
+										$this->db->bind(':id_profesion', $id_profesion);
+										$this->db->bind(':id_usuario', $id_usuario);
+										$this->db->execute();
+										
+									}
+						
+								
+									$this->db->commit();
+									return true;
+								}
+
+						} 
+									// $this->db->commit();
+
+
+			} catch (Exception $e) {
+				$this->db->rollBack();
+    		return false;
+			}
+
 		}
 
 

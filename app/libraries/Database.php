@@ -66,5 +66,17 @@
 			return $this->stmt->rowCount();
 		}
 
+    public function beginTransaction() {
+      return $this->handler->beginTransaction();
+    }
+
+    public function commit() {
+      return $this->handler->commit();
+    }
+
+    public function rollBack() {
+      return $this->handler->rollBack();
+    }
+
 	}
 ?>

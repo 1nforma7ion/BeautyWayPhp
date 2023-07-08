@@ -30,6 +30,7 @@
 	          </thead>
 	          
 	          <tbody>      
+	          	<?php if(isset($data['todosServicios'])) : ?>
 	          	<?php foreach($data['todosServicios'] as $row) : ?>
 	              <tr>
 	                <td><?php echo $row->servicio; ?> </td>
@@ -41,6 +42,7 @@
 	                </td>
 	              </tr>
 	            <?php endforeach; ?>   
+	          <?php endif; ?>
 
 	          </tbody>
 	        </table>

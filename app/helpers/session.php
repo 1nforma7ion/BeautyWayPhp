@@ -21,7 +21,7 @@
 		setlocale(LC_TIME, "es_AR");
 		$fecha = $date;
 		$fecha = str_replace("-", "/", $fecha); 
-		$fecha = strftime("%d-%m-%Y", strtotime($fecha));
+		$fecha = date("d-m-Y", strtotime($fecha));
 		return $fecha;
 	}
 

@@ -270,15 +270,18 @@
 					$pass = $_POST['contrasenia'];
 					$rep_pass = $_POST['repetirContrasenia'];
 					$comercial = $_POST['nombre_comercial'];
-					$profesion = $_POST['profesion'];
-					$modalidad = $_POST['modalidad'];
-					$zona = $_POST['zona'];
 					$estado = 1; //activo
 
+					$profesion = $_POST['profesion'];
+					
 					if(!empty($_POST['nombre_comercial'])) {
 						$rol = ID_USER_PRO;
+						$modalidad = $_POST['modalidad'];
+						$zona = $_POST['zona'];
 					} else {
 						$rol = ID_USER_NORMAL;
+						$modalidad = $_POST['modalidad_usuario'];
+						$zona = $_POST['zona_usuario'];
 					}
 
 					if ($pass !== $rep_pass) {
@@ -286,22 +289,37 @@
 						redirect('pages/registrar');
 					}
 
+					// $invite = implode(', ', $_POST['profesion']);
+					// echo $invite;
+
 					// echo "<pre>";
 					// print_r($_POST);
 					// die();
 		
 					$userExists = $this->page->findEmail($email);
+					$docExists = $this->page->findDocumento($doc);
 
 					if ($userExists) {
 						$_SESSION['msg'] = 'El email ya se encuentra registrado.';
 						redirect('pages/registrar');
 					} else {
-						$pass = password_hash($pass, PASSWORD_DEFAULT);
+						if ($docExists) {
+							$_SESSION['msg'] = 'El Documento ya se encuentra registrado.';
+							redirect('pages/registrar');
+						} else {
+							$pass = password_hash($pass, PASSWORD_DEFAULT);
 
-						$this->page->register($rol,$tipo,$doc,$nombre,$apellido,$calle,$altura,$piso,$depto,$barrio,$localidad,$telefono,$email,$pass,$comercial,$profesion,$modalidad,$zona, $estado);
-
-						$_SESSION['msg'] = 'Registrado Correctamente.';
-						redirect('pages/login');
+							$created = $this->page->register($rol,$tipo,$doc,$nombre,$apellido,$calle,$altura,$piso,$depto,$barrio,$localidad,$telefono,$email,$pass,$comercial,$profesion,$modalidad,$zona, $estado);
+							
+							if($created) {
+								$_SESSION['msg'] = 'Registrado Correctamente.';
+								redirect('pages/login');
+							} else {
+								$_SESSION['msg'] = 'Error al Registrar.';
+								redirect('pages/login');	
+							}
+							
+						}
 					}
 
 				} else {
