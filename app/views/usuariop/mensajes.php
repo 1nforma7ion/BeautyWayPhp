@@ -30,7 +30,7 @@
 	              <th>Enviado Por</th>
 	              <th>Mensaje</th>
 	              <th>Fecha</th>
-	              <th>Opciones</th>
+	              <th>Resp.</th>
 	            </tr>
 	          </thead>
 	          
@@ -41,10 +41,10 @@
 	             <tr>
 	                <td><div class="w-64"><?php echo $row->nombre . ' ' . $row->apellido; ?></div> </td>
 	                <td> <div class="w-full"> <?php echo $row->mensaje; ?></div> </td>
-	                <td><div class="w-max"><?php echo $row->fecha; ?> </div></td>
+	                <td><div class="w-max"><?php echo fixedFecha($row->fecha); ?> </div></td>
 	                <td>
 	                	<div class="w-max flex space-x-8 ">
-	             		    <button data-item-edit="<?php echo $row->mensaje_id ?>"  class="btn_responder text-white bg-neutral py-2 px-6 rounded text-xl ">
+	             		    <button data-item-edit="<?php echo $row->mensaje_id ?>"  class="btn_responder text-white bg-neutral py-1 px-2 rounded text-xl ">
 	             		    	<i class="fas fa-reply"></i>
 	             		    </button>
 	                		 		

@@ -182,7 +182,18 @@
 			return $profesiones;
 		}
 
-		public function agregarProfesion($user_id, $id_profesion, $servicio = 'default') {
+		public function getFirstService($id_profesion) {
+			$this->db->query('SELECT servicio FROM servicios WHERE id_profesion = :id_profesion AND estado = 1 LIMIT 1');
+			$this->db->bind(':id_profesion', $id_profesion);
+			
+			$servicio = $this->db->getSingle();
+			return $servicio->servicio;
+		}
+
+
+		public function agregarProfesion($user_id, $id_profesion) {
+			$servicio = $this->getFirstService($id_profesion);
+			
 			$this->db->query('INSERT INTO usuarios_servicios (id_usuario, id_profesion, servicio) VALUES (:user_id, :id_profesion, :servicio)');
 			$this->db->bind(':user_id', $user_id);
 			$this->db->bind(':id_profesion', $id_profesion);
@@ -273,12 +284,7 @@
 // FIN perfil
 
 
-		public function getReservasByUser($user) {
-			$this->db->query('SELECT * FROM publicaciones WHERE id_usuario = :user');
-			$this->db->bind(':user', $user);
-			$reservas = $this->db->getSet();
-			return $reservas;
-		}
+
 
 // INICIO publicar
 
@@ -325,6 +331,67 @@
 
 		}
 
+
+
+		// INICIO reservas
+
+		public function readReservaEstados() {
+			$this->db->query('SELECT * FROM reservas_estados');
+			$estados = $this->db->getSet();
+			return $estados;
+		}
+
+		public function readReservaMotivos() {
+			$this->db->query('SELECT * FROM reservas_motivos');
+			$motivos = $this->db->getSet();
+			return $motivos;
+		}
+
+
+		public function getReservasByUser($user_id) {
+			$this->db->query('SELECT *, r.id_profesional AS id_prof, r.id AS id_reserva 
+				FROM reservas r 
+				INNER JOIN usuarios u ON u.id = r.id_profesional
+				WHERE r.id_profesional = :user_id 
+				ORDER BY r.dia ASC');
+			$this->db->bind(':user_id', $user_id);
+
+			$reservas = $this->db->getSet();
+			return $reservas;
+		}
+
+		public function updateReservaStatus($id_reserva, $status, $motivo) {
+      $this->db->query('UPDATE reservas SET status = :status, motivo = :motivo  WHERE id = :id_reserva');
+      $this->db->bind(':id_reserva', $id_reserva);
+      $this->db->bind(':status', $status);
+      $this->db->bind(':motivo', $motivo);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+
+		public function updateTurnosByUser($id_profesional, $dia, $hora_inicio, $estado) {
+			$this->db->query('UPDATE usuarios_horarios SET estado = :estado 
+				WHERE id_usuario = :id_profesional AND dia = :dia AND hora_inicio = :hora_inicio');
+			$this->db->bind(':id_profesional', $id_profesional);
+			$this->db->bind(':dia', $dia);
+			$this->db->bind(':hora_inicio', $hora_inicio);
+			$this->db->bind(':estado', $estado);
+			$updated = $this->db->execute();
+
+			if ($updated) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+
+		
 
 	}
 ?>

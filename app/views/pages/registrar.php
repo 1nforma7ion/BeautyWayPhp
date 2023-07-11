@@ -25,10 +25,11 @@
 			    <div class="group-col">
 			    	<label for="tipo_documento">Tipo de documento:</label>
 				    <select id="tipo_documento" name="tipo_documento" required>
-				      <option value="" selected>Selecciona ...</option>
+				      <!-- <option value="" selected>Selecciona ...</option> -->
+				      <!-- value: pasaporte ; tipo_doc : Pasaporte   -->
 				      <?php if(isset($data['tipo_docs'])) : ?>
 								<?php foreach ($data['tipo_docs'] as $row) : ?>
-									<option value="<?php echo $row->value ?>"><?php echo $row->tipo_doc ?></option>
+									<option value="<?php echo $row->value ?>" selected><?php echo $row->tipo_doc ?></option>
 								<?php endforeach; ?>
 							<?php endif; ?> 
 				    </select>
@@ -36,7 +37,7 @@
 			    <div class="group-col relative">
 			    	<div class="absolute hidden right-0 bottom-0"><i class="fas fa-check bg-cta p-2 rounded-full"></i></div>
 				    <label for="num_documento">Numero Documento: 
-				    	<span id="alert-doc" class="hidden italic text-sm text-red">Maximo <span id="chars_text">2</span> caracteres</span>
+				    	<span id="alert-doc" class="hidden italic text-sm text-red">Maximo <span id="chars_text"></span> caracteres</span>
 				    </label>
 				    <input type="text" id="num_documento" name="num_documento"  minlength="3"  required placeholder="46801360">
 			    </div>
@@ -223,7 +224,7 @@
 
 <?php 
 echo "<pre>";
-print_r($data);
+// print_r($data);
 echo "</pre>";
 
  ?>
@@ -231,7 +232,7 @@ echo "</pre>";
 
 const form = document.querySelector('#form_register')
 form.addEventListener('submit', e => {
-  if(form.classList.contains('invalid')) {
+  if(form.classList.contains('invalid') || form.classList.contains('invalidp')) {
     e.preventDefault()
     // console.log(form)
   } 
@@ -333,29 +334,28 @@ const passValidation = (value) => {
 }
 
 
-let chars
-const chars_text = document.querySelector('#chars_text')
+
+
+// const tipo_doc = document.querySelector('#tipo_documento')
+// tipo_doc.addEventListener('change', () => {
+// 	if(tipo_doc.value === 'documentoUnico') {
+// 		chars = 8
+// 		chars_text.textContent = chars
+// 		numDoc.setAttribute('maxlength', chars)
+// 		// console.log(numDoc)
+// 	} else if (tipo_doc.value === 'pasaporte') {
+// 		chars = 10
+// 		chars_text.textContent = chars
+// 		numDoc.setAttribute('maxlength', chars)
+// 		// console.log(numDoc)
+
+// 	} else {
+// 		chars = 1
+// 	}
+// })
+
 
 const tipo_doc = document.querySelector('#tipo_documento')
-tipo_doc.addEventListener('change', () => {
-	if(tipo_doc.value === 'documentoUnico') {
-		chars = 8
-		chars_text.textContent = chars
-		numDoc.setAttribute('maxlength', chars)
-		// console.log(numDoc)
-	} else if (tipo_doc.value === 'pasaporte') {
-		chars = 10
-		chars_text.textContent = chars
-		numDoc.setAttribute('maxlength', chars)
-		// console.log(numDoc)
-
-	} else {
-		chars = 1
-	}
-})
-
-
-
 const numDoc = document.querySelector('#num_documento')
 numDoc.addEventListener('keyup', (e) => {
 
@@ -385,6 +385,15 @@ numDoc.addEventListener('keyup', (e) => {
 	} 
 
 })
+
+
+// set maxChars num_document 
+let chars = 8
+const chars_text = document.querySelector('#chars_text')
+if (chars == 8) {
+	chars_text.textContent = chars
+	numDoc.setAttribute('maxlength', chars)
+}
 
 const nombre = document.querySelector('#nombre')
 nombre.addEventListener('keyup', (e) => {
@@ -451,9 +460,13 @@ pass.addEventListener('keyup', (e) => {
 	if(passValid === 4) {
 		alertPass.classList.add('hidden')
 		alertPass.parentElement.previousElementSibling.classList.remove('hidden')
+      form.classList.remove('invalidp')
+
 	} else {
 		alertPass.classList.remove('hidden')
 		alertPass.parentElement.previousElementSibling.classList.add('hidden')
+      form.classList.add('invalidp')
+
 	}
 
 
@@ -464,7 +477,7 @@ rpass.addEventListener('keyup', (e) => {
 
 	const alertRpass = document.querySelector('#alert-rpass')
 	// console.log(numDoc.value.length)
-	if (rpass.value.length > 3) {
+	if (rpass.value.length > 5) {
 		if(rpass.value == pass.value) {
 			alertRpass.classList.add('hidden')
 			alertRpass.parentElement.previousElementSibling.classList.remove('hidden')
@@ -498,21 +511,40 @@ email.addEventListener('keyup', (e) => {
 
 })
 
+
+function isNumber(evt) {
+  evt = (evt) ? evt : window.event;
+  var charCode = (evt.which) ? evt.which : evt.keyCode;
+  if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+    return false;
+  }
+  return true;
+}
+
+
 const telefono = document.querySelector('#telefono')
 telefono.addEventListener('keyup', (e) => {
+	 // Only ASCII character in that range allowed
+	console.log(e.target)
+if(!isNumber(e.target)) e.target.preventDefault();                // return false;
+            // return true;
+	// telefono.value.replace(/[^0-9]/g, '')
+}
+)
+// telefono.addEventListener('keyup', (e) => {
 
-	const alertTelef = document.querySelector('#alert-telef')
-	// console.log(numDoc.value.length)
+// 	const alertTelef = document.querySelector('#alert-telef')
+// 	// console.log(numDoc.value.length)
 
-	if(telefono.value.length > 7) {
-		alertTelef.classList.add('hidden')
-		alertTelef.parentElement.previousElementSibling.classList.remove('hidden')
-	} else {
-		alertTelef.classList.remove('hidden')
-		alertTelef.parentElement.previousElementSibling.classList.add('hidden')
-	}
+// 	if(telefono.value.length > 7) {
+// 		alertTelef.classList.add('hidden')
+// 		alertTelef.parentElement.previousElementSibling.classList.remove('hidden')
+// 	} else {
+// 		alertTelef.classList.remove('hidden')
+// 		alertTelef.parentElement.previousElementSibling.classList.add('hidden')
+// 	}
 
-})
+// })
 
 // const localidad = document.querySelector('#localidad')
 // localidad.addEventListener('keyup', (e) => {

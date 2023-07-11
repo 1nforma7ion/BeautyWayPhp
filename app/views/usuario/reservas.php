@@ -42,7 +42,7 @@
 	                <td><div class="w-max"><?php echo $row->hora_inicio; ?> </div></td>
 	                <td><div class="w-max "><?php setReservaStatus($row->status); ?> </div></td>
 	                <td>
-	                	<?php if($row->status == 'cancelado' || $row->status == 'finalizado') : ?>
+	                	<?php if($row->status == 'cancelado' || $row->status == 'finalizado' || $row->status == 'pendiente') : ?>
 	                	<div class="w-max flex items-center justify-center ">
 	             		    <button class=" text-dark py-1 px-4 rounded ">
 	             		    	<i class="fas fa-align-justify"></i>

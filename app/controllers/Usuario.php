@@ -105,10 +105,8 @@
 
 					$added = $this->usuario->createMensaje($recibido_por, $enviado_por, $mensaje);
 					if ($added) {
-						// $success = 1;
 						$_SESSION['msg'] = "enviado correctamente";
 
-						
 						$imagenes_perfil = $this->usuario->getImageById($_SESSION['user_id']);
 						$mensajes = $this->usuario->getMensajesById($_SESSION['user_id']);
 
@@ -124,7 +122,7 @@
 						];
 
 						$this->view('usuario/mensajes', $data);
-						// redirect('usuario/mensajes/' . $success );
+
 					}
 				}
 
@@ -192,9 +190,6 @@
 				redirect('pages/login');
 			}
 		}
-
-
-
 
 
 		public function perfil() {
@@ -360,8 +355,6 @@
 				redirect('pages/login');
 			}
 		}
-
-
 
 
 		

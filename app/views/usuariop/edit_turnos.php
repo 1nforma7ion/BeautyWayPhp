@@ -91,6 +91,10 @@
 
 					<div class="w-full py-4 text-2xl text-neutral text-center">Selecciona Horario</div>
 
+					<div class="flex flex-col items-center p-2">
+					  <p class="text-red "> * Debes seleccionar al menos 1 día antes de guardar tus Horarios. </p>
+					</div>
+
 					<div class="flex justify-around mx-auto w-full p-4 ">
 
 						<div class="flex flex-col space-y-4 w-max">

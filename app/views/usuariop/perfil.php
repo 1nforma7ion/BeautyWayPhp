@@ -288,6 +288,10 @@
 							<h1 class="text-dark text-2xl text-neutral "> Horarios de Atención </h1>
 						</div>
 
+						<div class="flex flex-col p-1">
+					    <p class="text-neutral "> * Debes agregar Turnos antes de publicar.</p>
+					  </div>
+
 						<a href="<?php echo URLROOT . '/' . $data['controller'] . '/edit_turnos' ?>" class="w-max px-4 py-2 bg-ctaDark  cursor-pointer font-bold rounded-xl">
 							 <span><i class="fas fa-edit mr-2"></i></span> 
 							 <span>Editar Turnos</span> 
@@ -307,6 +311,10 @@
 						<button id="btn_add" class="w-44 bg-ctaDark  cursor-pointer p-2 font-bold rounded-xl">
 							<i class="fas fa-plus mr-2"></i>Agregar Profesion
 						</button>
+
+						<div class="flex flex-col p-1">
+					    <p class="text-neutral "> * Debes agregar Servicios antes de publicar.</p>
+					  </div>
 
 						<div class="flex flex-col ">
 
