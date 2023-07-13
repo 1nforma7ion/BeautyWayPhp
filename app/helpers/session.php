@@ -1,5 +1,8 @@
 <?php
 
+define('TIMEZONE', 'America/Lima');
+date_default_timezone_set(TIMEZONE);
+
 	session_start();
 
 	function setTurnos($turno, $dia) {
