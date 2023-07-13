@@ -646,6 +646,75 @@
 				redirect('pages/login');
 			}
 		}
-	
+
+		public function reportes() {
+			if (usuariopLoggedIn()) {
+
+				if (isset($_POST['edit_reserva'])) {
+					ob_start();
+
+					$id_reserva = $_POST['id_reserva'];
+					$status = $_POST['status'];
+					$motivo = $_POST['motivo'];
+
+					$updated = $this->usuariop->updateReservaStatus($id_reserva, $status, $motivo);
+
+					if ($updated) {
+						$estado = 1;
+						$id_profesional = $_SESSION['user_id'];
+						$dia = $_POST['dia'];
+						$hora_inicio = $_POST['hora_inicio'];
+
+						$this->usuariop->updateTurnosByUser($id_profesional, $dia, $hora_inicio, $estado);
+
+						$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
+						$reservas = $this->usuariop->getReservasByUser($_SESSION['user_id']);
+						$reservas_estados = $this->usuariop->readReservaEstados();
+						$reservas_motivos = $this->usuariop->readReservaMotivos();
+
+						$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+
+						$data = [
+							'imagenes_perfil' => $imagenes_perfil,
+							'reservas' => $reservas,
+							'reservas_motivos' => $reservas_motivos,
+							'reservas_estados' => $reservas_estados,
+							'sidebar' => $sidebar,
+							'controller' => strtolower(get_called_class()),
+							'page' => __FUNCTION__
+						];
+						
+
+						$_SESSION['msg'] = "Reserva Actualizada.";
+						$this->view('usuariop/reservas',$data);
+
+					}
+				}
+
+
+				$reservas = $this->usuariop->getReservasByUser($_SESSION['user_id']);
+				$reservas_estados = $this->usuariop->readReservaEstados();
+				$reservas_motivos = $this->usuariop->readReservaMotivos();
+
+				$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
+				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+
+				$data = [
+					'imagenes_perfil' => $imagenes_perfil,
+					'sidebar' => $sidebar,
+					'controller' => strtolower(get_called_class()),
+					'page' => __FUNCTION__
+				];
+
+				$this->view('usuariop/reportes',$data);
+
+			} else {
+				redirect('pages/login');
+			}
+		}
+
+
+
+
 	}
 ?>
