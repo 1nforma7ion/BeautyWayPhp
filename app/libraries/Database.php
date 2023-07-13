@@ -15,8 +15,8 @@
 
 			$options = array(
 				PDO::ATTR_PERSISTENT => true,
-				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-				PDO::MYSQL_ATTR_INIT_COMMAND => "SET time_zone='$timezone'"
+				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+				// PDO::MYSQL_ATTR_INIT_COMMAND => "SET time_zone='$timezone'"
 			);
 
 			try {
