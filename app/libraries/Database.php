@@ -11,7 +11,7 @@
 
 		public function __construct() {
 			$connect = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname;
-		 	$timezone = (new DateTime('now'))->format('P');
+		 	$timezone = (new DateTime('now', new DateTimeZone('America/Argentina/Buenos_Aires')))->format('P');
 
 			$options = array(
 				PDO::ATTR_PERSISTENT => true,
