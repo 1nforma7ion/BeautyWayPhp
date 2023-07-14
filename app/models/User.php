@@ -205,7 +205,102 @@
       }
     }
 
+// Inicio like functions
 
+
+		public function readNumLikes($id_public) {
+			$this->db->query('SELECT me_gusta	FROM publicaciones WHERE id = :id_public');
+			$this->db->bind(':id_public', $id_public);
+
+			$likes = $this->db->getSingle();
+			return $likes->me_gusta;
+		}
+
+		public function createLikedByUser($user_id, $id_public, $like) {
+			$this->db->query('INSERT INTO publicaciones_megusta (id_usuario, id_publicacion, liked) VALUES (:user_id, :id_public, :like)');
+			$this->db->bind(':user_id', $user_id);
+			$this->db->bind(':id_public', $id_public);
+			$this->db->bind(':like', $like);
+			$creado = $this->db->execute();
+
+			if ($creado) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+
+
+		public function deleteLikedByUser($user_id, $id_public) {
+			$this->db->query('DELETE FROM publicaciones_megusta WHERE id_usuario = :user_id AND id_publicacion = :id_public');
+			$this->db->bind(':user_id', $user_id);
+			$this->db->bind(':id_public', $id_public);
+
+			$deleted = $this->db->execute();
+
+			if ($deleted) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		public function readLikedByUser($user_id, $id_public, $liked = 1) {
+			$this->db->query('SELECT * FROM publicaciones_megusta WHERE id_usuario = :user_id AND id_publicacion = :id_public AND liked = :liked');
+			$this->db->bind(':id_public', $id_public);
+			$this->db->bind(':user_id', $user_id);
+			$this->db->bind(':liked', $liked);
+
+			$liked = $this->db->getSingle();
+
+			if ($liked) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		public function decreasePublicLikes($id_public, $like) {
+			$currentLikes = $this->readNumLikes($id_public);
+			$totalLikes = $currentLikes - $like;
+
+      $this->db->query('UPDATE publicaciones SET me_gusta = :totalLikes  WHERE id = :id_public');
+      $this->db->bind(':id_public', $id_public);
+      $this->db->bind(':totalLikes', $totalLikes);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+		public function increasePublicLikes($id_public, $like) {
+			$currentLikes = $this->readNumLikes($id_public);
+			$totalLikes = $currentLikes + $like;
+
+      $this->db->query('UPDATE publicaciones SET me_gusta = :totalLikes  WHERE id = :id_public');
+      $this->db->bind(':id_public', $id_public);
+      $this->db->bind(':totalLikes', $totalLikes);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+
+		public function readAllLiked($user_id, $liked = 1) {
+			$this->db->query('SELECT id_publicacion FROM publicaciones_megusta WHERE id_usuario = :user_id AND liked = :liked');
+			$this->db->bind(':user_id', $user_id);
+			$this->db->bind(':liked', $liked);
+
+			$liked = $this->db->getSet();
+			return $liked;
+			
+		}
 
 	}
 ?>

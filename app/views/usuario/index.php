@@ -15,6 +15,8 @@
 			<div class="flex flex-col w-full  md:p-4  space-y-8  overflow-y-scroll no-scrollbar">
 
 				<!-- publicaciones -->
+				<input type="hidden" id="url" data-controller="<?php echo $data['controller'] ?>" data-root="<?php echo URLROOT ?>" data-page="<?php echo $data['page'] ?>">
+
 				<?php foreach($data['publicaciones'] as $row) : ?>
 					<div class=" flex flex-col-reverse md:flex-row bg-white text-dark drop-shadow-lg hover:drop-shadow-card rounded-lg">
 
@@ -24,8 +26,17 @@
 						<?php echo $row->servicio ?>  </span>
 
 						<div class="date_post absolute w-full flex justify-around h-max bottom-4 right-0 md:bottom-4  md:text-2xl font-bold">
-							<button class="btn_alert w-44 rounded-full text-sm text-dark p-2 bg-ctaDark "> <?php echo $row->me_gusta ?>   <i class="fas fa-heart "></i> Me gusta  </button>
-							<button class="btn_alert w-44 rounded-full text-sm text-dark p-2 bg-ctaDark "> <?php echo $row->comentarios ?>   <i class="fas fa-comment "></i> Comentarios  </button>
+							<button class="btn_like w-44 rounded-full text-sm text-dark p-2 bg-ctaDark "> 
+								<span><?php echo $row->me_gusta ?> </span>
+								<i class="fas fa-heart <?php echo in_array($row->id_public, $data['allLikes']) ? 'text-red' : '' ?>"></i>
+								<span>Me gusta</span>
+								<input type="hidden" value="<?php echo $row->id_public ?>">
+							</button>
+
+							<a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $row->id_profesional . '/' . $row->id_public . "#comentarios" ?>" class=" w-44 rounded-full text-sm text-dark p-2 bg-ctaDark "> 
+								<?php echo $row->comentarios ?>   
+								<i class="fas fa-comment "></i> Comentarios  
+							</a>
 						</div>
 
 
@@ -75,14 +86,73 @@
 
 <script>
 	window.addEventListener('DOMContentLoaded', () => {
-	const successAlert = document.querySelector('#success_msg')
 
-  	setTimeout(() => {
-    	successAlert.remove()
-  	}, 5000)
+
+
+	// const successAlert = document.querySelector('#success_msg')
+
+  // 	setTimeout(() => {
+  //   	successAlert.remove()
+  // 	}, 5000)
     	
 
 	})
+
+	const allBtnLike = document.querySelectorAll('.btn_like')
+	allBtnLike.forEach(btn => {
+		btn.addEventListener('click', e => {
+			let id_public = e.currentTarget.lastElementChild.value
+			let likes_public = e.currentTarget.firstElementChild
+			let icon_public = e.currentTarget.querySelector('i')
+			console.log(icon_public)
+
+			const url = document.querySelector('#url')
+			let root = url.getAttribute('data-root')
+			let controller = url.getAttribute('data-controller')
+			// let page = url.getAttribute('data-page')
+			let endpoint = `${root}/${controller}/like`
+			console.log(endpoint)
+
+		            
+      let myitem = { 
+          id_publicacion: id_public
+      }
+      console.log(myitem)
+
+      let item = JSON.stringify(myitem)
+
+
+		fetch(endpoint, {
+	    method: 'post',
+	    body: item,
+	    headers: {
+	      'Accept': 'application/json',
+	      'Content-Type': 'application/json'
+	    }
+		})
+		.then( res => res.json())
+		.then( data => {
+			likes_public.innerHTML = data.likes
+			icon_public.classList.toggle(data.icon_color)
+			console.log(data)
+		})
+		.catch(console.error);
+
+
+
+      // var xhr = new XMLHttpRequest()
+      // xhr.open('POST', endpoint, true)
+      // xhr.setRequestHeader('Content-type', 'application/json')
+      // xhr.send(item)
+
+      // xhr.onload = function () {
+      //   console.log(xhr.responseText)
+      // }
+
+		})
+	})
+
+
 
   
 </script>

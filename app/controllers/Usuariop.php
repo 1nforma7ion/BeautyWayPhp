@@ -692,14 +692,14 @@
 				}
 
 
-				$reservas = $this->usuariop->getReservasByUser($_SESSION['user_id']);
-				$reservas_estados = $this->usuariop->readReservaEstados();
-				$reservas_motivos = $this->usuariop->readReservaMotivos();
+					
+				$usuarios = $this->admin->getUsuarios();
 
 				$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
 				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
 
 				$data = [
+					'usuarios' => $usuarios,
 					'imagenes_perfil' => $imagenes_perfil,
 					'sidebar' => $sidebar,
 					'controller' => strtolower(get_called_class()),

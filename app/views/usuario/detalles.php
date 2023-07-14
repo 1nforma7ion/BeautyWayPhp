@@ -98,6 +98,17 @@
 					</div>
 
 				</div>
+
+				<div id="comentarios" class="w-full bg-cta ">
+					Lorem ipsum dolor sit amet consectetur adipisicing, elit. Aliquam, sint, quidem! Incidunt aut, repellendus modi eius deserunt! Quam odit beatae laudantium harum id assumenda amet accusantium aperiam. Est, eaque, temporibus.
+
+					Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt laborum dolorum deleniti quibusdam nisi dignissimos recusandae facilis ratione deserunt, quas delectus officiis unde vitae commodi modi. Ipsum minima dolore dolor!
+					Lorem, ipsum dolor sit amet consectetur, adipisicing elit. Error laborum ut repellendus beatae dolorem harum eveniet ipsa, odio animi, omnis adipisci dicta. Accusantium, error. Cum labore voluptatem, rem blanditiis temporibus!
+
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur explicabo iste asperiores facilis molestias perspiciatis sunt, reiciendis accusantium molestiae reprehenderit voluptatibus non at illum, est possimus in temporibus, accusamus voluptatem.
+
+					
+				</div>
 				
 
 

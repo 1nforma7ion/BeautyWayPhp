@@ -11,12 +11,12 @@
 
 		public function __construct() {
 			$connect = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname;
-		 	// $timezone = (new DateTime('now', new DateTimeZone('America/Argentina/Buenos_Aires')))->format('P');
+		 	$timezone = (new DateTime('now', new DateTimeZone('America/Argentina/Buenos_Aires')))->format('P');
 
 			$options = array(
 				PDO::ATTR_PERSISTENT => true,
-				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-				// PDO::MYSQL_ATTR_INIT_COMMAND => "SET time_zone='$timezone'"
+				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+				PDO::MYSQL_ATTR_INIT_COMMAND => "SET time_zone='$timezone'"
 			);
 
 			try {

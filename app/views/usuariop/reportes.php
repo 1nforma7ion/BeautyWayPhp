@@ -72,6 +72,155 @@
 
 
 
-<script src="<?php echo URLROOT; ?>/js/main.js"></script>
+	  <div class="col-xl-6 col-lg-6 mb-2">
+	    <div class="card shadow">
+	     	<div class="card-header text-center">
+	        <h6 class="font-weight-bold">Cantidad de usuarios </h6>
+	      </div>
+	      
+	    	<div class="card-body">
+					<form action="estadistica.php" class="mb-4">
+        		<div class="row g-1">
+						  <div class="col">
+						  	<div class="input-group">
+								  <span class="input-group-text">Desde</span>
+								  <input type="date" id="desde" name="desde" class="form-control" value="<?php echo $desde;?>">
+								</div>
+						  </div>
+						  <div class="col">
+						    <div class="input-group">
+								  <span class="input-group-text">Hasta</span>
+									<input type="date" id="hasta" name="hasta" class="form-control" value="<?php echo $hasta;?>">
+								</div>
+						  </div>
+						  <div class="col-auto">
+								<input type="submit" class="btn btn-success">
+								<!-- <a href="estadistica.php" class="btn btn-danger"> Reset </a> -->
+							</div>
+						</div>
+					</form>
+	        <canvas id="canva3"></canvas>              
+	      </div>
+	    </div>
+	  </div>
+
+
+<div>
+  <canvas id="myChart"></canvas>
+</div>
+
+
+
+	      
+	    	<div class="card-body">
+	        <canvas id="canva5"></canvas>               
+	      </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<?php 
+
+$usu = [];
+$pro = [];
+foreach($data['usuarios'] as $row) {
+	if($row->rol_id ==2 ) {
+		array_push($usu, $row);
+	} else if ($row->rol_id == 3) {
+		array_push($pro, $row);
+	}
+}
+
+ ?>
+<script>
+	
+let totalUsuarios = JSON.parse('<?php echo json_encode($data['usuarios']) ?>')
+console.log(totalUsuarios)
+let reservas = JSON.parse('<?php echo json_encode($usu) ?>')
+let cupos = JSON.parse('<?php echo json_encode($pro) ?>')
+
+reservas = reservas.length
+cupos = cupos.length
+console.log(cupos)
+
+// Chart.defaults.global.defaultFontFamily = 'Nunito', 'Arial,sans-serif';
+// Chart.defaults.global.defaultFontColor = '#333';
+
+  let months = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Setiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre"
+  ];
+
+
+new Chart(document.getElementById("canva5"), {
+  type: 'bar',
+  data: {
+    labels: [0,1,2],
+
+    datasets: [
+      {
+        label: "Reservas",
+        backgroundColor: "#3e95cd",
+        data: reservas
+      }, 
+      {
+        label: "Cupos",
+        backgroundColor: "#8e5ea2",
+        data: cupos
+      }
+    ]
+  },
+  options: {
+    legend: { display: false },
+    title: {
+      display: true,
+      text: "N° de cupos Conferencias 2022"
+    },
+    responsive: true,
+    // scales: {
+    //   yAxes: [{ticks: {
+    //     beginAtZero:true,
+    //     min: 0,
+    //     max: 22,
+    //     stepSize: 1
+    //   }}]
+    // }
+  }
+});
+</script>
+
+
+
+<script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      // labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      labels: months,
+      datasets: [{
+        label: '# of Votes',
+        data: [reservas, cupos],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
 
 <?php require APPROOT . '/views/' . $data['controller'] . '/partials/footer.php'; ?>

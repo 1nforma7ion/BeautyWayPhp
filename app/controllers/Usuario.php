@@ -11,16 +11,28 @@
 
 				$imagenes_perfil = $this->usuario->getImageById($_SESSION['user_id']);
 				$publicaciones = $this->page->getAllPublicaciones();
+				$allLikes = $this->usuario->readAllLiked($_SESSION['user_id']);
+
+				$likes = [];
+
+				foreach($allLikes as $like) {
+					array_push($likes, $like->id_publicacion);
+				}
 
 				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
 
 				$data = [
+					'allLikes' => $likes,
 					'imagenes_perfil' => $imagenes_perfil,
 					'publicaciones' => $publicaciones,
 					'sidebar' => $sidebar,
 					'controller' => strtolower(get_called_class()),
 					'page' => __FUNCTION__
 				];
+
+				// echo "<pre>";
+				// print_r($data);
+				// die();
 
 				$this->view('usuario/index',$data);
 
@@ -356,7 +368,65 @@
 			}
 		}
 
+		// public function turnos($id_profesional = null, $dia=null) {
 
-		
+			// $turnos = $this->usuario->getTurnosByUser($id_profesional,$dia);
+
+			// convertir PDO objecto to array & send to frontend page
+			// echo json_encode($turnos);
+			// echo $turnos;
+			// print_r($turnos);
+		// }
+
+		public function like($id_public = null, $like = 1) {
+
+			if (usuarioLoggedIn()) {
+
+				header('Content-Type: application/json, charset=UTF-8');
+
+				$json = json_decode(file_get_contents('php://input'));
+				$id_public = $json->{'id_publicacion'};
+				$user_id = $_SESSION['user_id'];
+
+				$publicLiked = $this->usuario->readLikedByUser($user_id, $id_public);
+
+				if ($publicLiked) {
+
+					$decreased = $this->usuario->decreasePublicLikes($id_public, $like);
+
+					if ($decreased) {
+						$this->usuario->deleteLikedByUser($user_id, $id_public);
+						$updatedLikes = $this->usuario->readNumLikes($id_public);
+						$data = [
+							'likes' => $updatedLikes,
+							'icon_color' => 'text-red'
+						];
+						echo json_encode($data);
+					}
+
+				} else {
+
+					$increased = $this->usuario->increasePublicLikes($id_public, $like);
+
+					if ($increased) {
+						$this->usuario->createLikedByUser($user_id, $id_public, $like);
+						$updatedLikes = $this->usuario->readNumLikes($id_public);
+						$data = [
+							'likes' => $updatedLikes,
+							'icon_color' => 'text-red'
+						];
+						echo json_encode($data);
+					}
+				}
+
+
+
+			} else {
+				redirect('pages/login');
+			}
+		}
+
+
+
 	}
 ?>
