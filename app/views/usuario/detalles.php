@@ -153,6 +153,8 @@ echo "</pre>";
 						turnoSelect.innerHTML = output
 					}
 						// console.log(output)
+				} else {
+					'ocurrio un error'
 				}
 			}
 			xhr.send()

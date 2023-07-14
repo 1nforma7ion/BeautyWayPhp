@@ -80,7 +80,7 @@
 			$_SESSION['user_altura'] = $user->altura;
 			$_SESSION['user_localidad'] = $user->localidad;
 			$_SESSION['user_zona'] = $user->zona;
-			$_SESSION['user_profesion'] = $user->profesion;
+			// $_SESSION['user_profesion'] = $user->profesion;
 			$_SESSION['user_id_profesion'] = $user->id_profesion;
 			$_SESSION['user_rol_id'] = $user->rol_id;
 
