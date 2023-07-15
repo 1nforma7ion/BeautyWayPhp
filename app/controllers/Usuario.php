@@ -44,6 +44,21 @@
 		public function detalles($id_profesional=null, $id_public = null) {
 			if (usuarioLoggedIn()) {
 
+				if (isset($_POST['create_comentario'])) {
+					ob_start();
+
+					$user_id = $_SESSION['user_id'];
+					$comentario = $_POST['comentario'];
+
+					$added = $this->usuario->createComentario($user_id, $id_public, $comentario);
+					if ($added) {
+						$this->usuario->updateComentariosPublic($id_public);
+						
+						redirect('usuario/detalles/' . $id_profesional . '/' . $id_public);
+					}
+				}
+
+
 				if (isset($_POST['crear_reserva'])) {
 					ob_start();
 
@@ -76,10 +91,20 @@
 				$imagenes_perfil = $this->usuario->getImageById($_SESSION['user_id']);
 				$publicacion = $this->usuario->getPublicById($id_public);
 				$dias = $this->usuario->getDiasByUser($id_profesional);
+				$comentarios = $this->usuario->readComentariosByPublic($id_public);
+				$allLikes = $this->usuario->readAllLiked($_SESSION['user_id']);
+
+				$likes = [];
+
+				foreach($allLikes as $like) {
+					array_push($likes, $like->id_publicacion);
+				}
 
 				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
 
 				$data = [
+					'comentarios' => $comentarios,
+					'allLikes' => $likes,
 					'imagenes_perfil' => $imagenes_perfil,
 					'dias' => $dias,
 					'publicacion' => $publicacion,
@@ -96,6 +121,7 @@
 		}
 
 		public function turnos($id_profesional = null, $dia=null) {
+
 
 			$turnos = $this->usuario->getTurnosByUser($id_profesional,$dia);
 

@@ -19,8 +19,17 @@
 						<?php echo $data['publicacion']->servicio ?>  </span>
 
 						<div class="date_post absolute w-full flex justify-around h-max bottom-4 right-0 md:bottom-4  md:text-2xl font-bold">
-							<button class="btn_alert w-44 rounded-full text-sm text-dark p-2 bg-ctaDark "> <?php echo $data['publicacion']->me_gusta ?>   <i class="fas fa-heart "></i> Me gusta  </button>
-							<button class="btn_alert w-44 rounded-full text-sm text-dark p-2 bg-ctaDark "> <?php echo $data['publicacion']->comentarios ?>   <i class="fas fa-comment "></i> Comentarios  </button>
+							<button class="btn_like w-44 rounded-full text-sm text-dark p-2 bg-ctaDark "> 
+								<span><?php echo $data['publicacion']->me_gusta ?> </span>
+								<i class="fas fa-heart <?php echo in_array($data['publicacion']->id_public, $data['allLikes']) ? 'text-red' : '' ?>"></i>
+								<span>Me gusta</span>
+								<input type="hidden" value="<?php echo $data['publicacion']->id_public ?>">
+							</button>
+							<a href="#comentarios" class=" w-44 rounded-full text-sm text-dark p-2 bg-ctaDark text-center "> 
+								<?php echo $data['publicacion']->comentarios ?>   
+								<i class="fas fa-comment "></i> Comentarios  
+							</a>
+
 						</div>
 
 					</div>
@@ -28,7 +37,7 @@
 					<div class="relative h-[700px] w-full flex flex-col items-center p-4 md:w-1/3 space-y-4 ">
 						
 						<div class="flex flex-col px-4 py-2">
-						  <h1 class=" text-2xl text-neutral font-bold"> CONFIRMÁ TU RESERVA EN </p>
+						  <h1 class=" text-2xl text-neutral font-bold"> CONFIRMÁ TU RESERVA EN </h1>
 						</div>
 
 						<div class="flex space-x-4">
@@ -99,14 +108,53 @@
 
 				</div>
 
-				<div id="comentarios" class="w-full bg-cta ">
-					Lorem ipsum dolor sit amet consectetur adipisicing, elit. Aliquam, sint, quidem! Incidunt aut, repellendus modi eius deserunt! Quam odit beatae laudantium harum id assumenda amet accusantium aperiam. Est, eaque, temporibus.
+				<div id="comentarios" class="flex w-full  md:w-2/3 bg-white rounded-xl  font-dmsans ">
 
-					Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt laborum dolorum deleniti quibusdam nisi dignissimos recusandae facilis ratione deserunt, quas delectus officiis unde vitae commodi modi. Ipsum minima dolore dolor!
-					Lorem, ipsum dolor sit amet consectetur, adipisicing elit. Error laborum ut repellendus beatae dolorem harum eveniet ipsa, odio animi, omnis adipisci dicta. Accusantium, error. Cum labore voluptatem, rem blanditiis temporibus!
+					<div class="flex flex-col w-full  md:p-4  space-y-4">
 
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur explicabo iste asperiores facilis molestias perspiciatis sunt, reiciendis accusantium molestiae reprehenderit voluptatibus non at illum, est possimus in temporibus, accusamus voluptatem.
+						<div class="flex flex-col px-4 py-2">
+						  <h1 class=" text-2xl text-neutral font-bold"> Comentarios ( <?php echo $data['publicacion']->comentarios; ?> ) </h1>
+						</div>
 
+						<div class="flex flex-col px-4 py-2 space-y-4">
+							<?php foreach($data['comentarios'] as $row) : ?>
+								<div class="flex flex-col rounded-xl space-y-4 p-4 bg-primary">
+									<div class="flex space-x-8 items-center ">
+										<h3 class="text-2xl text-dark font-bold"> <?php echo $row->nombre . ' ' . $row->apellido ?> </h3>									
+										<span class="text-sm text-neutral "> <?php echo fixedFecha($row->fecha) ?> </span>
+									</div>
+									<p class="px-6"> <?php echo $row->comentario ?> </p>
+								</div>
+							<?php endforeach; ?>
+						</div>
+
+						<div class="flex flex-col px-4 py-2">
+							
+							<form action="" autocomplete="off" method="POST" enctype="multipart/form-data">
+
+						  		<h1 class="p-4 text-2xl text-neutral font-bold"> Escribir un Comentario : </h1>
+
+									<div class=" w-full flex flex-col p-4 md:w-2/3 space-y-4 ">
+										
+							      <div class="w-full">
+							      	<textarea name="comentario" id="comentario" rows="6"  class="w-full px-2 resize-none outline-none focus:border-neutral border-2 border-primary " placeholder="Escribe tu comentario " required></textarea>
+							      </div>
+					  				
+					  				<div class="flex flex-col self-center text-sm text-fbk">
+											<button name="create_comentario" type="submit" class=" rounded-full text-white text-xl px-4 py-2 md:w-max bg-neutralDark "> 
+							      		Comentar 
+							      	</button>
+										</div>
+
+									</div>
+
+							</form>
+
+						</div>
+
+					</div>
+				 
+				
 					
 				</div>
 				
@@ -123,6 +171,8 @@
 <?php 
 
 echo "<pre>";
+// echo date('d-m-Y h:m:s');
+
 // print_r($data);
 // print_r($data['imagenes_perfil']);
 echo "</pre>";
@@ -130,6 +180,64 @@ echo "</pre>";
  ?>
 
 <script>
+
+	const allBtnLike = document.querySelectorAll('.btn_like')
+	allBtnLike.forEach(btn => {
+		btn.addEventListener('click', e => {
+			let id_public = e.currentTarget.lastElementChild.value
+			let likes_public = e.currentTarget.firstElementChild
+			let icon_public = e.currentTarget.querySelector('i')
+			console.log(icon_public)
+
+			const url = document.querySelector('#url')
+			let root = url.getAttribute('data-root')
+			let controller = url.getAttribute('data-controller')
+			// let page = url.getAttribute('data-page')
+			let endpoint = `${root}/${controller}/like`
+			console.log(endpoint)
+
+		            
+      let myitem = { 
+          id_publicacion: id_public
+      }
+      console.log(myitem)
+
+      let item = JSON.stringify(myitem)
+
+
+		fetch(endpoint, {
+	    method: 'post',
+	    body: item,
+	    headers: {
+	      'Accept': 'application/json',
+	      'Content-Type': 'application/json'
+	    }
+		})
+		.then( res => res.json())
+		.then( data => {
+			likes_public.innerHTML = data.likes
+			icon_public.classList.toggle(data.icon_color)
+			console.log(data)
+		})
+		.catch(console.error);
+
+
+
+      // var xhr = new XMLHttpRequest()
+      // xhr.open('POST', endpoint, true)
+      // xhr.setRequestHeader('Content-type', 'application/json')
+      // xhr.send(item)
+
+      // xhr.onload = function () {
+      //   console.log(xhr.responseText)
+      // }
+
+		})
+	})
+
+
+
+
 	const id_profesional = document.querySelector('#id_profesional')
 	let turnoSelect = document.querySelector('#turno')
 
@@ -140,12 +248,15 @@ echo "</pre>";
 	const dia = document.querySelector('#dia')
 	dia.addEventListener('change', (e) => {
 		let fecha = e.target.value
+		console.log(fecha + root + id_profesional.value)
+
 		
 		const xhr = new XMLHttpRequest()
 			xhr.open('GET', `${root}/${controller}/turnos/${id_profesional.value}/${fecha}`, true)
 			xhr.onload = function () {
 				if(this.status == 200) {
 					let turnos = JSON.parse(this.responseText)
+					console.log(turnos)
 					let output = ''
 
 					for (let turno in turnos) {

@@ -33,7 +33,7 @@
 								<input type="hidden" value="<?php echo $row->id_public ?>">
 							</button>
 
-							<a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $row->id_profesional . '/' . $row->id_public . "#comentarios" ?>" class=" w-44 rounded-full text-sm text-dark p-2 bg-ctaDark "> 
+							<a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $row->id_profesional . '/' . $row->id_public . "#comentarios" ?>" class=" w-44 rounded-full text-sm text-dark p-2 bg-ctaDark text-center"> 
 								<?php echo $row->comentarios ?>   
 								<i class="fas fa-comment "></i> Comentarios  
 							</a>

@@ -57,16 +57,32 @@
 		}
 
 		public function getTurnosByUser($id_profesional = null, $dia = null) {
-			$this->db->query('SELECT hora_fin, hora_inicio 
-				FROM usuarios_horarios 
-				WHERE id_usuario = :id_profesional 
-				AND dia = :dia 
-				AND STR_TO_DATE(hora_inicio, "%H") > NOW()
-				AND estado = 1');
-			$this->db->bind(':id_profesional', $id_profesional);
-			$this->db->bind(':dia', $dia);
-			$dias = $this->db->getSet();
-			return $dias;
+
+			list($d, $m, $y) = explode("-", date('d-m-Y'));
+			$currentDay = $d . '-' . $m . '-' . $y;
+			
+			if ($currentDay == $dia) {
+
+				$this->db->query('SELECT hora_fin, hora_inicio 
+					FROM usuarios_horarios 
+					WHERE id_usuario = :id_profesional 
+					AND dia = :dia AND HOUR(STR_TO_DATE(hora_inicio, "%H")) > HOUR(NOW()) AND estado = 1');
+				$this->db->bind(':id_profesional', $id_profesional);
+				$this->db->bind(':dia', $dia);
+				$dias = $this->db->getSet();
+				return $dias;
+
+			} else {
+
+				$this->db->query('SELECT hora_fin, hora_inicio 
+					FROM usuarios_horarios 
+					WHERE id_usuario = :id_profesional 
+					AND dia = :dia AND estado = 1');
+				$this->db->bind(':id_profesional', $id_profesional);
+				$this->db->bind(':dia', $dia);
+				$dias = $this->db->getSet();
+				return $dias;
+			}
 		}
 
 		public function updateTurnosByUser($id_profesional, $dia, $hora_inicio, $estado) {
@@ -301,6 +317,58 @@
 			return $liked;
 			
 		}
+
+// Inicio Comentarios
+
+		public function readComentariosByPublic($id_public) {
+			$this->db->query('SELECT u.nombre, u.apellido, p.fecha, p.comentario
+			 FROM publicaciones_comentarios p INNER JOIN usuarios u ON p.id_usuario = u.id WHERE p.id_publicacion = :id_public	ORDER BY p.fecha DESC');
+			$this->db->bind(':id_public', $id_public);
+
+			$comentarios = $this->db->getSet();
+			return $comentarios;
+			
+		}
+
+		public function createComentario($user_id, $id_public, $comentario) {
+			$this->db->query('INSERT INTO publicaciones_comentarios (id_usuario, id_publicacion, comentario) VALUES (:user_id, :id_public, :comentario)');
+			$this->db->bind(':user_id', $user_id);
+			$this->db->bind(':id_public', $id_public);
+			$this->db->bind(':comentario', $comentario);
+			$creado = $this->db->execute();
+
+			if ($creado) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+
+		public function readNumComentarios($id_public) {
+			$this->db->query('SELECT comentarios	FROM publicaciones WHERE id = :id_public');
+			$this->db->bind(':id_public', $id_public);
+
+			$num_comentarios = $this->db->getSingle();
+			return $num_comentarios->comentarios;
+		}
+
+
+		public function updateComentariosPublic($id_public, $comment = 1) {
+			$num_comentarios = $this->readNumComentarios($id_public);
+			$comentarios = $num_comentarios + $comment;
+
+      $this->db->query('UPDATE publicaciones SET comentarios = :comentarios  WHERE id = :id_public');
+      $this->db->bind(':id_public', $id_public);
+      $this->db->bind(':comentarios', $comentarios);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
 
 	}
 ?>
