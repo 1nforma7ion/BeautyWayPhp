@@ -83,7 +83,7 @@
 			$_SESSION['user_altura'] = $user->altura;
 			$_SESSION['user_localidad'] = $user->localidad;
 			$_SESSION['user_zona'] = $user->zona;
-			// $_SESSION['user_profesion'] = $user->profesion;
+			$_SESSION['user_barrio'] = $user->barrio;
 			$_SESSION['user_id_profesion'] = $user->id_profesion;
 			$_SESSION['user_rol_id'] = $user->rol_id;
 
@@ -114,7 +114,7 @@
 			unset($_SESSION['user_altura']);
 			unset($_SESSION['user_localidad']);
 			unset($_SESSION['user_zona']);
-			unset($_SESSION['user_profesion']);
+			unset($_SESSION['user_barrio']);
 			unset($_SESSION['user_rol_id']);
 
 			session_destroy();

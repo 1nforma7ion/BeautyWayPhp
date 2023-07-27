@@ -111,7 +111,7 @@
 
 	function showAlert() {
 		if (!empty($_SESSION['msg'])) {
-			echo '<div id="msg" class="text-center p-2 w-full bg-primary text-lg rounded-xl">' . $_SESSION['msg'] . '</div>';
+			echo '<div id="msg" class="text-center p-2 w-full font-hurme bg-ctaDark font-bold text-2xl rounded-xl">' . $_SESSION['msg'] . '</div>';
 			unset($_SESSION['msg']);
 		}
 	}

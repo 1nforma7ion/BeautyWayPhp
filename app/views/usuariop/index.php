@@ -26,12 +26,12 @@
 						<div class="date_post absolute w-full flex justify-around h-max bottom-4 right-0 md:bottom-4  md:text-2xl font-bold">
 							<button class="btn_like w-44 rounded-full text-sm text-dark p-2 bg-ctaDark "> 
 								<span><?php echo $row->me_gusta ?> </span>
-								<i class="fas fa-heart "></i>
+								<i class="fas fa-heart <?php echo in_array($row->id_public, $data['allLikes']) ? 'text-red' : '' ?>"></i>
 								<span>Me gusta</span>
-								
+								<input type="hidden" value="<?php echo $row->id_public ?>">
 							</button>
 
-							<a href="#"  class=" w-44 rounded-full text-sm text-dark p-2 bg-ctaDark text-center"> 
+							<a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $row->id_public . "#comentarios" ?>"  class=" w-44 rounded-full text-sm text-dark p-2 bg-ctaDark text-center"> 
 								<?php echo $row->comentarios ?>   
 								<i class="fas fa-comment "></i> Comentarios  
 							</a>
@@ -53,10 +53,26 @@
 									<h1 ><a href="" class="text-dark hover:text-fbk text-xl  font-bold"> <?php echo $row->nombre_comercial ?></a></h1>
 								</div>
 								
-								<div class="flex w-full justify-center items-center bg-primary rounded-xl p-1">
-									<i class="fas fa-calendar-alt mr-2"></i>
-									<span class="text-sm"> <?php echo fixedFecha($row->creado) ?> </span>	
+								<div class="flex w-full justify-between items-center ">
+									<div class="flex space-x-2 px-2 py-1 rounded-xl bg-neutral text-white ">
+										
+										<?php 
+											$desc = explode('.', $row->descuento);
+											$desc = $desc[0];
+										?>
+										<span class="text-lg"> Desc. <?php echo $desc . ' %' ?> </span>
+									</div>
+									<div class="flex items-center space-x-2 px-2 py-1 rounded-xl bg-primary ">
+										<i class="fas fa-calendar-alt mr-2"></i>
+										<span class="text-lg"> <?php echo fixedFecha($row->creado) ?> </span>	
+									</div>
 								</div>
+
+								<div class="flex w-full justify-center items-center bg-ctaDark text-dark rounded-xl p-1 text-xl">
+									<i class="fas fa-map-marker-alt mr-2"></i>
+									<span> <?php echo $_SESSION['user_zona'] ?> </span>	
+								</div>
+
 							</div>
 						</div>
 			      <span class=" text-sm"> <?php echo $row->descripcion ?>  </span>
@@ -71,6 +87,7 @@
 
 				</div>
 				<?php endforeach; ?>
+				<input type="hidden" id="url" data-controller="<?php echo $data['controller'] ?>" data-root="<?php echo URLROOT ?>" data-page="<?php echo $data['page'] ?>">
 
 			</div>
 
@@ -80,6 +97,64 @@
 </div>
 
 
+<?php 
+	// echo "<pre>";
+	// print_r($data);
+ ?>
 
+
+<script>
+	window.addEventListener('DOMContentLoaded', () => {
+
+
+	})
+
+	const allBtnLike = document.querySelectorAll('.btn_like')
+	allBtnLike.forEach(btn => {
+		btn.addEventListener('click', e => {
+			let id_public = e.currentTarget.lastElementChild.value
+			let likes_public = e.currentTarget.firstElementChild
+			let icon_public = e.currentTarget.querySelector('i')
+			console.log(icon_public)
+
+			const url = document.querySelector('#url')
+			let root = url.getAttribute('data-root')
+			let controller = url.getAttribute('data-controller')
+			// let page = url.getAttribute('data-page')
+			let endpoint = `${root}/usuario/like`
+			console.log(endpoint)
+
+		            
+      let myitem = { 
+          id_publicacion: id_public
+      }
+      console.log(myitem)
+
+      let item = JSON.stringify(myitem)
+
+
+		fetch(endpoint, {
+	    method: 'post',
+	    body: item,
+	    headers: {
+	      'Accept': 'application/json',
+	      'Content-Type': 'application/json'
+	    }
+		})
+		.then( res => res.json())
+		.then( data => {
+			likes_public.innerHTML = data.likes
+			icon_public.classList.toggle(data.icon_color)
+			console.log(data)
+		})
+		.catch(console.error);
+
+		})
+	})
+
+
+
+  
+</script>
 
 <?php require APPROOT . '/views/' . $data['controller'] . '/partials/footer.php'; ?>

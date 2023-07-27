@@ -74,9 +74,19 @@
 									<h1 ><a href="" class="text-dark hover:text-fbk text-xl  font-bold"> <?php echo $row->nombre_comercial ?></a></h1>
 								</div>
 
-								<div class="flex w-full justify-center items-center bg-primary rounded-xl p-1">
-									<i class="fas fa-calendar-alt mr-2"></i>
-									<span class="text-sm"> <?php echo fixedFecha($row->creado) ?> </span>	
+								<div class="flex w-full justify-between items-center ">
+									<div class="flex space-x-2 px-2 py-1 rounded-xl bg-neutral text-white ">
+										
+										<?php 
+											$desc = explode('.', $row->descuento);
+											$desc = $desc[0];
+										?>
+										<span class="text-lg"> Desc. <?php echo $desc . ' %' ?> </span>
+									</div>
+									<div class="flex items-center space-x-2 px-2 py-1 rounded-xl bg-primary ">
+										<i class="fas fa-calendar-alt mr-2"></i>
+										<span class="text-lg"> <?php echo fixedFecha($row->creado) ?> </span>	
+									</div>
 								</div>
 
 								<div class="flex w-full justify-center items-center bg-ctaDark text-dark rounded-xl p-1 text-xl">

@@ -113,9 +113,9 @@
 			return $publicacion;
 		}
 
-		public function createReserva($user_id, $id_profesional, $id_public, $servicio, $dia, $hora_inicio, $hora_fin, $status) {
-			$this->db->query('INSERT INTO reservas (id_usuario, id_profesional, id_publicacion, servicio, dia, hora_inicio, hora_fin, status) 
-				VALUES (:user_id, :id_profesional, :id_public, :servicio, :dia, :hora_inicio, :hora_fin, :status)');
+		public function createReserva($user_id, $id_profesional, $id_public, $servicio, $modalidad, $direccion, $dia, $hora_inicio, $hora_fin, $status) {
+			$this->db->query('INSERT INTO reservas (id_usuario, id_profesional, id_publicacion, servicio, modalidad, direccion, dia, hora_inicio, hora_fin, status) 
+				VALUES (:user_id, :id_profesional, :id_public, :servicio, :modalidad, :direccion, :dia, :hora_inicio, :hora_fin, :status)');
 			$this->db->bind(':user_id', $user_id);
 			$this->db->bind(':id_profesional', $id_profesional);
 			$this->db->bind(':id_public', $id_public);
@@ -123,6 +123,8 @@
 			$this->db->bind(':dia', $dia);
 			$this->db->bind(':hora_inicio', $hora_inicio);
 			$this->db->bind(':hora_fin', $hora_fin);
+			$this->db->bind(':modalidad', $modalidad);
+			$this->db->bind(':direccion', $direccion);
 			$this->db->bind(':status', $status);
 			$creado = $this->db->execute();
 
@@ -198,7 +200,8 @@
 // FIN perfil
 
 		public function getReservasByUser($user_id) {
-			$this->db->query('SELECT *, r.id_profesional AS id_prof, r.id AS id_reserva 
+			$this->db->query('SELECT *, r.id_profesional AS id_prof, r.id AS id_reserva,
+				r.modalidad AS reserva_modalidad, r.direccion AS reserva_direccion 
 				FROM reservas r 
 				INNER JOIN usuarios u ON u.id = r.id_profesional
 				WHERE r.id_usuario = :user_id 

@@ -11,7 +11,7 @@
 		public function getPublicacionesByUser($user_id) {
 			$this->db->query('SELECT *, p.id as id_public FROM publicaciones p 
 				INNER JOIN usuarios u ON p.id_usuario = u.id 
-				WHERE p.id_usuario = :user_id ORDER BY p.creado DESC');
+				WHERE p.id_usuario = :user_id AND p.estado =1 ORDER BY p.creado DESC');
 			$this->db->bind(':user_id', $user_id);
 
 			$publicaciones = $this->db->getSet();
@@ -349,9 +349,10 @@
 
 
 		public function getReservasByUser($user_id) {
-			$this->db->query('SELECT *, r.id_profesional AS id_prof, r.id AS id_reserva 
+			$this->db->query('SELECT *, r.id_profesional AS id_prof, r.id AS id_reserva,
+				r.modalidad AS reserva_modalidad, r.direccion AS reserva_direccion 
 				FROM reservas r 
-				INNER JOIN usuarios u ON u.id = r.id_profesional
+				INNER JOIN usuarios u ON u.id = r.id_usuario
 				WHERE r.id_profesional = :user_id 
 				ORDER BY r.dia ASC');
 			$this->db->bind(':user_id', $user_id);

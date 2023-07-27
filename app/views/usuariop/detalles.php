@@ -37,7 +37,7 @@
 					<div class="relative h-[700px] w-full flex flex-col items-center p-4 md:w-1/3 space-y-4 ">
 						
 						<div class="flex flex-col px-4 py-2">
-						  <h1 class=" text-2xl text-neutral font-bold"> CONFIRMÁ TU RESERVA EN </h1>
+						  <!-- <h1 class=" text-2xl text-neutral font-bold"> CONFIRMÁ TU RESERVA EN </h1> -->
 						</div>
 
 						<div class="flex space-x-4">
@@ -69,27 +69,20 @@
 	  					
 
 	  					<?php if ($data['publicacion']->modalidad == "Domicilio"): ?>
-		  					<div class="flex justify-between text-dark"> 
+		  					<div class="flex w-full justify-between space-x-4 text-dark"> 
 		  						<span class="px-4 py-2 bg-ctaDark text-lg rounded-xl"><i class="fas fa-shipping-fast mr-2"></i><?php echo 'Atiende a ' . $data['publicacion']->modalidad ?> </span>
 		  						<span class="px-4 py-2 bg-ctaDark text-lg rounded-xl"><i class="fas fa-map-marker-alt mr-2"></i><?php echo $data['publicacion']->zona ?> </span>
 		  					</div>
 		  					<h2 class="text-lg py-1">Tu dirección : </h2>
 					    	<h2 class="py-1 text-xl text-neutral font-bold"><?php echo $_SESSION['user_calle'] . ' #' . $_SESSION['user_altura'] . ' - ' . $_SESSION['user_barrio'] ?> </h2>
-	  						<input type="hidden" name="modalidad" value="<?php echo $data['publicacion']->modalidad ?>">
-	  						
-	  						<input type="hidden" name="direccion" value="<?php echo $_SESSION['user_calle'] . ' #' . $_SESSION['user_altura'] . ' - ' . $_SESSION['user_barrio'] ?>">
-
 	  					<?php else : ?>
-								<div class="flex justify-between text-dark"> 
+								<div class="flex w-full justify-between text-dark"> 
 		  						<span class="px-4 py-2 bg-ctaDark text-lg rounded-xl"><i class="fas fa-store-alt mr-2"></i><?php echo 'Atiende ' . $data['publicacion']->modalidad ?> </span>
 		  						<span class="px-4 py-2 bg-ctaDark text-lg rounded-xl"><i class="fas fa-map-marker-alt mr-2"></i><?php echo $data['publicacion']->zona ?> </span>
 
 		  					</div>
 		  					<h2 class="text-lg py-1">Dirección del Salón: </h2>
 					    	<h2 class="py-1 text-xl text-neutral font-bold"><?php echo $data['publicacion']->calle . ' #' . $data['publicacion']->altura . ' - ' . $data['publicacion']->barrio ?> </h2>
-					    	<input type="hidden" name="modalidad" value="<?php echo $data['publicacion']->modalidad ?>">
-	  						
-	  						<input type="hidden" name="direccion" value="<?php echo $data['publicacion']->calle . ' #' . $data['publicacion']->altura . ' - ' . $data['publicacion']->barrio ?>">
 	  					<?php endif; ?>
 						   
 					    
@@ -101,35 +94,11 @@
 	  						<input type="hidden" name="servicio" id="servicio" value="<?php echo $data['publicacion']->servicio ?>">
 						  </div>
 
-							<div class="px-6 py-1 mx-auto flex flex-col">
-						    <label for="dia" class="text-lg py-1">Fecha:</label>
-						    <select id="dia" name="dia" class="p-1 border-neutral border rounded-xl outline-none" required>
-						 			<option value="">Selecciona el dia</option>
-						     	<?php if(isset($data['dias'])) : ?>
-										<?php foreach ($data['dias'] as $row) : ?>
-											<option value="<?php echo $row->dia ?>"><?php echo $row->dia ?></option>
-										<?php endforeach; ?>
-									<?php endif; ?> 
-						    </select>
-						  </div>
-
-							<div class="px-6 py-1 mx-auto flex flex-col">
-						    <label for="turno" class="text-lg py-1">Turnos Disponibles:</label>
-						    <select id="turno" name="turno" class="p-1 border-neutral border rounded-xl outline-none" required>
-						 			<option value="">Selecciona el turno</option>
-
-						    </select>
-						  </div>
-
-						  <div class="flex flex-col p-4">
-						    <p class=" text-red text-sm"> * Al crear tu reserva aceptas los <span class="text-neutral">Terminos y Condiciones.</span> </p>
-						    <p class=" text-red text-sm"> ** Puedes cancelar tu reserva hasta 24 hrs antes de su inicio. </p>
-						  </div>
-
-		  				<div class="py-2 flex flex-col space-y-4 items-center w-full ">
-				      	<button type="submit" name="crear_reserva" class=" rounded-full text-white text-2xl px-4 py-3 w-3/4 bg-neutralDark "> <i class="fas fa-book mr-2"></i> Reservar  </button>
-				      	<a href="<?php echo URLROOT . '/' . $data['controller'] . '/index' ?>" class="btn_reservar rounded-full text-white text-xl px-4 py-2 w-3/4 bg-red text-center "> <i class="fas fa-xmark mr-2"></i> Cancelar  </a>
+						  <div class="mt-10 flex flex-col space-y-4 items-center w-full ">
+				      	
+				      	<a href="<?php echo URLROOT . '/' . $data['controller'] . '/index' ?>" class="btn_reservar rounded-full text-white text-xl px-4 py-2 w-3/4 bg-neutral hover:bg-neutralDark text-center "> <i class="fas fa-arrow-left mr-2"></i> Regresar  </a>
 							</div>
+
 						</form>
 
 					</div>
@@ -168,10 +137,13 @@
 							      	<textarea name="comentario" id="comentario" rows="6"  class="w-full px-2 resize-none outline-none focus:border-neutral border-2 border-primary " placeholder="Escribe tu comentario " required></textarea>
 							      </div>
 					  				
-					  				<div class="flex flex-col self-center text-sm text-fbk">
-											<button name="create_comentario" type="submit" class=" rounded-full text-white text-xl px-4 py-2 md:w-max bg-neutralDark "> 
+					  				<div class="flex w-full justify-between  text-sm text-fbk">
+					  					<a href="<?php echo URLROOT . '/' . $data['controller'] . '/index' ?>" class="btn_reservar rounded-full text-white text-xl px-4 py-2 w-max bg-neutral hover:bg-neutralDark text-center "> <i class="fas fa-arrow-left mr-2"></i> Regresar  </a>
+
+											<button name="create_comentario" type="submit" class="w-1/2 rounded-full text-white text-xl px-4 py-2 md:w-max bg-neutralDark "> 
 							      		Comentar 
 							      	</button>
+
 										</div>
 
 									</div>
@@ -221,7 +193,7 @@ echo "</pre>";
 			let root = url.getAttribute('data-root')
 			let controller = url.getAttribute('data-controller')
 			// let page = url.getAttribute('data-page')
-			let endpoint = `${root}/${controller}/like`
+			let endpoint = `${root}/usuario/like`
 			console.log(endpoint)
 
 		            
@@ -250,53 +222,7 @@ echo "</pre>";
 		.catch(console.error);
 
 
-
-      // var xhr = new XMLHttpRequest()
-      // xhr.open('POST', endpoint, true)
-      // xhr.setRequestHeader('Content-type', 'application/json')
-      // xhr.send(item)
-
-      // xhr.onload = function () {
-      //   console.log(xhr.responseText)
-      // }
-
 		})
-	})
-
-
-
-
-	const id_profesional = document.querySelector('#id_profesional')
-	let turnoSelect = document.querySelector('#turno')
-
-	const url = document.querySelector('#url')
-	const root = url.getAttribute('data-root')
-	const controller = url.getAttribute('data-controller')
-
-	const dia = document.querySelector('#dia')
-	dia.addEventListener('change', (e) => {
-		let fecha = e.target.value
-		console.log(fecha + root + id_profesional.value)
-
-		
-		const xhr = new XMLHttpRequest()
-			xhr.open('GET', `${root}/${controller}/turnos/${id_profesional.value}/${fecha}`, true)
-			xhr.onload = function () {
-				if(this.status == 200) {
-					let turnos = JSON.parse(this.responseText)
-					console.log(turnos)
-					let output = ''
-
-					for (let turno in turnos) {
-						output += `<option value="${turnos[turno].hora_inicio}-${turnos[turno].hora_fin}"> Turno ${turnos[turno].hora_inicio} hrs </option> \n`
-						turnoSelect.innerHTML = output
-					}
-						// console.log(output)
-				} else {
-					'ocurrio un error'
-				}
-			}
-			xhr.send()
 	})
 
 

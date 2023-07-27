@@ -2,7 +2,7 @@
 	class Usuariop extends Controller {
 		public function __construct() {
 			$this->usuariop = $this->model('Userp');
-			// $this->usuario = $this->model('User');
+			$this->usuario = $this->model('User');
 			$this->admin = $this->model('Administrador');
 			$this->page = $this->model('Page');
 		}
@@ -11,12 +11,18 @@
 			if (usuariopLoggedIn()) {
 				$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
 				$publicaciones = $this->usuariop->getPublicacionesByUser($_SESSION['user_id']);
+				$allLikes = $this->usuario->readAllLiked($_SESSION['user_id']);
 
+				$likes = [];
+
+				foreach($allLikes as $like) {
+					array_push($likes, $like->id_publicacion);
+				}
 
 				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
 
 				$data = [
-
+					'allLikes' => $likes,
 					'imagenes_perfil' => $imagenes_perfil,
 					'publicaciones' => $publicaciones,
 					'sidebar' => $sidebar,
@@ -544,28 +550,11 @@
 						$dia = $_POST['dia'];
 						$hora_inicio = $_POST['hora_inicio'];
 
-						$this->usuariop->updateTurnosByUser($id_profesional, $dia, $hora_inicio, $estado);
+						$this->usuariop->updateTurnosByUser($id_profesional, $dia, $hora_inicio, $estado);						
 
-						$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
-						$reservas = $this->usuariop->getReservasByUser($_SESSION['user_id']);
-						$reservas_estados = $this->usuariop->readReservaEstados();
-						$reservas_motivos = $this->usuariop->readReservaMotivos();
-
-						$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
-
-						$data = [
-							'imagenes_perfil' => $imagenes_perfil,
-							'reservas' => $reservas,
-							'reservas_motivos' => $reservas_motivos,
-							'reservas_estados' => $reservas_estados,
-							'sidebar' => $sidebar,
-							'controller' => strtolower(get_called_class()),
-							'page' => __FUNCTION__
-						];
-						
-
-						$_SESSION['msg'] = "Reserva Actualizada.";
-						$this->view('usuariop/reservas',$data);
+						$_SESSION['success_msg'] = "Reserva Actualizada.";
+						redirect('usuariop/reservas');
+						exit();
 
 					}
 				}
@@ -716,6 +705,55 @@
 			}
 		}
 
+
+		public function detalles($id_public = null) {
+			if (usuariopLoggedIn()) {
+
+				if (isset($_POST['create_comentario'])) {
+					ob_start();
+
+					$user_id = $_SESSION['user_id'];
+					$comentario = $_POST['comentario'];
+
+					$added = $this->usuario->createComentario($user_id, $id_public, $comentario);
+					if ($added) {
+						$this->usuario->updateComentariosPublic($id_public);
+						
+						redirect('usuariop/detalles/' . $id_public . '#comentarios');
+					}
+				}
+
+
+
+				$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
+				$publicacion = $this->usuario->getPublicById($id_public);
+				$comentarios = $this->usuario->readComentariosByPublic($id_public);
+				$allLikes = $this->usuario->readAllLiked($_SESSION['user_id']);
+
+				$likes = [];
+
+				foreach($allLikes as $like) {
+					array_push($likes, $like->id_publicacion);
+				}
+
+				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+
+				$data = [
+					'comentarios' => $comentarios,
+					'allLikes' => $likes,
+					'imagenes_perfil' => $imagenes_perfil,
+					'publicacion' => $publicacion,
+					'sidebar' => $sidebar,
+					'controller' => strtolower(get_called_class()),
+					'page' => __FUNCTION__
+				];
+
+				$this->view('usuariop/detalles',$data);
+
+			} else {
+				redirect('pages/login');
+			}
+		}
 
 
 

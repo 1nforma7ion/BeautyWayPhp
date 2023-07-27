@@ -11,7 +11,7 @@
 				INNER JOIN usuarios u ON p.id_usuario = u.id 
 				INNER JOIN perfiles pe ON p.id_usuario = pe.id_usuario 
 				INNER JOIN zonas z ON z.id = u.id_zona_trabajo 
-				ORDER BY p.creado DESC');
+				WHERE p.estado = 1 ORDER BY p.creado DESC');
 			$publicaciones = $this->db->getSet();
 			return $publicaciones;
 		}
@@ -21,7 +21,7 @@
 				INNER JOIN usuarios u ON p.id_usuario = u.id 
 				INNER JOIN perfiles pe ON p.id_usuario = pe.id_usuario 
 				INNER JOIN zonas z ON z.id = u.id_zona_trabajo 
-				ORDER BY p.descuento DESC LIMIT 3');
+				WHERE p.estado = 1 ORDER BY p.descuento DESC LIMIT 3');
 			$publicaciones = $this->db->getSet();
 			return $publicaciones;
 		}

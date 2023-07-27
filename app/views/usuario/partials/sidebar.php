@@ -8,6 +8,4 @@
 				</li>
 			<?php endforeach; ?>
 
-			<?php showMsg() ?>
-
 		</nav>	

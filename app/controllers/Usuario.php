@@ -64,6 +64,8 @@
 
 					$user_id = $_SESSION['user_id'];
 					$servicio = $_POST['servicio'];
+					$modalidad = $_POST['modalidad'];
+					$direccion = $_POST['direccion'];
 					$dia = $_POST['dia'];
 					$turno = $_POST['turno'];
 					$status = 'pendiente';
@@ -72,7 +74,7 @@
 					$hora_inicio = $turno[0];
 					$hora_fin = $turno[1];
 
-					$added = $this->usuario->createReserva($user_id, $id_profesional, $id_public, $servicio, $dia, $hora_inicio, $hora_fin, $status);
+					$added = $this->usuario->createReserva($user_id, $id_profesional, $id_public, $servicio, $modalidad, $direccion, $dia, $hora_inicio, $hora_fin, $status);
 					if ($added) {
 						$estado = 0;
 						$this->usuario->updateTurnosByUser($id_profesional, $dia, $hora_inicio, $estado);
@@ -84,6 +86,7 @@
 
 						$_SESSION['success_msg'] = "Reserva Creada Exitosamente.";
 						redirect('usuario/reservas');
+						exit();
 					}
 				}
 
@@ -406,7 +409,7 @@
 
 		public function like($id_public = null, $like = 1) {
 
-			if (usuarioLoggedIn()) {
+			if (usuarioLoggedIn() || usuariopLoggedIn() ) {
 
 				header('Content-Type: application/json, charset=UTF-8');
 

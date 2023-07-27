@@ -18,7 +18,9 @@
 				<div class="w-full flex justify-between py-4 text-2xl text-neutral text-center">
 					<h2 class="text-4xl">Mis Reservas</h2>
 					<div class="w-1/3">
-						<?php echo showAlert(); ?>
+						
+						<?php showMsg(); ?>
+						
 					</div>  
 				</div>
 
@@ -31,8 +33,7 @@
 	              <th>Dia</th>
 	              <th>Turno</th>
 	              <th>Estado</th>
-	              <th>Motivo</th>
-	              <th>Editar</th>
+	              <th>Opciones</th>
 	            </tr>
 	          </thead>
 	          
@@ -45,7 +46,7 @@
 	                <td> <div class="w-max "> <?php echo $row->dia; ?></div> </td>
 	                <td><div class="w-max  "><?php echo $row->hora_inicio; ?> </div></td>
 	                <td><div class="w-max  "><?php setReservaStatus($row->status); ?> </div></td>
-	                <td><div class="w-max text-sm "><?php echo $row->motivo; ?> </div></td>
+	                
 	                <td>
 	                	<?php if($row->status == 'cancelado' || $row->status == 'finalizado') : ?>
 	                	<div class="w-max flex items-center justify-center ">
@@ -57,7 +58,7 @@
 	                	
 	                	<?php else : ?>
 	                		<div class="w-max flex ">
-		             		    <button data-item-edit="<?php echo $row->id_reserva ?>"  class="btn_reserva text-white bg-neutral py-1 px-2 rounded ">
+		             		    <button data-item-edit="<?php echo $row->id_reserva ?>"  class="btn_reserva text-white bg-neutral px-2 rounded ">
 		             		    	<i class="fas fa-gear"></i>
 		             		    </button>
 		                		 		
@@ -96,16 +97,15 @@ echo "</pre>";
 window.addEventListener('DOMContentLoaded', ()=> {
 
  	const successAlert = document.querySelector('#success_msg')
-
   	setTimeout(() => {
-    	successAlert.remove()
+    	successAlert?.remove()
   	}, 5000)
-    	
+  
     	
 	const datatables = document.querySelectorAll('.datatable')
 	datatables.forEach(datatable => {
 		new simpleDatatables.DataTable(datatable, {
-
+			fixedHeight: true,
 			searchable: true,
 	    columns: [
 	    // Sort the second column in ascending order
@@ -142,6 +142,8 @@ window.addEventListener('DOMContentLoaded', ()=> {
 			modalEdit.classList.toggle('hidden')
 			modalEdit.classList.toggle('active-modal')
 
+			initForm(id)
+
 		})
 	})
 
@@ -160,6 +162,32 @@ window.addEventListener('click', (e) => {
   }
 })
 
+
+const initForm = (id) => {
+	let status = document.querySelector('#status_'+id)
+	let motivo = document.querySelector('#motivo_'+id)
+
+	status.addEventListener('change', (e) => {
+		let motivoSelect = document.querySelector('#motivo_'+id)
+
+		if(e.target.value == 'cancelado') {
+			motivoSelect.classList.remove('hidden')
+		} else {
+			if (!motivoSelect.classList.contains('hidden')) {
+				motivoSelect.classList.add('hidden')
+			}
+		}
+	})
+}
+// const statusSelect = document.querySelector('#status')
+// // console.log(statusSelect)
+// statusSelect.addEventListener('change', (e) => {
+// 	console.log(e.target.value)
+// 	if(e.target.value == 'cancelado') {
+// 		let motivoSelect = document.querySelector('#motivo')
+// 		motivoSelect.classList.toggle('hidden')
+// 	}
+// })
 
 </script>
 

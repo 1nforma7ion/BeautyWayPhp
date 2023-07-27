@@ -16,7 +16,26 @@
 			<div class="w-full p-4 bg-white flex flex-col rounded-xl ">
 				<!-- Tabla Datatable -->
 				<div class="w-full flex justify-between py-4 text-2xl text-neutral text-center">
-					<h2 class="text-4xl">Mis Reservas</h2>  
+					<div class="flex flex-col items-start justify-between space-y-2">
+						<h2 class="text-4xl ">Mis Reservas</h2> 
+						<?php if(isset($_SESSION['success_msg'])) : ?>
+							<div class="w-max bg-ctaDark p-2 rounded-xl text-dark text-lg ">
+								<i class="fas fa-bell text-red px-2"></i>
+								<span>Tu Reserva esta Pendiente de Confirmación. </span>
+							</div>
+							<div class="w-max bg-ctaDark p-2 rounded-xl text-dark text-lg ">
+								<i class="fas fa-envelope text-red px-2"></i>							
+								<span>Recibirás un email cuando se Confirme tu Reserva</span>
+							</div>
+						<?php endif; ?>
+
+					</div>
+					
+					<div class="w-1/3">
+						<!-- <i class="fas fa-exclamation fa-2x text-red"></i> -->
+						<?php showMsg(); ?>
+						
+					</div> 
 				</div>
 
 				<div class="w-full  bg-primary rounded-lg ">
@@ -42,13 +61,21 @@
 	                <td><div class="w-max"><?php echo $row->hora_inicio; ?> </div></td>
 	                <td><div class="w-max "><?php setReservaStatus($row->status); ?> </div></td>
 	                <td>
+
+
 	                	<?php if($row->status == 'cancelado' || $row->status == 'finalizado' || $row->status == 'pendiente') : ?>
 	                	<div class="w-max flex items-center justify-center ">
-	             		    <button class=" text-dark py-1 px-4 rounded ">
+	                		<button data-item-detalle="<?php echo $row->id_reserva ?>"  class="btn_detalle  ">
+	             		    	<i class="fas fa-plus-circle text-2xl text-neutral"></i>
+	             		    </button>
+
+	             		    <button class=" text-dark px-4 rounded ">
 	             		    	<i class="fas fa-align-justify"></i>
 	             		    </button>
 	                		 		
 	                	</div>
+	                		<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_detalles.php'; ?>
+
 	                	
 	                	<?php else : ?>
 	                		<div class="w-max flex ">
@@ -93,7 +120,7 @@ window.addEventListener('DOMContentLoaded', ()=> {
  	const successAlert = document.querySelector('#success_msg')
 
   	setTimeout(() => {
-    	successAlert.remove()
+    	successAlert?.remove()
   	}, 5000)
     	
     	
@@ -133,6 +160,17 @@ window.addEventListener('DOMContentLoaded', ()=> {
 		})
 	})
 
+	const allBtnDetalles = document.querySelectorAll('.btn_detalle')
+	allBtnDetalles?.forEach( btn => {
+		btn.addEventListener('click', (e) => {
+			// console.log(btn)
+			let id = e.currentTarget.getAttribute('data-item-detalle')
+			let modalDetalle = document.querySelector('#modal_detalle_'+id)
+			modalDetalle.classList.toggle('hidden')
+			modalDetalle.classList.toggle('active-modal')
+
+		})
+	})
 
 
 	})

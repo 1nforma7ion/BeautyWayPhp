@@ -133,14 +133,20 @@
 			    <div class="group-col relative">
 			  		<div class="absolute hidden right-0 bottom-0"><i class="fas fa-check bg-cta p-2 rounded-full"></i></div>
 				    <label for="contrasenia">Contraseña:
-				    	<span id="alert-pass" class="hidden italic text-sm text-red">Minimo 6 caracteres</span>
+				    	<div id="alert-pass" class="hidden p-1 rounded-xl flex flex-col bg-primary text-sm text-red">
+				    		<span>Mínimo 6 caracteres, incluir 1 mayúscula y 1 número</span>
+
+				    	</div>
 				    </label>
 				    <input type="password" id="contrasenia" name="contrasenia" required placeholder="Escribe tu contraseña">
 			    </div>
 			    <div class="group-col relative">
 			  		<div class="absolute hidden right-0 bottom-0"><i class="fas fa-check bg-cta p-2 rounded-full"></i></div>
 				    <label for="repetirContrasenia">Repetir Contraseña:
-				    	<span id="alert-rpass" class="hidden italic text-sm text-red">No coinciden</span>
+				    	<div id="alert-rpass" class="hidden p-1 rounded-xl flex flex-col bg-primary text-sm text-red">
+				    		<span>Contraseñas no coinciden</span>
+				    	</div>
+				    	
 				    </label>
 				    <input type="password" id="repetirContrasenia" name="repetirContrasenia" required placeholder="Repite tu contraseña">
 			    </div>
