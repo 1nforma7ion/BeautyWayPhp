@@ -62,6 +62,7 @@
 			      <!-- form RESERVAR -->
 	  				<form action="" method="post" autocomplete="off">
 	  					<input type="hidden" id="id_profesional" value="<?php echo $data['publicacion']->id_profesional ?>">
+	  					<input type="hidden" name="email_prof" value="<?php echo $data['publicacion']->email ?>">
 	  					<input type="hidden" id="url" data-root="<?php echo URLROOT ?>" data-controller="<?php echo $data['controller'] ?>">
 		  				
 

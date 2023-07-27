@@ -63,6 +63,7 @@
 					ob_start();
 
 					$user_id = $_SESSION['user_id'];
+					$email_prof = $_POST['email_prof'];
 					$servicio = $_POST['servicio'];
 					$modalidad = $_POST['modalidad'];
 					$direccion = $_POST['direccion'];
@@ -76,6 +77,20 @@
 
 					$added = $this->usuario->createReserva($user_id, $id_profesional, $id_public, $servicio, $modalidad, $direccion, $dia, $hora_inicio, $hora_fin, $status);
 					if ($added) {
+						// send email 
+						$to_email = $email_prof;
+						$subject = "Tienes una Reserva ! ";
+						$body = "El usuario" . $_SESSION['user_nombre'] . " " . $_SESSION['user_apellido'] . " \r\n";
+						$body .= "ha generado una reserva para tu servicio en BeutyWay ! \r\n";
+						$body .= "Servicio : " . $servicio . " para el dia " . $dia . " a las " . $hora_inicio . " hrs. \r\n\r\n";
+						$body .= "Ingresa a <a href=" . URLROOT . "> Beauty Way  </a> para Confirmar la Reserva. \r\n";
+						$headers = "From: Beuty Way <nicedev90@mail.nicedev90.pro> \r\n";
+			      $headers .= "MIME-Version: 1.0 \r\n";
+						$headers .= "Content-type: text/html; charset='utf-8' \r\n";
+
+						mail($to_email, $subject, $body, $headers);
+
+
 						$estado = 0;
 						$this->usuario->updateTurnosByUser($id_profesional, $dia, $hora_inicio, $estado);
 						
