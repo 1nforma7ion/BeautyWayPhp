@@ -29,7 +29,7 @@
 							?>
 							<a href="<?php echo URLROOT . '/' . $data['controller'] . '/' . $data['page'] . '/' . $row->id ?>" class="btn_show_table cursor-pointer p-2 flex space-x-4 text-dark text-xl border-b items-center hover:bg-cta <?php echo $bg ?>">
 								 <span><i class="fas fa-chevron-right"></i></span> 
-								 <span><?php echo $row->id ?></span> 
+								 <!-- <span><?php //echo $row->id ?></span>  -->
 								 <span><?php echo $row->profesion ?></span> 
 							</a>
 						</li>
@@ -54,7 +54,7 @@
                 <tr>
                   <th>Servicio</th>
                   <th>Estado</th>
-                  <th>Opciones</th>
+                  <th>Opc.</th>
                 </tr>
               </thead>
               
@@ -66,9 +66,9 @@
                     <td>
                       <div class="w-max flex space-x-8 ">
                         <button data-item-edit="<?php echo $row->id ?>"  class="btn_edit hover:text-green text-2xl"><i class="fas fa-edit"></i></button>
-                        <button data-item-delete="<?php echo $row->id ?>" class="btn_delete hover:text-red text-2xl"><i class="fas fa-trash"></i>   </button>       
+                        <!-- <button data-item-delete="<?php //echo $row->id ?>" class="btn_delete hover:text-red text-2xl"><i class="fas fa-trash"></i>   </button>        -->
                       </div>
-                      <?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_delete.php'; ?>
+                      <!-- <?php //require APPROOT . '/views/' . $data['controller'] . '/partials/modal_delete.php'; ?> -->
                       <?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_edit.php'; ?>
                     </td>
                   </tr>
@@ -114,14 +114,9 @@ window.addEventListener('DOMContentLoaded', ()=> {
 	datatables.forEach(datatable => {
 		new simpleDatatables.DataTable(datatable, {
 			searchable: true,
-			// fixedHeight: true,
+			fixedHeight: true,
 	    columns: [
-	    // Sort the second column in ascending order
 		    { select: 1, sort: "asc" },
-
-
-	    // Set the third column as datetime string matching the format "DD/MM/YYY"
-	    // { select: 2, type: "date", format: "DD/MM/YYYY" }
 	    ],    
 	    labels: {
 		    placeholder: "Buscar...",
@@ -138,7 +133,7 @@ window.addEventListener('DOMContentLoaded', ()=> {
 			let active_modal = document.querySelector('.active-modal')
 			active_modal.classList.toggle('active-modal')
 			active_modal.classList.toggle('hidden')
-			console.log(active_modal)
+			// console.log(active_modal)
 		})
 	})
 
@@ -180,9 +175,8 @@ const btn_Add = document.querySelector('#btn_add')
 btn_Add?.addEventListener('click', () => {
 	modal_Add.classList.toggle('hidden')
 	modal_Add.classList.toggle('active-modal')
-	console.log(modal_Add)
+	// console.log(modal_Add)
 })
-
 
 
 window.addEventListener('click', (e) => {
@@ -192,7 +186,6 @@ window.addEventListener('click', (e) => {
 		activeModal.classList.toggle('hidden')
 	}
 })
-
 
 
 	</script>

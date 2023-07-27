@@ -57,23 +57,35 @@
 							</div>
 						</div>
 
-  					<div class="w-3/4 mx-auto flex flex-col">
-					    <h2 class="text-xl py-1">Dirección: </h2>
-					    <h2 class="text-neutral"><?php echo $data['publicacion']->calle . ' #' . $data['publicacion']->altura . ' - ' . $data['publicacion']->barrio ?> </h2>
-					  </div>
+
 
 			      <!-- form RESERVAR -->
 	  				<form action="" method="post" autocomplete="off">
 	  					<input type="hidden" id="id_profesional" value="<?php echo $data['publicacion']->id_profesional ?>">
 	  					<input type="hidden" id="url" data-root="<?php echo URLROOT ?>" data-controller="<?php echo $data['controller'] ?>">
-	  					
-	  					<div class="w-3/4 mx-auto flex flex-col">
+
+	  				<div class="px-6 mx-auto flex flex-col">
+	  					<?php if ($data['publicacion']->modalidad == "Domicilio"): ?>
+	  						<?php else : ?>
+	  					<?php endif; ?>
+						    <p class=" text-red text-sm"> - Este profesional atiende <?php echo $data['publicacion']->modalidad ?> <span class="text-neutral">Terminos y Condiciones.</span> </p>
+
+					    <h2 class="text-xl py-1">Dirección del Salón: </h2>
+					    <h2 class="text-2xl text-neutral font-bold"><?php echo $data['publicacion']->calle . ' #' . $data['publicacion']->altura . ' - ' . $data['publicacion']->barrio ?> </h2>
+					  </div>
+
+  					<div class="px-6 mx-auto flex flex-col">
+					    <h2 class="text-xl py-1">Dirección del Salón: </h2>
+					    <h2 class="text-2xl text-neutral font-bold"><?php echo $data['publicacion']->calle . ' #' . $data['publicacion']->altura . ' - ' . $data['publicacion']->barrio ?> </h2>
+					  </div>
+
+	  					<div class="px-6 mx-auto flex flex-col">
 						    <h2 class="text-xl py-1">Servicio: </h2>
 						    <h2 class="text-2xl text-neutral py-1 font-bold"><?php echo strtoupper($data['publicacion']->servicio) ?> </h2>
 	  						<input type="hidden" name="servicio" id="servicio" value="<?php echo $data['publicacion']->servicio ?>">
 						  </div>
 
-							<div class="w-3/4 py-1 mx-auto flex flex-col">
+							<div class="px-6 py-1 mx-auto flex flex-col">
 						    <label for="dia" class="text-xl py-1">Fecha:</label>
 						    <select id="dia" name="dia" class="p-1 border-neutral border rounded-xl outline-none" required>
 						 			<option value="">Selecciona el dia</option>
@@ -85,7 +97,7 @@
 						    </select>
 						  </div>
 
-							<div class="w-3/4 py-1 mx-auto flex flex-col">
+							<div class="px-6 py-1 mx-auto flex flex-col">
 						    <label for="turno" class="text-xl py-1">Turnos Disponibles:</label>
 						    <select id="turno" name="turno" class="p-1 border-neutral border rounded-xl outline-none" required>
 						 			<option value="">Selecciona el turno</option>
@@ -173,7 +185,7 @@
 echo "<pre>";
 // echo date('d-m-Y h:m:s');
 
-// print_r($data);
+print_r($data);
 // print_r($data['imagenes_perfil']);
 echo "</pre>";
 

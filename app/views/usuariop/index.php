@@ -24,8 +24,17 @@
 						<?php echo $row->servicio ?>  </span>
 
 						<div class="date_post absolute w-full flex justify-around h-max bottom-4 right-0 md:bottom-4  md:text-2xl font-bold">
-							<button class="w-44 rounded-full text-sm text-dark p-2 bg-ctaDark "> <i class="fas fa-heart "></i> Me gusta  </button>
-							<button class="w-44 rounded-full text-sm text-dark p-2 bg-ctaDark "> <i class="fas fa-comment "></i> Comentarios  </button>
+							<button class="btn_like w-44 rounded-full text-sm text-dark p-2 bg-ctaDark "> 
+								<span><?php echo $row->me_gusta ?> </span>
+								<i class="fas fa-heart "></i>
+								<span>Me gusta</span>
+								
+							</button>
+
+							<a href="#"  class=" w-44 rounded-full text-sm text-dark p-2 bg-ctaDark text-center"> 
+								<?php echo $row->comentarios ?>   
+								<i class="fas fa-comment "></i> Comentarios  
+							</a>
 
 						</div>
 					</div>
@@ -52,11 +61,11 @@
 						</div>
 			      <span class=" text-sm"> <?php echo $row->descripcion ?>  </span>
 	  				
-	  				<div class="absolute hidden md:flex z-30 bottom-4 self-center text-sm text-fbk">
-							<a href="<?php echo URLROOT . '/' . $data['controller'] . '/reservar' ?>" class=" rounded-full text-white text-xl px-4 py-2 md:w-max bg-neutralDark "> 
+<!-- 	  				<div class="absolute hidden md:flex z-30 bottom-4 self-center text-sm text-fbk">
+							<a href="<?php //echo URLROOT . '/' . $data['controller'] . '/reservar' ?>" class=" rounded-full text-white text-xl px-4 py-2 md:w-max bg-neutralDark "> 
 			      		Ver detalles<i class="fas fa-arrow-right ml-4 "></i>
 			      	</a>
-						</div>
+						</div> -->
 
 					</div>
 

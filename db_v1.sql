@@ -297,11 +297,20 @@ CREATE TABLE reservas (
   REFERENCES publicaciones (id)
 )ENGINE=INNODB;
 
-CREATE TABLE usuarios_megusta (
+CREATE TABLE publicaciones_megusta (
   id INT NOT NULL AUTO_INCREMENT,
   id_usuario INT NOT NULL,
   id_publicacion INT NOT NULL,
   liked INT NOT NULL,
+  fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+)ENGINE=INNODB;
+
+CREATE TABLE publicaciones_comentarios (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_usuario INT NOT NULL,
+  id_publicacion INT NOT NULL,
+  comentario TEXT NOT NULL,
   fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
 )ENGINE=INNODB;

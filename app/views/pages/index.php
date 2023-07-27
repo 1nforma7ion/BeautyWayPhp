@@ -79,6 +79,11 @@
 									<span class="text-sm"> <?php echo fixedFecha($row->creado) ?> </span>	
 								</div>
 
+								<div class="flex w-full justify-center items-center bg-ctaDark text-dark rounded-xl p-1 text-xl">
+									<i class="fas fa-map-marker-alt mr-2"></i>
+									<span> <?php echo $row->zona ?> </span>	
+								</div>
+
 							</div>
 						</div>
 			      <span class=" text-sm"> <?php echo $row->descripcion ?>  </span>
@@ -99,6 +104,14 @@
 
 	</div>
 </div>
+
+
+<?php 
+	// echo "<pre>";
+	// print_r($data);
+
+ ?>
+
 
 <script>
 	const allBtnAlert = document.querySelectorAll('.btn_alert')

@@ -7,8 +7,9 @@
     <div class="absolute top-10 rounded-md bg-white px-8 py-6 mx-4 drop-shadow-md md:w-3/4">
 
  		<a href="<?php echo URLROOT; ?>/pages/login" class="absolute top-4 left-0 px-4 py-2 bg-ctaDark rounded-r-xl text-dark drop-shadow-md"><i class="fas fa-arrow-left"></i> Iniciar Sesion </a>
-		<div id="btn-pro" class="absolute top-10 right-0 cursor-pointer px-6 py-4 rounded-l-xl text-dark bg-ctaDark font-bold text-lg drop-shadow-md">
-			<i class="fas fa-bell mr-2 "></i><span>Soy profesional</span>				
+		<div id="btn-pro" class="absolute flex items-center space-x-4 top-10 right-0 w-64 cursor-pointer px-6 py-4 rounded-l-xl text-dark bg-ctaDark font-bold text-lg drop-shadow-md">
+			<i class="fas fa-bell text-6xlmr-2 "></i>
+			<span>Si sos profesional haz click aquí ! </span>				
 		</div>
 
   <form action="<?php echo URLROOT; ?>/pages/registrar" id="form_register" method="post" autocomplete="off" >

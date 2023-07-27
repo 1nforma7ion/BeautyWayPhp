@@ -29,12 +29,13 @@
 						<table class="bg-white datatable " >
 		          <thead>
 		            <tr>
-		              <th>Id</th>
-		              <th>Nombre</th>
+		              
+		              <th>Apellidos</th>
+		              <th>Nombres</th>
 		              <th>Teléfono</th>
 		              <th>Email</th>
 		              <th>Estado</th>
-		              <th>Opciones</th>
+		              <th>Opc.</th>
 		            </tr>
 		          </thead>
 		          
@@ -43,8 +44,8 @@
 		            	<?php if ($row->rol_id == 2) : ?>
 		            		
 			             <tr>
-			             		<td><?php echo $row->user_id; ?></td>
-			             		<td><?php echo $row->nombre . ' ' . $row->apellido; ?></td>
+			             		<td><?php echo $row->apellido; ?></td>
+			             		<td><?php echo $row->nombre; ?></td>
 			                <td><?php echo $row->telefono; ?>   </td>
 			                <td><?php echo $row->email; ?> </td>
 			                <td> <?php setStatus($row->estado); ?></td>
@@ -53,10 +54,10 @@
 			                	<div class="w-max flex space-x-8 ">
 
 			             		    <button data-item-edit="<?php echo $row->user_id ?>"  class="btn_edit hover:text-green text-2xl"><i class="fas fa-edit"></i></button>
-			                		<button data-item-delete="<?php echo $row->user_id ?>" class="btn_delete hover:text-red text-2xl"><i class="fas fa-trash"></i>	</button>   		
+			                		<!-- <button data-item-delete="<?php //echo $row->user_id ?>" class="btn_delete hover:text-red text-2xl"><i class="fas fa-trash"></i>	</button>   		 -->
 			                	</div>
 			                	<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_delete.php'; ?>
-			                	<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_edit.php'; ?>
+			                	<?php //require APPROOT . '/views/' . $data['controller'] . '/partials/modal_edit.php'; ?>
 
 			                </td>
 			             </tr>

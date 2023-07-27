@@ -15,7 +15,6 @@
 			<div class="flex flex-col w-full  md:p-4  space-y-8  overflow-y-scroll no-scrollbar">
 
 				<!-- publicaciones -->
-				<input type="hidden" id="url" data-controller="<?php echo $data['controller'] ?>" data-root="<?php echo URLROOT ?>" data-page="<?php echo $data['page'] ?>">
 
 				<?php foreach($data['publicaciones'] as $row) : ?>
 					<div class=" flex flex-col-reverse md:flex-row bg-white text-dark drop-shadow-lg hover:drop-shadow-card rounded-lg">
@@ -61,6 +60,12 @@
 									<i class="fas fa-calendar-alt mr-2"></i>
 									<span class="text-sm"> <?php echo fixedFecha($row->creado) ?> </span>	
 								</div>
+
+								<div class="flex w-full justify-center items-center bg-ctaDark text-dark rounded-xl p-1 text-xl">
+									<i class="fas fa-map-marker-alt mr-2"></i>
+									<span> <?php echo $row->zona ?> </span>	
+								</div>
+								
 							</div>
 						</div>
 			      <span class=" text-sm"> <?php echo $row->descripcion ?>  </span>
@@ -76,6 +81,7 @@
 				</div>
 				<?php endforeach; ?>
 
+				<input type="hidden" id="url" data-controller="<?php echo $data['controller'] ?>" data-root="<?php echo URLROOT ?>" data-page="<?php echo $data['page'] ?>">
 
 
 			</div>
@@ -83,7 +89,11 @@
 
 	</div>
 </div>
+<?php 
+	// echo "<pre>";
+	// print_r($data);
 
+ ?>
 <script>
 	window.addEventListener('DOMContentLoaded', () => {
 

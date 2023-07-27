@@ -54,7 +54,7 @@
 					if ($added) {
 						$this->usuario->updateComentariosPublic($id_public);
 						
-						redirect('usuario/detalles/' . $id_profesional . '/' . $id_public);
+						redirect('usuario/detalles/' . $id_profesional . '/' . $id_public . '#comentarios');
 					}
 				}
 

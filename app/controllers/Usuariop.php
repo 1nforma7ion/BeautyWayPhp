@@ -2,6 +2,7 @@
 	class Usuariop extends Controller {
 		public function __construct() {
 			$this->usuariop = $this->model('Userp');
+			// $this->usuario = $this->model('User');
 			$this->admin = $this->model('Administrador');
 			$this->page = $this->model('Page');
 		}
@@ -11,9 +12,11 @@
 				$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
 				$publicaciones = $this->usuariop->getPublicacionesByUser($_SESSION['user_id']);
 
+
 				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
 
 				$data = [
+
 					'imagenes_perfil' => $imagenes_perfil,
 					'publicaciones' => $publicaciones,
 					'sidebar' => $sidebar,
