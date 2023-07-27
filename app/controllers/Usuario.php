@@ -83,7 +83,7 @@
 						$body = "El usuario" . $_SESSION['user_nombre'] . " " . $_SESSION['user_apellido'] . " \r\n";
 						$body .= "ha generado una reserva para tu servicio en BeutyWay ! \r\n";
 						$body .= "Servicio : " . $servicio . " para el dia " . $dia . " a las " . $hora_inicio . " hrs. \r\n\r\n";
-						$body .= "Ingresa a <a href=" . URLROOT . "> Beauty Way  </a> para Confirmar la Reserva. \r\n";
+						$body .= 'Ingresa a <a href="' . URLROOT . '"> Beauty Way  </a> para Confirmar la Reserva. \r\n';
 						$headers = "From: Beuty Way <nicedev90@mail.nicedev90.pro> \r\n";
 			      $headers .= "MIME-Version: 1.0 \r\n";
 						$headers .= "Content-type: text/html; charset='utf-8' \r\n";
