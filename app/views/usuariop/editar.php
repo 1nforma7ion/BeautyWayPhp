@@ -16,40 +16,47 @@
 			<div class="w-full p-4 bg-white flex flex-col rounded-xl ">
 				<!-- Tabla Datatable -->
 				<div class="w-full flex justify-between py-4 text-2xl text-neutral text-center">
-					<h2 class="text-4xl">Mensajes Recibidos</h2>  
+					<h2 class="text-4xl">Mis Publicaciones </h2>  
 					<div class="w-1/3">
 						<?php showMsg(); ?>
 					</div> 
-          
 				</div>
 
 				<div class="w-full  bg-primary rounded-lg ">
 					<table id="datatable" class="bg-white " >
 	          <thead>
 	            <tr>
-	              <th>Enviado Por</th>
-	              <th>Mensaje</th>
+	              <th>Servicio</th>
+	              <th>Zona</th>
+	              <th>Descuento</th>
+	              <th>Me gusta</th>
+	              <th>Comentarios</th>
 	              <th>Fecha</th>
-	              <th>Resp.</th>
+	              <th>Estado</th>
+	              <th>Opc.</th>
 	            </tr>
 	          </thead>
 	          
 	          <tbody >
-							<?php if(!empty($data['mensajes'])) : ?>
+							<?php if(!empty($data['publicaciones'])) : ?>
 
-	            <?php foreach($data['mensajes'] as $row): ?>
+	            <?php foreach($data['publicaciones'] as $row): ?>
 	             <tr>
-	                <td><div class="w-64"><?php echo $row->nombre . ' ' . $row->apellido; ?></div> </td>
-	                <td> <div class="w-full"> <?php echo $row->mensaje; ?></div> </td>
-	                <td><div class="w-max"><?php echo fixedFecha($row->fecha); ?> </div></td>
+	                <td><div class="w-max"><?php echo $row->servicio; ?></div> </td>
+	                <td> <div class="w-max"> <?php echo $row->zona_public; ?></div> </td>
+	                <td> <div class="w-max"> <?php echo $row->descuento; ?></div> </td>
+	                <td> <div class="w-max"> <?php echo $row->me_gusta; ?></div> </td>
+	                <td> <div class="w-max"> <?php echo $row->comentarios; ?></div> </td>
+	                <td> <div class="w-max"> <?php echo fixedFecha($row->creado); ?></div> </td>
+	                <td><div class="w-max"><?php echo setStatus($row->estado); ?> </div></td>
 	                <td>
 	                	<div class="w-max flex space-x-8 ">
-	             		    <button data-item-edit="<?php echo $row->mensaje_id ?>"  class="btn_responder p-1 rounded text-lg bg-neutral text-white ">
-	             		    	<i class="fas fa-reply "></i>
+	             		    <button data-item-edit="<?php echo $row->id_public ?>"  class="btn_editar ">
+	             		    	<i class="fas fa-trash text-xl text-red"></i>
 	             		    </button>
 	                		 		
 	                	</div>
-	                	<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_responder.php'; ?>
+	                	<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_reserva.php'; ?>
 	                	
 	                </td>
 	             </tr>
@@ -101,10 +108,10 @@
 			// perPage: 40
 		}
 
-		let tabla_mensajes = new simpleDatatables.DataTable(datatable, tableOptions)
+		let tabla_publicaciones = new simpleDatatables.DataTable(datatable, tableOptions)
 
 
-		tabla_mensajes.on('datatable.init', () => {
+		tabla_publicaciones.on('datatable.init', () => {
 			const allBtnClose = document.querySelectorAll('.btn_close')
 			allBtnClose.forEach( btn => {
 				btn.addEventListener('click', () => {
@@ -115,24 +122,22 @@
 			})
 
 
-			const allBtnEdit = document.querySelectorAll('.btn_responder')
-			allBtnEdit?.forEach( btn => {
+			const allBtnEditar = document.querySelectorAll(".btn_editar")
+			allBtnEditar?.forEach( btn => {
 				btn.addEventListener('click', (e) => {
-					// console.log(btn)
 					let id = e.currentTarget.getAttribute('data-item-edit')
-					let modalEdit = document.querySelector('#modal_responder_'+id)
-					modalEdit.classList.toggle('hidden')
-					modalEdit.classList.toggle('active-modal')
+					let modalRes = document.querySelector('#modal_reserva_'+id)
+					modalRes.classList.toggle('hidden')
+					modalRes.classList.toggle('active-modal')
 
 				})
 			})
-
 		})
 
 
 
 		// activar botones reserva y close al pasar a pagina 2
-		tabla_mensajes.on('datatable.page', page => {
+		tabla_publicaciones.on('datatable.page', page => {
 			// console.log(page)
 			const allBtnClose = document.querySelectorAll('.btn_close')
 			allBtnClose.forEach( btn => {
@@ -143,10 +148,20 @@
 				})
 			})
 
+			const allBtnEditar = document.querySelectorAll(".btn_editar")
+			allBtnEditar?.forEach( btn => {
+				btn.addEventListener('click', (e) => {
+					let id = e.currentTarget.getAttribute('data-item-edit')
+					let modalRes = document.querySelector('#modal_reserva_'+id)
+					modalRes.classList.toggle('hidden')
+					modalRes.classList.toggle('active-modal')
+
+				})
+			})
 		})
 
 		// activar botones reserva y close al usar dropdown " elementos por pagina"
-		tabla_mensajes.on('datatable.perpage', perpage => {
+		tabla_publicaciones.on('datatable.perpage', perpage => {
 			// console.log(perpage)
 			const allBtnClose = document.querySelectorAll('.btn_close')
 			allBtnClose.forEach( btn => {
@@ -156,10 +171,9 @@
 					active_modal.classList.toggle('hidden')
 				})
 			})
+		}) 
 
-		})
-
-		tabla_mensajes.on('datatable.search', perpage => {
+		tabla_publicaciones.on('datatable.search', perpage => {
 			// console.log(perpage)
 			const allBtnClose = document.querySelectorAll('.btn_close')
 			allBtnClose.forEach( btn => {
@@ -171,8 +185,7 @@
 			})
 		})
 
-
-	})  // end DOMContentLoaded
+	})  // end DOMcontentLoaded
 
 
 
@@ -183,6 +196,7 @@ window.addEventListener('click', (e) => {
     activeModal.classList.toggle('hidden')
   }
 })
+
 
 
 </script>

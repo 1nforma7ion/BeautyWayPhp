@@ -25,7 +25,7 @@
 							
 				      <div class=" pb-4 ">
 			          <h5 class="text-dark text-2xl font-bold text-neutral"> Perfil Comercial </h5>
-						    <?php echo showAlert(); ?>
+						    <?php echo showMsg(); ?>
 			        </div>
 
 							<form action="<?php echo URLROOT . '/' . $data['controller'] . '/perfil'; ?>" id="form_register" method="post" autocomplete="off" >
@@ -360,6 +360,11 @@
 
 <script >
 	window.addEventListener('DOMContentLoaded', ()=> { 
+		
+	 	const successAlert = document.querySelector('#success_msg')
+	  	setTimeout(() => {
+	    	successAlert?.remove()
+	  	}, 5000)
 
 		const allBtnClose = document.querySelectorAll('.btn_close')
 	  allBtnClose.forEach( btn => {

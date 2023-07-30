@@ -118,7 +118,7 @@
 
 	function showMsg() {
 		if (!empty($_SESSION['success_msg'])) {
-			echo '<div id="success_msg" class="text-center p-4 w-full bg-ctaDark text-dark text-lg rounded-xl">' . $_SESSION['success_msg'] . '</div>';
+			echo '<div id="success_msg" class="text-center p-2 font-bold w-full bg-ctaDark text-dark text-2xl rounded-xl">' . $_SESSION['success_msg'] . '</div>';
 			unset($_SESSION['success_msg']);
 		}
 	}

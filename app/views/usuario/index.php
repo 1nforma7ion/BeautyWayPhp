@@ -63,7 +63,7 @@
 
 								<div class="flex w-full justify-center items-center bg-ctaDark text-dark rounded-xl p-1 text-xl">
 									<i class="fas fa-map-marker-alt mr-2"></i>
-									<span> <?php echo $row->zona ?> </span>	
+									<span> <?php echo $row->zona_public ?> </span>	
 								</div>
 								
 							</div>
@@ -108,59 +108,73 @@
 
 	})
 
+	let url = document.querySelector('#url')
+	let root = url.getAttribute('data-root')
+	let controller = url.getAttribute('data-controller')
+	let endpoint = `${root}/${controller}`
+	// console.log(endpoint)
+
+
 	const allBtnLike = document.querySelectorAll('.btn_like')
 	allBtnLike.forEach(btn => {
 		btn.addEventListener('click', e => {
+			
+
 			let id_public = e.currentTarget.lastElementChild.value
 			let likes_public = e.currentTarget.firstElementChild
 			let icon_public = e.currentTarget.querySelector('i')
-			console.log(icon_public)
+			// console.log(icon_public)
 
-			const url = document.querySelector('#url')
-			let root = url.getAttribute('data-root')
-			let controller = url.getAttribute('data-controller')
-			// let page = url.getAttribute('data-page')
-			let endpoint = `${root}/${controller}/like`
-			console.log(endpoint)
+      let item = JSON.stringify({ id_publicacion: id_public })
 
-		            
-      let myitem = { 
-          id_publicacion: id_public
-      }
-      console.log(myitem)
-
-      let item = JSON.stringify(myitem)
-
-
-		fetch(endpoint, {
-	    method: 'post',
-	    body: item,
-	    headers: {
-	      'Accept': 'application/json',
-	      'Content-Type': 'application/json'
-	    }
+			fetch(`${endpoint}/like`, {
+		    method: 'post',
+		    body: item,
+		    headers: {
+		      'Accept': 'application/json',
+		      'Content-Type': 'application/json'
+		    }
+			})
+			.then( res => res.json() )
+			.then( data => {
+				likes_public.innerHTML = data.likes
+				icon_public.classList.toggle(data.icon_color)
+				// console.log(data)
+			})
+			.catch(console.error);
 		})
-		.then( res => res.json())
-		.then( data => {
-			likes_public.innerHTML = data.likes
-			icon_public.classList.toggle(data.icon_color)
-			console.log(data)
-		})
-		.catch(console.error);
 
-
-
-      // var xhr = new XMLHttpRequest()
-      // xhr.open('POST', endpoint, true)
-      // xhr.setRequestHeader('Content-type', 'application/json')
-      // xhr.send(item)
-
-      // xhr.onload = function () {
-      //   console.log(xhr.responseText)
-      // }
-
-		})
 	})
+
+
+	// const btnBuscar = document.querySelector('#btn_buscar')
+	// btnBuscar.addEventListener('click', (e) => {
+	// 	let term = e.currentTarget.previousElementSibling.value
+
+	// 	if (term.length > 3 ) {
+	// 		let termino = JSON.stringify({ busqueda: term })
+	// 		console.log(termino)
+
+	// 		fetch(`${endpoint}/buscar`, {
+	// 	    method: 'post',
+	// 	    body: termino,
+	// 	    headers: {
+	// 	      'Accept': 'application/json',
+	// 	      'Content-Type': 'application/json'
+	// 	    }
+	// 		})
+	// 		.then( res => res.json())
+	// 		.then( data => {
+	// 			// likes_public.innerHTML = data.likes
+	// 			// icon_public.classList.toggle(data.icon_color)
+	// 			console.log(data)
+	// 		})
+	// 		.catch(console.error);
+
+	// 	}
+
+
+	// })
 
 
 

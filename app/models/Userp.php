@@ -288,14 +288,15 @@
 
 // INICIO publicar
 
-		public function savePublic($user_id, $descripcion, $urlImagen, $servicio, $descuento) {
-			$this->db->query("INSERT INTO publicaciones (id_usuario, descripcion, imagen, servicio, descuento) 
-				VALUES (:user_id, :descripcion, :urlImagen, :servicio, :descuento)");
+		public function createPublic($user_id, $descripcion, $urlImagen, $zona_public, $servicio, $descuento) {
+			$this->db->query("INSERT INTO publicaciones (id_usuario, descripcion, imagen, zona_public, servicio, descuento) 
+				VALUES (:user_id, :descripcion, :urlImagen, :zona_public, :servicio, :descuento)");
 			$this->db->bind(':user_id',$user_id);
 			$this->db->bind(':descripcion',$descripcion);
 			$this->db->bind(':urlImagen',$urlImagen);
 			$this->db->bind(':servicio',$servicio);
 			$this->db->bind(':descuento',$descuento);
+			$this->db->bind(':zona_public',$zona_public);
 			$creado = $this->db->execute();
 
 			if ($creado) {
@@ -304,6 +305,19 @@
 				return false;
 			}
 		}
+
+		public function deletePublic($id_public) {    
+			$this->db->query('UPDATE publicaciones SET estado = 0 	WHERE id = :id_public');
+      $this->db->bind(':id_public', $id_public);
+			$updated = $this->db->execute();
+
+			if ($updated) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
 
 // FIN publicar
 

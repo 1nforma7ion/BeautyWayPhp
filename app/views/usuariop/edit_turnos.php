@@ -20,7 +20,7 @@
 				<div class="w-full py-4 text-2xl text-neutral text-center">Horarios Registrados</div>
 
 				<div class="w-full  bg-primary rounded-lg ">
-					<table class="bg-white datatable " >
+					<table id="datatable" class="bg-white" >
 	          <thead>
 	            <tr>
 	              <th>Dia</th>
@@ -150,62 +150,101 @@
 
 
 
-	<script >
+<script>
 
-window.addEventListener('DOMContentLoaded', ()=> {
+	window.addEventListener('DOMContentLoaded', ()=> {
 
-	const datatables = document.querySelectorAll('.datatable')
-	datatables.forEach(datatable => {
-		new simpleDatatables.DataTable(datatable, {
+	 	const successAlert = document.querySelector('#success_msg')
+	  	setTimeout(() => {
+	    	successAlert?.remove()
+	  	}, 5000)
+
+
+	  const initBtnClose = () => {
+			let active_modal = document.querySelector('.active-modal')
+			active_modal.classList.toggle('active-modal')
+			active_modal.classList.toggle('hidden')		
+	  }
+
+	  const initBtnEdit = (e) => {
+			let id = e.currentTarget.getAttribute('data-item-edit')
+			let modalEdit = document.querySelector('#modal_edit_'+id)
+			modalEdit.classList.toggle('hidden')
+			modalEdit.classList.toggle('active-modal')
+		}
+
+		const initBtnDelete = (e) => {
+			let id = e.currentTarget.getAttribute('data-item-delete')
+			let modalDelete = document.querySelector('#modal_delete_'+id)
+			modalDelete.classList.toggle('hidden')
+			modalDelete.classList.toggle('active-modal')
+		}
+
+		const datatable = document.querySelector('#datatable')
+
+		let tableOptions = {
 			searchable: true,
-			// fixedHeight: true,
+			fixedHeight: true,
 	    labels: {
+	    	searchTitle: "Buscar ...",
 		    placeholder: "Buscar...",
 		    perPage: "Elementos por página",
 		    noRows: "No hay datos para mostrar",
 		    info: "Mostrando {start} - {end} de {rows}"	
 			}
+			// perPage: 40
+		}
+
+		let tabla_turnos = new simpleDatatables.DataTable(datatable, tableOptions)
+
+
+		tabla_turnos.on('datatable.init', () => {
+
+			const allBtnClose = document.querySelectorAll('.btn_close')
+			allBtnClose.forEach( btn => {
+				btn.addEventListener('click', initBtnClose)
+			})
+
+			const allBtnEdit = document.querySelectorAll('.btn_edit')
+			allBtnEdit?.forEach( btn => {
+				btn.addEventListener('click', initBtnEdit)
+			})
+
+			const allBtnDelete = document.querySelectorAll('.btn_delete')
+			allBtnDelete?.forEach( btn => {
+				btn.addEventListener('click', initBtnDelete)
+			})
+
+		})
+
+
+
+		// activar botones reserva y close al pasar a pagina 2
+		tabla_turnos.on('datatable.page', page => {
+
+			const allBtnClose = document.querySelectorAll('.btn_close')
+			allBtnClose.forEach( btn => {
+				btn.removeEventListener('click', initBtnClose)
+				btn.addEventListener('click', initBtnClose)
+			})
+
+			const allBtnEdit = document.querySelectorAll('.btn_edit')
+			allBtnEdit?.forEach( btn => {
+				btn.removeEventListener('click', initBtnEdit)
+				btn.addEventListener('click', initBtnEdit)
+			})
+
+			const allBtnDelete = document.querySelectorAll('.btn_delete')
+			allBtnDelete?.forEach( btn => {
+				btn.removeEventListener('click', initBtnDelete)
+				btn.addEventListener('click', initBtnDelete)
+			})
+
 		})
 
 
-	const allBtnClose = document.querySelectorAll('.btn_close')
-	allBtnClose.forEach( btn => {
-		btn.addEventListener('click', () => {
-			let active_modal = document.querySelector('.active-modal')
-			active_modal.classList.toggle('active-modal')
-			active_modal.classList.toggle('hidden')
-		})
-	})
 
-	const allBtnEdit = document.querySelectorAll('.btn_edit')
-	allBtnEdit?.forEach( btn => {
-		btn.addEventListener('click', (e) => {
-			// console.log(btn)
-			let id = e.target.parentElement.getAttribute('data-item-edit')
-			let modalEdit = document.querySelector('#modal_edit_'+id)
-			modalEdit.classList.toggle('hidden')
-			modalEdit.classList.toggle('active-modal')
-
-		})
-	})
-
-	const allBtnDelete = document.querySelectorAll('.btn_delete')
-	allBtnDelete?.forEach( btn => {
-		btn.addEventListener('click', (e) => {
-			// console.log(btn)
-			let id = e.target.parentElement.getAttribute('data-item-delete')
-			let modalDelete = document.querySelector('#modal_delete_'+id)
-			modalDelete.classList.toggle('hidden')
-			modalDelete.classList.toggle('active-modal')
-
-		})
-	})
-
-
-	})
-})
-
-// end DOMcontentLoaded
+	})  // end DOMcontentLoaded
 
 window.addEventListener('click', (e) => {
   let activeModal = document.querySelector('.active-modal')

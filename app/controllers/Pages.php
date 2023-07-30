@@ -321,5 +321,42 @@
 		}
 
 
+		public function buscar($term = null, $pageNum = null) {
+
+			if (isset($_POST['btn_buscar'])) {
+
+				$busqueda = $_POST['term'];
+
+				$paginacion = is_null($pageNum) ? 1 : $pageNum;
+				$porPagina = NUM_POSTS_SEARCH;
+
+				$total_resultados = $this->page->readAllTerms($busqueda);
+	      $inicio = ($paginacion - 1) * $porPagina;
+	      $total_pag = ceil($total_resultados / $porPagina);
+
+	      $resultados = $this->page->readLimitTerms($busqueda, $inicio, $porPagina);
+
+	      // echo "<pre>";
+				// print_r($resultados);
+				// die();
+
+				$descuentos = $this->page->getAllDescuentos();
+
+				$data = [
+					'descuentos' => $descuentos,
+					'termino' => $busqueda,
+					'resultados' => $resultados,
+					'controller' => strtolower(get_called_class()),
+					'page' => __FUNCTION__
+				];
+
+				$this->view('pages/buscar', $data);
+
+			}
+
+		}
+
+
+
 	}
 ?>

@@ -150,9 +150,10 @@ window.addEventListener('DOMContentLoaded', ()=> {
 
 
 	})
-})
 
-// end DOMcontentLoaded
+
+}) // end DOMcontentLoaded
+
 
 window.addEventListener('click', (e) => {
   let activeModal = document.querySelector('.active-modal')

@@ -21,7 +21,7 @@
 
 
 			<div class="flex flex-col w-full items-center text-lg font-bold md:flex-row md:justify-around md:space-y-0">
-				<button name="edit_reserva" type="submit" class="w-1/2 p-3 rounded-xl text-dark bg-ctaLight hover:bg-ctaDark md:w-1/2 border">Cancelar Reservacion</button>
+				<button name="edit_reserva" type="submit" class="w-1/2 p-3 rounded-xl text-dark bg-ctaLight hover:bg-ctaDark md:w-1/2 border">Cancelar Reserva</button>
 			</div>
 			<!-- end modal body -->
 

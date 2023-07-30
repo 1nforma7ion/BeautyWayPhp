@@ -19,8 +19,8 @@
 						<select id="hora_inicio" name="hora_inicio" required class="p-2 rounded-xl text-lg outline-none bg-primary" required>
 							<option value="<?php echo $row->hora_inicio ?>"><?php echo $row->hora_inicio ?></option>
 	            <?php if(isset($data['horas'])) : ?>
-	              <?php foreach ($data['horas'] as $row) : ?>
-	                <option value="<?php echo $row->hora ?>"><?php echo $row->hora ?></option>
+	              <?php foreach ($data['horas'] as $row_horas_1) : ?>
+	                <option value="<?php echo $row_horas_1->hora ?>"><?php echo $row_horas_1->hora ?></option>
 	              <?php endforeach; ?>
 	            <?php endif; ?> 
 	          </select>
@@ -29,10 +29,11 @@
 					<div class="flex flex-col space-y-4 w-max">
 						<label for="hora_fin">Hora de Cierre</label>
 						<select id="hora_fin" name="hora_fin" required class="p-2 rounded-xl text-lg outline-none bg-primary" required>	
+							<option value="<?php echo $row->hora_fin ?>"><?php echo $row->hora_fin ?></option>
 							
 	            <?php if(isset($data['horas'])) : ?>
-	              <?php foreach ($data['horas'] as $row) : ?>
-	                <option value="<?php echo $row->hora ?>"><?php echo $row->hora ?></option>
+	              <?php foreach ($data['horas'] as $row_horas_2) : ?>
+	                <option value="<?php echo $row_horas_2->hora ?>"><?php echo $row_horas_2->hora ?></option>
 	              <?php endforeach; ?>
 	            <?php endif; ?> 
 	          </select>

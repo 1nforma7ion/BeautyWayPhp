@@ -75,8 +75,6 @@
 				      	<textarea name="descripcion" id="descripcion" rows="8"  class="w-full px-2 resize-none outline-none focus:border-neutral border-2 border-primary " placeholder="Escribe el contenido de la publicacion " required></textarea>
 				      </div>
 		  				
-		  				<input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id'] ?>">
-
 		  				<div class="absolute flex bottom-4 self-center text-sm text-fbk">
 								<button type="submit" class=" rounded-full text-white text-xl px-4 py-2 md:w-max bg-neutralDark "> 
 				      		Publicar <i class="fas fa-paper-plane ml-4 "></i>
@@ -144,6 +142,7 @@
 
 
 // print_r($data);
+// print_r($_SESSION);
 
  ?>
 	<script>

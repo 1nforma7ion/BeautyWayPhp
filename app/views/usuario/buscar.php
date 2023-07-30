@@ -1,21 +1,27 @@
 <?php require APPROOT . '/views/' . $data['controller'] . '/partials/header.php'; ?>
 
-<div class="flex flex-col w-full">
+<div class="flex flex-col w-full ">
 	<?php require APPROOT . '/views/' . $data['controller'] . '/partials/navbar.php'; ?>
 
-	<div class="w-full md:h-screen flex flex-col md:flex-row md:space-x-4 pt-0 pb-4 px-4 md:px-6.5">
+	<div class="w-full flex flex-col md:flex-row md:space-x-4 pt-0 pb-4 px-4 md:px-6.5">
 
 		<!-- columna izquierda -->	
-		<div class="w-full md:w-1/4  py-4 ">	
+		<div class="w-full md:w-1/4  p-4 ">	
 			<?php require APPROOT . '/views/' . $data['controller'] . '/partials/sidebar.php'; ?>
 		</div>
 
 		<!-- columna derecha -->
-		<div class="flex w-full md:w-3/4 overflow-hidden font-dmsans">
-			<div class="flex flex-col w-full  py-4 md:p-4  space-y-4  overflow-y-scroll no-scrollbar">
+		<div class="flex flex-col p-4 space-y-4 w-full md:w-3/4 font-dmsans">
+			<div class="flex flex-col w-full  md:p-4  space-y-8  overflow-y-scroll no-scrollbar">
+
+				<div class="w-full flex justify-between p-4 bg-white rounded-xl text-xl text-neutral text-center">
+					<h2 class="text-2xl">Resultados para : <?php echo $data['termino'] ?> </h2>  
+
+				</div>
 
 				<!-- publicaciones -->
-				<?php foreach($data['publicaciones'] as $row) : ?>
+
+				<?php foreach($data['resultados'] as $row) : ?>
 					<div class=" flex flex-col-reverse md:flex-row bg-white text-dark drop-shadow-lg hover:drop-shadow-card rounded-lg">
 
 					<div class="img_post relative flex w-full md:w-2/3 items-center">
@@ -31,79 +37,74 @@
 								<input type="hidden" value="<?php echo $row->id_public ?>">
 							</button>
 
-							<a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $row->id_public . "#comentarios" ?>"  class=" w-44 rounded-full text-sm text-dark p-2 bg-ctaDark text-center"> 
+							<a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $row->id_profesional . '/' . $row->id_public . "#comentarios" ?>" class=" w-44 rounded-full text-sm text-dark p-2 bg-ctaDark text-center"> 
 								<?php echo $row->comentarios ?>   
 								<i class="fas fa-comment "></i> Comentarios  
 							</a>
-
 						</div>
+
+
 					</div>
 										
 					<div class="relative md:h-96 w-full flex flex-col items-center p-4 md:w-1/3 space-y-4 ">
 						<div class="flex space-x-4">
 
 							<div class="flex flex-col justify-center items-center space-y-4">
+
 								<div class="w-full flex items-center space-x-4">
-									<?php if (!empty($data['imagenes_perfil'])) : ?>
-										<img src="<?php echo URLROOT . $data['imagenes_perfil']->imagen_comercial ?>" class="h-16 w-16 rounded-full object-cover ">
+									<?php if (!empty($row->imagen_comercial)) : ?>
+										<img src="<?php echo URLROOT . $row->imagen_comercial ?>" class="h-16 w-16 rounded-full object-cover ">
 									<?php else: ?>
 										<img src="<?php echo URLROOT . '/img/user.png' ?>" alt="imagen usuario" class="h-16 w-16 rounded-full object-cover ">
 									<?php endif; ?>
 
-									<h1 ><a href="" class="text-dark hover:text-fbk text-xl  font-bold"> <?php echo $row->nombre_comercial ?></a></h1>
+									<h1 ><a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $row->id_profesional . '/' . $row->id_public ?>" class="text-dark hover:text-fbk text-xl  font-bold"> <?php echo $row->nombre_comercial ?></a></h1>
 								</div>
 								
-								<div class="flex w-full justify-between items-center ">
-									<div class="flex space-x-2 px-2 py-1 rounded-xl bg-neutral text-white ">
-										
-										<?php 
-											$desc = explode('.', $row->descuento);
-											$desc = $desc[0];
-										?>
-										<span class="text-lg"> Desc. <?php echo $desc . ' %' ?> </span>
-									</div>
-									<div class="flex items-center space-x-2 px-2 py-1 rounded-xl bg-primary ">
-										<i class="fas fa-calendar-alt mr-2"></i>
-										<span class="text-lg"> <?php echo fixedFecha($row->creado) ?> </span>	
-									</div>
+								<div class="flex w-full justify-center items-center bg-primary rounded-xl p-1">
+									<i class="fas fa-calendar-alt mr-2"></i>
+									<span class="text-sm"> <?php echo fixedFecha($row->creado) ?> </span>	
 								</div>
 
 								<div class="flex w-full justify-center items-center bg-ctaDark text-dark rounded-xl p-1 text-xl">
 									<i class="fas fa-map-marker-alt mr-2"></i>
 									<span> <?php echo $row->zona_public ?> </span>	
 								</div>
-
+								
 							</div>
 						</div>
 			      <span class=" text-sm"> <?php echo $row->descripcion ?>  </span>
 	  				
-<!-- 	  				<div class="absolute hidden md:flex z-30 bottom-4 self-center text-sm text-fbk">
-							<a href="<?php //echo URLROOT . '/' . $data['controller'] . '/reservar' ?>" class=" rounded-full text-white text-xl px-4 py-2 md:w-max bg-neutralDark "> 
-			      		Ver detalles<i class="fas fa-arrow-right ml-4 "></i>
+	  				<div class="absolute hidden md:flex z-30 bottom-4 self-center text-sm text-fbk">
+							<a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $row->id_profesional . '/' . $row->id_public ?>" class=" rounded-full text-white text-xl px-4 py-2 md:w-max bg-neutralDark "> 
+			      		Reservar <i class="fas fa-arrow-right ml-4 "></i>
 			      	</a>
-						</div> -->
+						</div>
 
 					</div>
 
 				</div>
 				<?php endforeach; ?>
+
 				<input type="hidden" id="url" data-controller="<?php echo $data['controller'] ?>" data-root="<?php echo URLROOT ?>" data-page="<?php echo $data['page'] ?>">
 
-			</div>
 
+			</div>
 		</div>
 
 	</div>
 </div>
 
-
 <?php 
-	// echo "<pre>";
-	// print_r($data);
+
+// echo "<pre>";
+// print_r($data);
+// echo "</pre>";
  ?>
 
-
 <script>
+
+
 	let url = document.querySelector('#url')
 	let root = url.getAttribute('data-root')
 	let controller = url.getAttribute('data-controller')
@@ -123,7 +124,7 @@
 
       let item = JSON.stringify({ id_publicacion: id_public })
 
-			fetch(`${root}/usuario/like`, {
+			fetch(`${endpoint}/like`, {
 		    method: 'post',
 		    body: item,
 		    headers: {
@@ -141,7 +142,13 @@
 		})
 
 	})
-  
+
+
 </script>
 
-<?php require APPROOT . '/views/' . $data['controller'] . '/partials/footer.php'; ?>
+
+
+
+
+
+<?php require APPROOT . '/views/' . $data['controller'] . '/partials/footer.php'; 

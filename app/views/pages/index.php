@@ -91,7 +91,7 @@
 
 								<div class="flex w-full justify-center items-center bg-ctaDark text-dark rounded-xl p-1 text-xl">
 									<i class="fas fa-map-marker-alt mr-2"></i>
-									<span> <?php echo $row->zona ?> </span>	
+									<span> <?php echo $row->zona_public ?> </span>	
 								</div>
 
 							</div>

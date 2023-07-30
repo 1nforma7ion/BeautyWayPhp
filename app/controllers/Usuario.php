@@ -3,7 +3,8 @@
 		public function __construct() {
 			$this->usuario = $this->model('User');
 			$this->admin = $this->model('Administrador');
-			$this->page = $this->model('Page');
+			$this->page = $this->model('Page');                     
+
 		}
 
 		public function index() {
@@ -63,7 +64,10 @@
 					ob_start();
 
 					$user_id = $_SESSION['user_id'];
+					$email_user = $_SESSION['user_email'];
 					$email_prof = $_POST['email_prof'];
+					$nombre_comercial = $_POST['nombre_comercial'];
+
 					$servicio = $_POST['servicio'];
 					$modalidad = $_POST['modalidad'];
 					$direccion = $_POST['direccion'];
@@ -77,31 +81,24 @@
 
 					$added = $this->usuario->createReserva($user_id, $id_profesional, $id_public, $servicio, $modalidad, $direccion, $dia, $hora_inicio, $hora_fin, $status);
 					if ($added) {
-						// send email 
-						$to_email = $email_prof;
-						$subject = "Tienes una Reserva ! ";
-						$body = "El usuario" . $_SESSION['user_nombre'] . " " . $_SESSION['user_apellido'] . " \r\n";
-						$body .= "ha generado una reserva para tu servicio en BeutyWay ! \r\n";
-						$body .= "Servicio : " . $servicio . " para el dia " . $dia . " a las " . $hora_inicio . " hrs. \r\n\r\n";
-						$body .= 'Ingresa a <a href="' . URLROOT . '"> Beauty Way  </a> para Confirmar la Reserva. \r\n';
-						$headers = "From: Beuty Way <nicedev90@mail.nicedev90.pro> \r\n";
-			      $headers .= "MIME-Version: 1.0 \r\n";
-						$headers .= "Content-type: text/html; charset='utf-8' \r\n";
-
-						mail($to_email, $subject, $body, $headers);
-
 
 						$estado = 0;
 						$this->usuario->updateTurnosByUser($id_profesional, $dia, $hora_inicio, $estado);
 						
-							$recibido_por = $id_profesional;
-							$enviado_por = $_SESSION['user_id'];
-							$mensaje = "Solicita una reserva el dia " . $dia . " en el turno de " . $hora_inicio . "hrs.";
-							$this->usuario->createMensaje($recibido_por, $enviado_por, $mensaje);
+						$recibido_por = $id_profesional;
+						$enviado_por = $_SESSION['user_id'];
+						$mensaje = "Solicita una reserva el dia " . $dia . " en el turno de " . $hora_inicio . "hrs.";
+						$this->usuario->createMensaje($recibido_por, $enviado_por, $mensaje);
 
+						$email_to_user = $this->sendEmailToUser($email_user, $nombre_comercial, $direccion, $modalidad, $servicio, $dia, $hora_inicio);
+						$email_to_userp = $this->sendEmailToUserp($email_prof, $direccion, $modalidad, $servicio, $dia, $hora_inicio);
+
+						
 						$_SESSION['success_msg'] = "Reserva Creada Exitosamente.";
 						redirect('usuario/reservas');
 						exit();
+						
+
 					}
 				}
 
@@ -138,6 +135,69 @@
 			}
 		}
 
+		public function sendEmailToUserp($email_prof, $direccion, $modalidad, $servicio, $dia, $hora_inicio) {
+
+			$subject = "Tienes una Reserva en Beauty Way! ";
+			$body = "Tienes una reserva por confirmar en Beauty Way ! <br><br>	";
+			$body .= "Cliente : " . $_SESSION['user_nombre'] . " " . $_SESSION['user_apellido'] . " <br><br>";
+			$body .= "Modalidad : " . $modalidad . "<br><br>";
+			$body .= "Dirección : " . $direccion . "<br><br>";
+			$body .= "Servicio : " . $servicio . "<br><br>";
+			$body .= "Dia : " . $dia . "<br><br>";
+			$body .= "Turno : " . $hora_inicio . " hrs. <br><br>";
+			$body .= 'Ingresa a <a href="' . URLROOT . '"> Beauty Way  </a> para Confirmar la Reserva. ';
+
+			$this->mailer($email_prof, $subject, $body);
+
+		}
+
+
+		public function sendEmailToUser($email_user, $nombre_comercial, $direccion, $modalidad, $servicio, $dia, $hora_inicio) {
+
+			$subject = "Has creado una Reserva en Beauty Way! ";
+			$body = "Tienes una reserva por confirmar en Beauty Way ! <br><br>	";
+			$body .= "Profesional : " . $nombre_comercial . " <br><br>";
+			$body .= "Modalidad : " . $modalidad . "<br><br>";
+			$body .= "Dirección : " . $direccion . "<br><br>";
+			$body .= "Servicio : " . $servicio . "<br><br>";
+			$body .= "Dia : " . $dia . "<br><br>";
+			$body .= "Turno : " . $hora_inicio . " hrs. <br><br>";
+			$body .= 'Recibirás un email cuando se Confirma la Reserva. ';
+
+			$this->mailer($email_user, $subject, $body);
+
+		}
+
+
+		public function mailer($email, $subject, $body) {
+			$mail = new PHPMailer;                          
+			$mail->isSMTP();
+			$mail->SMTPDebug = SMTP_DEBUG;                            
+			$mail->Host = SMTP_HOST;
+			$mail->SMTPAuth = SMTP_AUTH;
+			$mail->Port = SMTP_PORT;                  
+			$mail->SMTPSecure = SMTP_SECURE;  
+
+			$mail->Username = SMTP_USER;  // email que envia el correo          
+			$mail->Password = SMTP_PASS;  // pass del email que envia el correo          
+                 
+			$mail->From = SMTP_FROM; // email que aparecera en el contenido "From"
+			$mail->FromName = SMTP_FROM_NAME; // nombre que aparecera en el contenido " SUPPORT BEAUTY WAY "
+			$mail->addAddress($email); // email que recibe el correo
+			$mail->isHTML(true); // habilitar contenido del email en HTML
+			$mail->Subject = $subject;
+			$mail->Body = $body;
+			// $mail->AltBody = "This is the plain text version of the email content";
+
+			if(!$mail->send()) {
+				// echo "Mailer Error: " . $mail->ErrorInfo;
+				return false;
+			} else {
+				// echo "Message has been sent successfully";
+				return true;
+			}
+		}
+
 		public function turnos($id_profesional = null, $dia=null) {
 
 
@@ -148,6 +208,55 @@
 			// echo $turnos;
 			// print_r($turnos);
 		}
+
+		public function buscar($pageNum = null) {
+			if (usuarioLoggedIn()) {
+				if (isset($_POST['btn_buscar'])) {
+
+					$busqueda = $_POST['term'];
+
+					$paginacion = is_null($pageNum) ? 1 : $pageNum;
+					$porPagina = NUM_POSTS_SEARCH;
+
+					$total_resultados = $this->page->readAllTerms($busqueda);
+		      $inicio = ($paginacion - 1) * $porPagina;
+		      $total_pag = ceil($total_resultados / $porPagina);
+
+		      $resultados = $this->page->readLimitTerms($busqueda, $inicio, $porPagina);
+
+		      // echo "<pre>";
+					// print_r($resultados);
+					// die();
+		      
+					$imagenes_perfil = $this->usuario->getImageById($_SESSION['user_id']);
+					$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+
+					$allLikes = $this->usuario->readAllLiked($_SESSION['user_id']);
+					$likes = [];
+
+					foreach($allLikes as $like) {
+						array_push($likes, $like->id_publicacion);
+					}
+
+					$data = [
+						'termino' => $busqueda,
+						'resultados' => $resultados,
+						'allLikes' => $likes,
+						'imagenes_perfil' => $imagenes_perfil,
+						'sidebar' => $sidebar,
+						'controller' => strtolower(get_called_class()),
+						'page' => __FUNCTION__
+					];
+
+					$this->view('usuario/buscar', $data);
+
+				}		
+			}	else {
+				redirect('pages/login');
+			}
+
+		}
+
 
 		public function mensajes($success = null) {
 			if (usuarioLoggedIn()) {

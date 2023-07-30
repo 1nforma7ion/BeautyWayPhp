@@ -216,6 +216,37 @@
 		}
 
 
+		public function readAllTerms($busqueda) {
+			$this->db->query("SELECT COUNT(*) AS total FROM publicaciones WHERE zona_public LIKE LOWER('%$busqueda%')");
+			$totalTerms = $this->db->getSingle();
+
+			if ($totalTerms) {
+				return $totalTerms->total;
+			} else {
+				return false;
+			}
+		}
+
+
+		public function readLimitTerms($busqueda, $inicio, $porPagina) {
+			$term = '%' . $busqueda . '%';
+			$this->db->query('SELECT *, p.id_usuario AS id_profesional, p.id AS id_public FROM publicaciones p 
+				INNER JOIN usuarios u ON p.id_usuario = u.id 
+				INNER JOIN perfiles pe ON p.id_usuario = pe.id_usuario 
+				INNER JOIN zonas z ON z.id = u.id_zona_trabajo 
+				WHERE p.estado = 1 AND p.zona_public LIKE LOWER(:term) OR p.servicio LIKE LOWER(:term)
+				ORDER BY p.creado DESC 
+				LIMIT :inicio, :porPagina');
+
+			$this->db->bind(':term', $term);
+			$this->db->bind(':inicio', $inicio);
+			$this->db->bind(':porPagina', $porPagina);
+
+			$resultados = $this->db->getSet();
+			return $resultados;
+
+		}
+
 
 
 	}
