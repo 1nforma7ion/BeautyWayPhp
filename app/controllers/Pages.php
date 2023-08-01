@@ -350,7 +350,7 @@
 
 		}
 
-		public function sendEmai($email_user, $token) {
+		public function sendEmail($email_user, $token) {
 			$controller = strtolower(get_called_class());
 						
 			$subject = "Recuperación de contraseña";
