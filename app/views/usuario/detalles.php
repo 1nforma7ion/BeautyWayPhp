@@ -32,17 +32,21 @@
 
 						</div>
 
+<!-- 						<span class=" absolute w-max h-max px-4 py-8 top-0 right-0 rounded-l-lg text-2xl text-dark p-2 bg-white text-neutral font-bold"> 
+							CONFIRMÁ TU RESERVA EN
+						</span> -->
+
+
+
 					</div>
 										
 					<div class="relative h-[700px] w-full flex flex-col items-center p-4 md:w-1/3 space-y-4 ">
 						
-						<div class="flex flex-col px-4 py-2">
-						  <h1 class=" text-2xl text-neutral font-bold"> CONFIRMÁ TU RESERVA EN </h1>
-						</div>
 
 						<div class="flex space-x-4">
 
 							<div class="flex flex-col justify-center items-center space-y-4">
+								<h2 class=" text-2xl bg-white text-neutral font-bold"> 		CONFIRMÁ TU RESERVA EN		</h2>
 
 								<div class="w-full flex items-center space-x-4">
 									<?php if (!empty($data['publicacion']->imagen_comercial)) : ?>
@@ -68,12 +72,11 @@
 		  				
 
 	  				<div class="px-6 mx-auto flex flex-col">
-	  					
 
 	  					<?php if ($data['publicacion']->modalidad == "Domicilio"): ?>
-		  					<div class="flex justify-between text-dark"> 
-		  						<span class="px-4 py-2 bg-ctaDark text-lg rounded-xl"><i class="fas fa-shipping-fast mr-2"></i><?php echo 'Atiende a ' . $data['publicacion']->modalidad ?> </span>
-		  						<span class="px-4 py-2 bg-ctaDark text-lg rounded-xl"><i class="fas fa-map-marker-alt mr-2"></i><?php echo $data['publicacion']->zona ?> </span>
+		  					<div class="flex justify-between text-dark py-1 "> 
+		  						<span class="px-4 py-2 bg-ctaDark rounded-xl "><i class="fas fa-shipping-fast mr-2"></i><?php echo 'Atiende a ' . $data['publicacion']->modalidad ?> </span>
+		  						<span class="px-4 py-2 bg-ctaDark rounded-xl "><i class="fas fa-map-marker-alt mr-2"></i><?php echo $data['publicacion']->zona ?> </span>
 		  					</div>
 		  					<h2 class="text-lg py-1">Tu dirección : </h2>
 					    	<h2 class="py-1 text-xl text-neutral font-bold"><?php echo $_SESSION['user_calle'] . ' #' . $_SESSION['user_altura'] . ' - ' . $_SESSION['user_barrio'] ?> </h2>
@@ -82,9 +85,9 @@
 	  						<input type="hidden" name="direccion" value="<?php echo $_SESSION['user_calle'] . ' #' . $_SESSION['user_altura'] . ' - ' . $_SESSION['user_barrio'] ?>">
 
 	  					<?php else : ?>
-								<div class="flex justify-between text-dark"> 
-		  						<span class="px-4 py-2 bg-ctaDark text-lg rounded-xl"><i class="fas fa-store-alt mr-2"></i><?php echo 'Atiende ' . $data['publicacion']->modalidad ?> </span>
-		  						<span class="px-4 py-2 bg-ctaDark text-lg rounded-xl"><i class="fas fa-map-marker-alt mr-2"></i><?php echo $data['publicacion']->zona ?> </span>
+								<div class="flex justify-between text-dark py-1 "> 
+		  						<span class="px-4 py-2 bg-ctaDark rounded-xl "><i class="fas fa-store-alt mr-2"></i><?php echo 'Atiende ' . $data['publicacion']->modalidad ?> </span>
+		  						<span class="px-4 py-2 bg-ctaDark rounded-xl "><i class="fas fa-map-marker-alt mr-2"></i><?php echo $data['publicacion']->zona ?> </span>
 
 		  					</div>
 		  					<h2 class="text-lg py-1">Dirección del Salón: </h2>

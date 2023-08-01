@@ -81,7 +81,11 @@
 											$desc = explode('.', $row->descuento);
 											$desc = $desc[0];
 										?>
-										<span class="text-lg"> Desc. <?php echo $desc . ' %' ?> </span>
+										<?php if ($desc < 1 ) : ?>
+											<div class="text-xl md:w-full px-6 "><i class="fas fa-flag"></i> </div>
+										<?php else : ?>
+											<span class="text-lg w-full"> Desc. <?php echo $desc . ' %' ?> </span>
+										<?php endif; ?>
 									</div>
 									<div class="flex items-center space-x-2 px-2 py-1 rounded-xl bg-primary ">
 										<i class="fas fa-calendar-alt mr-2"></i>

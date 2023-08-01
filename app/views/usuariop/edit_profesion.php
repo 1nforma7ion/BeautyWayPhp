@@ -21,7 +21,7 @@
 				</div>
          
         <div class=" w-full bg-primary rounded-lg ">
-	        <table class="bg-white datatable " >
+	        <table id="datatable" class="bg-white " >
 	          <thead>
 	            <tr>
 	              <th>Servicio</th>
@@ -85,101 +85,56 @@
 
 <?php 
 
-echo "<pre>";
-print_r($data);
-echo "</pre>";
+// echo "<pre>";
+// print_r($data);
+// echo "</pre>";
  ?>
 
-	<script>
+<script>
 		
-window.addEventListener('DOMContentLoaded', ()=> {
+	window.addEventListener('DOMContentLoaded', ()=> {
 
-	const datatables = document.querySelectorAll('.datatable')
-	datatables.forEach(datatable => {
-		new simpleDatatables.DataTable(datatable, {
+	 	const successAlert = document.querySelector('#success_msg')
+	  	setTimeout(() => {
+	    	successAlert?.remove()
+	  	}, 5000)
+	  	
+	  const initBtnClose = () => {
+			let active_modal = document.querySelector('.active-modal')
+			active_modal.classList.toggle('active-modal')
+			active_modal.classList.toggle('hidden')		
+	  }
+
+
+		const datatable = document.querySelector('#datatable')
+
+		let tableOptions = {
 			searchable: true,
 			fixedHeight: true,
-	    columns: [
-	    // Sort the second column in ascending order
-		    { select: 0, sort: "asc" },
-
-
-	    // Set the third column as datetime string matching the format "DD/MM/YYY"
-	    // { select: 2, type: "date", format: "DD/MM/YYYY" }
-	    ],    
 	    labels: {
+	    	searchTitle: "Buscar ...",
 		    placeholder: "Buscar...",
 		    perPage: "Elementos por página",
 		    noRows: "No hay datos para mostrar",
 		    info: "Mostrando {start} - {end} de {rows}"	
 			}
-		})
+			// perPage: 40
+		}
+
+		let tabla_servicios = new simpleDatatables.DataTable(datatable, tableOptions)
 
 
-	const allBtnClose = document.querySelectorAll('.btn_close')
-	allBtnClose.forEach( btn => {
-		btn.addEventListener('click', () => {
-			let active_modal = document.querySelector('.active-modal')
-			active_modal.classList.toggle('active-modal')
-			active_modal.classList.toggle('hidden')
-			console.log(active_modal)
-		})
-	})
-
-	const allBtnEdit = document.querySelectorAll('.btn_edit')
-	allBtnEdit?.forEach( btn => {
-		btn.addEventListener('click', (e) => {
-			// console.log(btn)
-			let id = e.target.parentElement.getAttribute('data-item-edit')
-			let modalEdit = document.querySelector('#modal_edit_'+id)
-			modalEdit.classList.toggle('hidden')
-			modalEdit.classList.toggle('active-modal')
+		tabla_servicios.on('datatable.init', () => {
+			const allBtnClose = document.querySelectorAll('.btn_close')
+			allBtnClose?.forEach( btn => {
+				btn.addEventListener('click', initBtnClose)
+			})
 
 		})
-	})
-
-	const allBtnDelete = document.querySelectorAll('.btn_delete')
-	allBtnDelete?.forEach( btn => {
-		btn.addEventListener('click', (e) => {
-			// console.log(btn)
-			let id = e.target.parentElement.getAttribute('data-item-delete')
-			let modalDelete = document.querySelector('#modal_delete_'+id)
-			modalDelete.classList.toggle('hidden')
-			modalDelete.classList.toggle('active-modal')
-
-		})
-	})
 
 
-
-
-	})
-})
-
-// end DOMContentLoaded
-
-const modal_Add = document.querySelector('#modal_add')
-
-const btn_Add = document.querySelector('#btn_add')
-btn_Add?.addEventListener('click', () => {
-	modal_Add.classList.toggle('hidden')
-	modal_Add.classList.toggle('active-modal')
-	console.log(modal_Add)
-})
-
-
-
-window.addEventListener('click', (e) => {
-	let activeModal = document.querySelector('.active-modal')
-	if (e.target == activeModal) {
-		activeModal.classList.toggle('active-modal')
-		activeModal.classList.toggle('hidden')
-	}
-})
-
-
-
-	</script>
+	})  // end DOMContentLoaded
+</script>
 
 
 <?php require APPROOT . '/views/' . $data['controller'] . '/partials/footer.php'; 

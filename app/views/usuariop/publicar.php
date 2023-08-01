@@ -48,7 +48,7 @@
 
 			          <div class="w-max p-3 flex items-center space-x-4  font-bold rounded-xl  bg-ctaDark text-dark drop-shadow-card">
 			          	<label for="descuento">Descuento en % </label>
-									<input type="text" name="descuento" id="descuento" class=" w-12 outline-none focus:border-neutral border-2 border-primary " >
+									<input type="text" name="descuento" id="descuento" placeholder="0" class=" w-12 outline-none focus:border-neutral border-2 border-primary " >
 			          </div>
 
 

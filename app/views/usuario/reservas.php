@@ -13,7 +13,7 @@
 		<!-- columna derecha -->
 		<div class="flex flex-col p-4 space-y-4 w-full md:w-3/4 font-dmsans">
 
-			<div class="w-full p-4 bg-white flex flex-col rounded-xl ">
+			<div class="w-full p-4 h-screen  bg-white flex flex-col rounded-xl ">
 				<!-- Tabla Datatable -->
 				<div class="w-full flex justify-between py-4 text-2xl text-neutral text-center">
 					<div class="flex flex-col items-start justify-between space-y-2">
@@ -68,10 +68,6 @@
 	                		<button data-item-detalle="<?php echo $row->id_reserva ?>"  class="btn_detalle  ">
 	             		    	<i class="fas fa-plus-circle text-2xl text-neutral"></i>
 	             		    </button>
-
-	             		    <button class=" text-dark px-4 rounded ">
-	             		    	<i class="fas fa-align-justify"></i>
-	             		    </button>
 	                		 		
 	                	</div>
 	                		<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_detalles.php'; ?>
@@ -84,7 +80,6 @@
 	                				$hora_reserva = strtotime($row->dia . ' ' . $row->hora_inicio);
 	                				$prev24 = strtotime('-1 day', $hora_reserva);
 	                			?>
-												
 												
 
 	                			<?php if ($prev24 > time()) : ?>
@@ -99,9 +94,7 @@
 			             		    	<i class="fas fa-plus-circle text-2xl text-neutral"></i>
 			             		    </button>
 
-			             		    <button class=" text-dark rounded ">
-			             		    	<i class="fas fa-align-justify "></i>
-			             		    </button>
+
 			             		  <?php endif; ?>
 		                		
 

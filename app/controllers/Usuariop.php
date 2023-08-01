@@ -392,7 +392,7 @@
 						$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 						$user_id = $_SESSION['user_id'];
 						$descripcion = $_POST['descripcion'];
-						$descuento = $_POST['descuento'];
+						$descuento = empty($_POST['descuento']) ? 0 : $_POST['descuento'];
 						$servicio = $_POST['servicio'];
 						$zona_public = $_SESSION['user_zona'];
 

@@ -378,7 +378,7 @@
 			$mail->isHTML(true); 
 			$mail->Subject = utf8_decode($subject);
 			$mail->Body = $body;
-			$mail->CharSet = 'UTF-8';
+			$mail->CharSet = SMTP_CHARSET;
 
 			if($mail->send()) {
 				return true;

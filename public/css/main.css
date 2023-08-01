@@ -951,6 +951,11 @@ video {
   border-bottom-right-radius: 0.75rem;
 }
 
+.rounded-l-lg {
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
 .border {
   border-width: 1px;
 }
@@ -1055,6 +1060,10 @@ video {
   --tw-gradient-to: hsl(256,91.7%,95.3%) var(--tw-gradient-to-position);
 }
 
+.to-primaryDark {
+  --tw-gradient-to: hsl(256,91.7%,87.3%) var(--tw-gradient-to-position);
+}
+
 .object-cover {
   -o-object-fit: cover;
      object-fit: cover;
@@ -1134,6 +1143,11 @@ video {
 .py-6 {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
+}
+
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .pb-4 {
@@ -1817,5 +1831,10 @@ tr:hover {
   .md\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
+  }
+
+  .md\:text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
   }
 }

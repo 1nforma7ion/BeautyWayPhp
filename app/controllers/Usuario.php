@@ -134,7 +134,7 @@
 		}
 
 		public function sendEmailToUserp($email_prof, $direccion, $modalidad, $servicio, $dia, $hora_inicio) {
-			// sleep(10);
+
 			$subject = "Tienes una Reserva en Beauty Way! ";
 			$body = "Tienes una reserva por confirmar en Beauty Way ! <br><br>	";
 			$body .= "Cliente : " . $_SESSION['user_nombre'] . " " . $_SESSION['user_apellido'] . " <br><br>";
@@ -145,13 +145,13 @@
 			$body .= "Turno : " . $hora_inicio . " hrs. <br><br>";
 			$body .= 'Ingresa a <a href="' . URLROOT . '"> Beauty Way  </a> para Confirmar la Reserva. ';
 
-			$this->mailer($email_prof, $subject, $body);
+			return $this->mailer($email_prof, $subject, $body);
 
 		}
 
 
 		public function sendEmailToUser($email_user, $nombre_comercial, $direccion, $modalidad, $servicio, $dia, $hora_inicio) {
-			// sleep(15);
+
 			$subject = "Has creado una Reserva en Beauty Way! ";
 			$body = "Tienes una reserva por confirmar en Beauty Way ! <br><br>	";
 			$body .= "Profesional : " . $nombre_comercial . " <br><br>";
@@ -162,7 +162,7 @@
 			$body .= "Turno : " . $hora_inicio . " hrs. <br><br>";
 			$body .= 'Recibirás un email cuando se Confirma la Reserva. ';
 
-			$this->mailer($email_user, $subject, $body);
+			return $this->mailer($email_user, $subject, $body);
 
 		}
 
@@ -183,24 +183,20 @@
 			$mail->FromName = SMTP_FROM_NAME; // nombre que aparecera en el contenido " SUPPORT BEAUTY WAY "
 			$mail->addAddress($email); // email que recibe el correo
 			$mail->isHTML(true); // habilitar contenido del email en HTML
-			$mail->Subject = $subject;
+			$mail->Subject = utf8_decode($subject);
 			$mail->Body = $body;
+			$mail->CharSet = SMTP_CHARSET;
 			// $mail->AltBody = "This is the plain text version of the email content";
 
-			if(!$mail->send()) {
-				// echo "Mailer Error: " . $mail->ErrorInfo;
-				return false;
-			} else {
-				// echo "Message has been sent successfully";
+			if($mail->send()) {
 				return true;
+			} else {
+				return false;
 			}
 		}
 
 		public function turnos($id_profesional = null, $dia=null) {
-
-
 			$turnos = $this->usuario->getTurnosByUser($id_profesional,$dia);
-
 			// convertir PDO objecto to array & send to frontend page
 			echo json_encode($turnos);
 			// echo $turnos;

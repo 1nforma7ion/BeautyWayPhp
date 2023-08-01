@@ -81,11 +81,17 @@
 						<p class="text-xl"> <?php setReservaStatus($row->status); ?> </p>
 					</div>
 
-				</div>
+					<?php if($row->status == 'cancelado' ) : ?>
+						<div class="flex space-x-8 items-center">
+							<h2 class="w-40 px-4 text-dark text-xl font-bold ">Motivo :</h2>
+							<p class="text-xl"> <?php echo $row->motivo; ?> </p>
+						</div>
+					<?php endif; ?>
 
+				</div>
+				<?php if($row->status == 'pendiente' || $row->status == 'confirmado') : ?>
 				<div class="flex flex-col py-2 space-y-2 md:flex-row md:space-y-0 border-t-4 border-dark ">
 					
-
 					<div class="flex flex-col space-y-8 mx-auto text-dark md:px-3 md:w-1/2">
             <select id="status_<?php echo $row->id_reserva ?>" name="status" required class="p-2 rounded-xl text-lg outline-none bg-primary">
               <option value="" selected>Seleccionar Estado</option>
@@ -107,6 +113,7 @@
 					</div>
 
 				</div>
+				<?php endif; ?>
 
 			</div>
 

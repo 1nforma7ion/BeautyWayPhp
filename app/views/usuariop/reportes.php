@@ -12,7 +12,7 @@
 
 		<!-- columna derecha -->
 		<div class="flex w-full md:w-3/4 overflow-hidden font-dmsans">
-			<div class="flex flex-col w-full  py-4 md:p-4  space-y-4  overflow-y-scroll no-scrollbar">
+			<div class="flex flex-col w-full p-4 h-screen  py-4 md:p-4  space-y-4  overflow-y-scroll no-scrollbar">
 
 				<!-- publicaciones -->
 				<?php foreach($data['publicaciones'] as $row) : ?>

@@ -350,7 +350,7 @@
 		// INICIO reservas
 
 		public function readReservaEstados() {
-			$this->db->query('SELECT * FROM reservas_estados');
+			$this->db->query('SELECT * FROM reservas_estados order by id desc limit 3');
 			$estados = $this->db->getSet();
 			return $estados;
 		}

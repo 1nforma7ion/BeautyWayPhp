@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="<?php echo URLROOT; ?>/css/main.css">
 	<title> <?php echo APPNAME; ?> </title>
 </head>
-<body class=" antialiased bg-gradient-to-b from-neutral  to-primary  no-scrollbar	">
+<body class=" antialiased bg-gradient-to-b from-neutral to-primaryDark  no-scrollbar	">
 
 		
 	

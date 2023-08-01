@@ -14,8 +14,9 @@
 		<div class="flex flex-col p-4 space-y-4 w-full md:w-3/4 font-dmsans">
 			<div class="flex flex-col w-full  md:p-4  space-y-8  overflow-y-scroll no-scrollbar">
 
-				<div class="w-full flex justify-between p-4 bg-white rounded-xl text-xl text-neutral text-center">
+				<div class="w-full flex space-x-8 p-4 bg-white rounded-xl text-xl text-neutral text-center">
 					<h2 class="text-2xl">Resultados para : <?php echo $data['termino'] ?> </h2>  
+					<h2 class="text-2xl">__ Total resultados : <?php echo count($data['resultados']) ?> </h2>  
 
 				</div>
 

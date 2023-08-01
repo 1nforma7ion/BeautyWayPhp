@@ -13,7 +13,7 @@
 		<!-- columna derecha -->
 		<div class="flex flex-col p-4 space-y-4 w-full md:w-3/4 font-dmsans">
 
-			<div class="w-full p-4 bg-white flex flex-col rounded-xl ">
+			<div class="w-full p-4 h-screen bg-white flex flex-col rounded-xl ">
 				<!-- Tabla Datatable -->
 				<div class="w-full flex justify-between py-4 text-2xl text-neutral text-center">
 					<h2 class="text-4xl">Mis Publicaciones </h2>  

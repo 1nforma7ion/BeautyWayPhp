@@ -13,7 +13,7 @@
 		<!-- columna derecha -->
 		<div class="flex flex-col p-4 space-y-4 w-full md:w-3/4 font-dmsans">
 
-			<div class="w-full p-4 bg-white flex flex-col rounded-xl ">
+			<div class="w-full p-4 h-screen bg-white flex flex-col rounded-xl ">
 				<!-- Tabla Datatable -->
 				<div class="w-full flex justify-between py-4 text-2xl text-neutral text-center">
 					<h2 class="text-4xl">Mis Reservas</h2>
@@ -50,9 +50,12 @@
 	                <td>
 	                	<?php if($row->status == 'cancelado' || $row->status == 'finalizado') : ?>
 	                	<div class="w-max flex items-center justify-center ">
-	             		    <button class=" text-dark py-1 px-4 rounded ">
-	             		    	<i class="fas fa-align-justify"></i>
+	             		    <button data-item-edit="<?php echo $row->id_reserva ?>"  class="btn_reserva ">
+	             		    	<i class="fas fa-plus-circle text-2xl text-neutral"></i>
 	             		    </button>
+		                		 		
+		                	</div>
+	                		<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_reserva.php'; ?>
 	                		 		
 	                	</div>
 	                	
