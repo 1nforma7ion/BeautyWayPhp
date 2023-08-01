@@ -369,22 +369,20 @@
 			$mail->Port = SMTP_PORT;                  
 			$mail->SMTPSecure = SMTP_SECURE;  
 
-			$mail->Username = SMTP_USER;  // email que envia el correo          
-			$mail->Password = SMTP_PASS;  // pass del email que envia el correo          
+			$mail->Username = SMTP_USER;         
+			$mail->Password = SMTP_PASS;          
                  
-			$mail->From = SMTP_FROM; // email que aparecera en el contenido "From"
-			$mail->FromName = SMTP_FROM_NAME; // nombre que aparecera en el contenido " SUPPORT BEAUTY WAY "
-			$mail->addAddress($email); // email que recibe el correo
-			$mail->isHTML(true); // habilitar contenido del email en HTML
-			$mail->Subject = $subject;
+			$mail->From = SMTP_FROM; 
+			$mail->FromName = SMTP_FROM_NAME; 
+			$mail->addAddress($email); 
+			$mail->isHTML(true); 
+			$mail->Subject = utf8_decode($subject);
 			$mail->Body = $body;
-			// $mail->AltBody = "This is the plain text version of the email content";
+			$mail->CharSet = 'UTF-8';
 
 			if(!$mail->send()) {
-				// echo "Mailer Error: " . $mail->ErrorInfo;
 				return false;
 			} else {
-				// echo "Message has been sent successfully";
 				return true;
 			}
 		}
