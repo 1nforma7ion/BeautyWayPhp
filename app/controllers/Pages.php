@@ -134,18 +134,12 @@
 
 						$this->page->saveToken($email, $token);
 
-						$controller = strtolower(get_called_class());
-
-						$to_email = $email;
-						$subject = "Recuperación de contraseña";
-						$body = 'Si solicitaste cambiar tu contraseña entra al siguiente <a href="' . URLROOT . '/' . $controller . '/change_password/' . $token . '"> enlace </a>';
-						$headers = "From: Nilton Cesar <nicedev90@mail.nicedev90.pro> \r\n";
-			      $headers .= "MIME-Version: 1.0 \r\n";
-						$headers .= "Content-type: text/html; charset='utf-8' \r\n";
+						$email_to_user = $this->sendEmail($email, $token);
 
 							// echo $body;
 							// die();
-						if (mail($to_email, $subject, $body, $headers)) {
+						// if (mail($to_email, $subject, $body, $headers)) {
+						if ($email_to_user) {
 							$data = [
 								'email' => $email
 							];
@@ -356,7 +350,44 @@
 
 		}
 
+		public function sendEmai($email_user, $token) {
+			$controller = strtolower(get_called_class());
+						
+			$subject = "Recuperación de contraseña";
+			$body = 'Si solicitaste cambiar tu contraseña entra al siguiente <a href="' . URLROOT . '/' . $controller . '/change_password/' . $token . '"> enlace </a>';
 
+			$this->mailer($email_user, $subject, $body);
+		}
+
+
+		public function mailer($email, $subject, $body) {
+			$mail = new PHPMailer;                          
+			$mail->isSMTP();
+			$mail->SMTPDebug = SMTP_DEBUG;                            
+			$mail->Host = SMTP_HOST;
+			$mail->SMTPAuth = SMTP_AUTH;
+			$mail->Port = SMTP_PORT;                  
+			$mail->SMTPSecure = SMTP_SECURE;  
+
+			$mail->Username = SMTP_USER;  // email que envia el correo          
+			$mail->Password = SMTP_PASS;  // pass del email que envia el correo          
+                 
+			$mail->From = SMTP_FROM; // email que aparecera en el contenido "From"
+			$mail->FromName = SMTP_FROM_NAME; // nombre que aparecera en el contenido " SUPPORT BEAUTY WAY "
+			$mail->addAddress($email); // email que recibe el correo
+			$mail->isHTML(true); // habilitar contenido del email en HTML
+			$mail->Subject = $subject;
+			$mail->Body = $body;
+			// $mail->AltBody = "This is the plain text version of the email content";
+
+			if(!$mail->send()) {
+				// echo "Mailer Error: " . $mail->ErrorInfo;
+				return false;
+			} else {
+				// echo "Message has been sent successfully";
+				return true;
+			}
+		}
 
 	}
 ?>
