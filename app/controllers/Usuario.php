@@ -91,13 +91,11 @@
 						$this->usuario->createMensaje($recibido_por, $enviado_por, $mensaje);
 
 						$email_to_user = $this->sendEmailToUser($email_user, $nombre_comercial, $direccion, $modalidad, $servicio, $dia, $hora_inicio);
-						$email_to_userp = $this->sendEmailToUserp($email_prof, $direccion, $modalidad, $servicio, $dia, $hora_inicio);
-
-						
+						$email_to_userp = $this->sendEmailToUserp($email_prof, $direccion, $modalidad, $servicio, $dia, $hora_inicio);	
+										
 						$_SESSION['success_msg'] = "Reserva Creada Exitosamente.";
 						redirect('usuario/reservas');
 						exit();
-						
 
 					}
 				}
@@ -136,7 +134,7 @@
 		}
 
 		public function sendEmailToUserp($email_prof, $direccion, $modalidad, $servicio, $dia, $hora_inicio) {
-
+			// sleep(10);
 			$subject = "Tienes una Reserva en Beauty Way! ";
 			$body = "Tienes una reserva por confirmar en Beauty Way ! <br><br>	";
 			$body .= "Cliente : " . $_SESSION['user_nombre'] . " " . $_SESSION['user_apellido'] . " <br><br>";
@@ -153,7 +151,7 @@
 
 
 		public function sendEmailToUser($email_user, $nombre_comercial, $direccion, $modalidad, $servicio, $dia, $hora_inicio) {
-
+			// sleep(15);
 			$subject = "Has creado una Reserva en Beauty Way! ";
 			$body = "Tienes una reserva por confirmar en Beauty Way ! <br><br>	";
 			$body .= "Profesional : " . $nombre_comercial . " <br><br>";

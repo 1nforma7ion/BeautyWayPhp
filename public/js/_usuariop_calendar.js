@@ -21,6 +21,19 @@
     "Diciembre"
   ];
 
+
+  const toTimestamp = (strFecha) => {
+    let dateTime = new Date(strFecha).getTime()
+    dateTime = dateTime / 1000
+    return dateTime
+  };
+
+  const toISOFormat = (fecha) => {
+    let dateISO = fecha.split('/')
+    dateISO = `${dateISO[2]}/${dateISO[1]}/${dateISO[0]}`
+    return dateISO;
+  };
+
   // next and previous functionality
   let nextbtn = document.getElementById("next");
   let prevBtn = document.getElementById("prev");
@@ -52,7 +65,7 @@
       }
 
     let fecha = showDay + "-" + numMonth + "-" + showYear
-    console.log(fecha)
+    // console.log(fecha)
 
     const container = document.querySelector('#dia-container')
     let selectedDate = document.createElement("div");
@@ -60,7 +73,7 @@
       <input type="hidden" name="dia[]" value="${fecha}" class="dia-${showDay}">
     ` 
     container.append(selectedDate)
-    console.log(container)
+    // console.log(container)
     // console.log(selectedDate)
   }
 
@@ -92,28 +105,50 @@
       //appending li to body of calendar
       cell.classList.add("singleDay");
       cell.appendChild(cellText);
-      cell.onclick = function (e) {
-        // showDate(e.target);
-        let diaText = e.target.getAttribute('data-day')
 
-        // add - delete from #dia-container
-         if(diaText < 10) {
-            diaText = '0' + diaText.toString()
+        //  verificar que solo dias siguiente se puedan seleccionar
+        let curr = new Date()
+        let dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit' }
+
+        let custom_month = (month < 10) ? '0' + (month + 1) : month
+        let custom_day = (day < 10) ? '0' + day : day
+
+        let custom_fecha = `${custom_day}/${custom_month}/${year}`
+        let custom_hoy = curr.toLocaleString('es-ES', dateOptions)
+        // console.log(custom_fecha)
+        // console.log(custom_hoy)
+
+        cell.onclick = function (e) {
+          let fecha_hoy = toTimestamp(toISOFormat(custom_hoy))
+          let fecha_cell = toTimestamp(toISOFormat(custom_fecha))
+          // console.log(fecha_cell)
+          // console.log(fecha_hoy)
+
+          if (fecha_hoy <= fecha_cell ) {
+            // showDate(e.target);
+            let diaText = e.target.getAttribute('data-day')
+
+            // add - delete from #dia-container
+             if(diaText < 10) {
+                diaText = '0' + diaText.toString()
+              }
+
+            if(e.target.classList.contains('active')) {
+              let diaElement = document.querySelector(`.dia-${diaText}`)
+              e.target.classList.toggle('active')
+              diaElement.parentElement.remove() // eliminar <div> que contiene el input dia[]
+              // console.log(diaElement)
+            } else {
+              addInput(e.target);
+              // e.target.classList.add(`.dia-${diaText}`)
+              e.target.classList.toggle('active')
+            }
+          } else {
+            cell.classList.add('text-primary')
           }
 
-        if(e.target.classList.contains('active')) {
-          let diaElement = document.querySelector(`.dia-${diaText}`)
-          e.target.classList.toggle('active')
-          diaElement.parentElement.remove()
-          // console.log(diaElement)
-        } else {
-          addInput(e.target);
-          // e.target.classList.add(`.dia-${diaText}`)
-          e.target.classList.toggle('active')
-        }
+      }
 
-        
-      };
       calendarBody.appendChild(cell);
     }
 

@@ -12,56 +12,10 @@
 
 		<!-- columna derecha -->
 		<div class="flex flex-col space-y-4 w-full md:w-3/4 font-dmsans">
-			<!-- lista de horarios registrados -->
-
-			<?php if(!empty($data['horarios'])) : ?>
-			<div class="w-full p-4 bg-white flex flex-col rounded-xl ">
-				<!-- Tabla Datatable -->
-				<div class="w-full py-4 text-2xl text-neutral text-center">Horarios Registrados</div>
-
-				<div class="w-full  bg-primary rounded-lg ">
-					<table id="datatable" class="bg-white" >
-	          <thead>
-	            <tr>
-	              <th>Dia</th>
-	              <th>Hora Apertura</th>
-	              <th>Hora Cierre</th>
-	              <th>Opciones</th>
-	            </tr>
-	          </thead>
-	          
-	          <tbody >
-	            <?php foreach($data['horarios'] as $row): ?>
-	             <tr>
-	                <td><?php echo $row->dia; ?> </td>
-	                <td><?php echo $row->hora_inicio; ?> </td>
-	                <td><?php echo $row->hora_fin; ?> </td>
-
-	                <td>
-	                	<div class="w-max flex space-x-8 ">
-
-	             		    <button data-item-edit="<?php echo $row->id ?>"  class="btn_edit hover:text-green text-2xl"><i class="fas fa-edit"></i></button>
-	                		<button data-item-delete="<?php echo $row->id ?>" class="btn_delete hover:text-red text-2xl"><i class="fas fa-trash"></i>	</button>   		
-	                	</div>
-	                	<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_delete.php'; ?>
-	                	<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_edit.php'; ?>
-	                	
-	                </td>
-	             </tr>
-
-	            <?php endforeach; ?>            
-	          </tbody>
-	      	</table>
-				</div>
-			</div>
-			<?php endif; ?>
-
 
 			<!-- form agregar horarios -->
 			<div class="w-full p-4 bg-white flex flex-col rounded-xl ">
 				<form action="<?php echo URLROOT . '/' . $data['controller'] . '/edit_turnos'; ?>" method="post" autocomplete="off" >
-
-					<div class="w-full py-4 text-2xl text-neutral text-center">Selecciona uno o varios dias</div>
 
 	        <div id="calendar">
 	          <div class="month">
@@ -89,7 +43,7 @@
 	        <!-- container input dia[] -->
 	      	<div id="dia-container"></div>
 
-					<div class="w-full py-4 text-2xl text-neutral text-center">Selecciona Horario</div>
+					<div class="w-full py-4 text-4xl text-neutral text-center">Selecciona uno o varios dias</div>
 
 					<div class="flex flex-col items-center p-2">
 					  <p class="text-red "> * Debes seleccionar al menos 1 día antes de guardar tus Horarios. </p>
@@ -135,6 +89,51 @@
 
 				</form>
 			</div>
+
+			<!-- lista de horarios registrados -->
+
+			<?php if(!empty($data['horarios'])) : ?>
+			<div class="w-full p-4 bg-white flex flex-col rounded-xl ">
+				<!-- Tabla Datatable -->
+				<div class="w-full py-4 text-4xl text-neutral text-center">Horarios Registrados</div>
+
+				<div class="w-full  bg-primary rounded-lg ">
+					<table id="datatable" class="bg-white" >
+	          <thead>
+	            <tr>
+	              <th>Dia</th>
+	              <th>Hora Apertura</th>
+	              <th>Hora Cierre</th>
+	              <th>Opciones</th>
+	            </tr>
+	          </thead>
+	          
+	          <tbody >
+	            <?php foreach($data['horarios'] as $row): ?>
+	             <tr>
+	                <td><?php echo $row->dia; ?> </td>
+	                <td><?php echo $row->hora_inicio; ?> </td>
+	                <td><?php echo $row->hora_fin; ?> </td>
+
+	                <td>
+	                	<div class="w-max flex space-x-8 ">
+
+	             		    <button data-item-edit="<?php echo $row->id ?>"  class="btn_edit hover:text-green text-2xl"><i class="fas fa-edit"></i></button>
+	                		<button data-item-delete="<?php echo $row->id ?>" class="btn_delete hover:text-red text-2xl"><i class="fas fa-trash"></i>	</button>   		
+	                	</div>
+	                	<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_delete.php'; ?>
+	                	<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_edit.php'; ?>
+	                	
+	                </td>
+	             </tr>
+
+	            <?php endforeach; ?>            
+	          </tbody>
+	      	</table>
+				</div>
+			</div>
+			<?php endif; ?>
+			
 		</div>
 
 	</div>
@@ -243,6 +242,52 @@
 		})
 
 
+		tabla_turnos.on('datatable.search', page => {
+
+			const allBtnClose = document.querySelectorAll('.btn_close')
+			allBtnClose.forEach( btn => {
+				btn.removeEventListener('click', initBtnClose)
+				btn.addEventListener('click', initBtnClose)
+			})
+
+			const allBtnEdit = document.querySelectorAll('.btn_edit')
+			allBtnEdit?.forEach( btn => {
+				btn.removeEventListener('click', initBtnEdit)
+				btn.addEventListener('click', initBtnEdit)
+			})
+
+			const allBtnDelete = document.querySelectorAll('.btn_delete')
+			allBtnDelete?.forEach( btn => {
+				btn.removeEventListener('click', initBtnDelete)
+				btn.addEventListener('click', initBtnDelete)
+			})
+
+		})
+
+
+		tabla_turnos.on('datatable.perpage', page => {
+
+			const allBtnClose = document.querySelectorAll('.btn_close')
+			allBtnClose.forEach( btn => {
+				btn.removeEventListener('click', initBtnClose)
+				btn.addEventListener('click', initBtnClose)
+			})
+
+			const allBtnEdit = document.querySelectorAll('.btn_edit')
+			allBtnEdit?.forEach( btn => {
+				btn.removeEventListener('click', initBtnEdit)
+				btn.addEventListener('click', initBtnEdit)
+			})
+
+			const allBtnDelete = document.querySelectorAll('.btn_delete')
+			allBtnDelete?.forEach( btn => {
+				btn.removeEventListener('click', initBtnDelete)
+				btn.addEventListener('click', initBtnDelete)
+			})
+
+		})
+
+
 
 	})  // end DOMcontentLoaded
 
@@ -253,6 +298,8 @@ window.addEventListener('click', (e) => {
     activeModal.classList.toggle('hidden')
   }
 })
+
+
 
 
 </script>

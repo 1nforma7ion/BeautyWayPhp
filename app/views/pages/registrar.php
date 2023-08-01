@@ -115,9 +115,12 @@
 			  		<div class="absolute hidden right-0 bottom-0"><i class="fas fa-check bg-cta p-2 rounded-full"></i></div>
 				    <label for="telefono">Teléfono:
 				    	<span id="alert-telef" class="hidden italic text-sm text-red">Minimo 8 números</span>
-
 				    </label>
-				    <input type="text" id="telefono" name="telefono" minlength="8" maxlength="10" placeholder="3515100100" required>
+				    <div class="flex w-full space-x-2 items-center">
+				    	<span class="text-neutral">+54</span>
+				    	<input type="number" id="telefono" name="telefono"  placeholder="351 510 0100" class="w-full" required>
+				    </div>
+
 			    </div>
 			    <div class="group-col relative">
 			  		<div class="absolute hidden right-0 bottom-0"><i class="fas fa-check bg-cta p-2 rounded-full"></i></div>
@@ -519,39 +522,29 @@ email.addEventListener('keyup', (e) => {
 })
 
 
-function isNumber(evt) {
-  evt = (evt) ? evt : window.event;
-  var charCode = (evt.which) ? evt.which : evt.keyCode;
-  if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-    return false;
-  }
-  return true;
-}
 
 
 const telefono = document.querySelector('#telefono')
-telefono.addEventListener('keyup', (e) => {
-	 // Only ASCII character in that range allowed
-	console.log(e.target)
-if(!isNumber(e.target)) e.target.preventDefault();                // return false;
-            // return true;
-	// telefono.value.replace(/[^0-9]/g, '')
-}
-)
-// telefono.addEventListener('keyup', (e) => {
+telefono.addEventListener('input', (e) => {
+	// console.log(e.target.value)
+	const alertTelef = document.querySelector('#alert-telef')
+  let max_chars = 10;
+       
+  if(e.target.value.length > max_chars) {
+    e.target.value = e.target.value.substring(0, max_chars);
+    alertTelef.classList.add('hidden')
+		alertTelef.parentElement.previousElementSibling.classList.remove('hidden')
+	} else {
+		alertTelef.classList.remove('hidden')
+		alertTelef.parentElement.previousElementSibling.classList.add('hidden')
+	}
 
-// 	const alertTelef = document.querySelector('#alert-telef')
-// 	// console.log(numDoc.value.length)
+})
 
-// 	if(telefono.value.length > 7) {
-// 		alertTelef.classList.add('hidden')
-// 		alertTelef.parentElement.previousElementSibling.classList.remove('hidden')
-// 	} else {
-// 		alertTelef.classList.remove('hidden')
-// 		alertTelef.parentElement.previousElementSibling.classList.add('hidden')
-// 	}
 
-// })
+
+
+
 
 // const localidad = document.querySelector('#localidad')
 // localidad.addEventListener('keyup', (e) => {
