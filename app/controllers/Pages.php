@@ -356,7 +356,7 @@
 			$subject = "Recuperación de contraseña";
 			$body = 'Si solicitaste cambiar tu contraseña entra al siguiente <a href="' . URLROOT . '/' . $controller . '/change_password/' . $token . '"> enlace </a>';
 
-			$this->mailer($email_user, $subject, $body);
+			return $this->mailer($email_user, $subject, $body);
 		}
 
 
@@ -380,10 +380,10 @@
 			$mail->Body = $body;
 			$mail->CharSet = 'UTF-8';
 
-			if(!$mail->send()) {
-				return false;
-			} else {
+			if($mail->send()) {
 				return true;
+			} else {
+				return false;
 			}
 		}
 
