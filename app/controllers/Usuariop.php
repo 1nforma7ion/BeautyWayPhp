@@ -557,7 +557,7 @@
 			$body .= "Modalidad : " . $modalidad . "<br><br>";
 			$body .= 'Te esperamos con más ofertas en <a href="' . URLROOT . '">  Beauty Way! </a> . ';
 
-			return $this->page->mailer($email_user, $subject, $body);	
+			return $this->mailer($email_user, $subject, $body);	
 		}
 
 
@@ -572,7 +572,7 @@
 			$body .= "Turno : " . $hora_inicio . " hrs. <br><br>";
 			$body .= 'Gracias por usar <a href="' . URLROOT . '">  Beauty Way! </a> . ';
 
-			return $this->page->mailer($email_prof, $subject, $body);	
+			return $this->mailer($email_prof, $subject, $body);	
 		}
 
 		public function sendEmailToUserCancelado($email_user, $motivo, $nombre_cliente, $nombre_comercial, $servicio, $modalidad, $direccion, $dia, $hora_inicio) {
@@ -588,7 +588,7 @@
 			$body .= "Turno : " . $hora_inicio . " hrs. <br><br>";
 			$body .= "Modalidad : " . $modalidad . "<br><br>";
 
-			return $this->page->mailer($email_user, $subject, $body);	
+			return $this->mailer($email_user, $subject, $body);	
 		}
 
 
@@ -604,8 +604,39 @@
 			$body .= "Dia : " . $dia . "<br><br>";
 			$body .= "Turno : " . $hora_inicio . " hrs. <br><br>";
 
-			return $this->page->mailer($email_prof, $subject, $body);	
+			return $this->mailer($email_prof, $subject, $body);	
 		}
+
+
+
+		public function mailer($email, $subject, $body) {
+			$mail = new PHPMailer;                          
+			$mail->isSMTP();
+			$mail->SMTPDebug = SMTP_DEBUG;                            
+			$mail->Host = SMTP_HOST;
+			$mail->SMTPAuth = SMTP_AUTH;
+			$mail->Port = SMTP_PORT;                  
+			$mail->SMTPSecure = SMTP_SECURE;  
+
+			$mail->Username = SMTP_USER;  // email que envia el correo          
+			$mail->Password = SMTP_PASS;  // pass del email que envia el correo          
+                 
+			$mail->From = SMTP_FROM; // email que aparecera en el contenido "From"
+			$mail->FromName = SMTP_FROM_NAME; // nombre que aparecera en el contenido " SUPPORT BEAUTY WAY "
+			$mail->addAddress($email); // email que recibe el correo
+			$mail->isHTML(true); // habilitar contenido del email en HTML
+			$mail->Subject = utf8_decode($subject);
+			$mail->Body = $body;
+			$mail->CharSet = SMTP_CHARSET;
+			// $mail->AltBody = "This is the plain text version of the email content";
+
+			if($mail->send()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
 
 		public function mensajes() {
 			if (usuariopLoggedIn()) {
