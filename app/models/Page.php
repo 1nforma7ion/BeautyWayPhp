@@ -45,10 +45,10 @@
 		public function readEmailByUserId($id_usuario) {
 			$this->db->query('SELECT email FROM usuarios WHERE id = :id_usuario');
 			$this->db->bind(':id_usuario', $id_usuario);
-			$email = $this->db->getSingle();
+			$result = $this->db->getSingle();
 
-			if ($email) {
-				return $email;
+			if ($result) {
+				return $result->email;
 			} else {
 				return false;
 			}
