@@ -547,14 +547,15 @@
 
 		public function sendEmailToUserConfirmado($email_user, $nombre_cliente, $nombre_comercial, $servicio, $modalidad, $direccion, $dia, $hora_inicio) {
 			$subject = "Reserva Confirmada en Beauty Way! ";
-			$body = "Hola ". $nombre_cliente . " !  Se ha confirmado tu reserva en Beauty Way ! <br><br>	";
+			$body = "Hola ". $nombre_cliente . " !  <br><br>	";
+			$body = "Se ha confirmado tu reserva en Beauty Way ! <br><br>	";
 			$body .= "Profesional : " . $nombre_comercial . "<br><br>";
 			$body .= "Modalidad : " . $modalidad . "<br><br>";
 			$body .= "Dirección : " . $direccion . "<br><br>";
 			$body .= "Servicio : " . $servicio . "<br><br>";
 			$body .= "Dia : " . $dia . "<br><br>";
 			$body .= "Turno : " . $hora_inicio . " hrs. <br><br>";
-			$body .= "Modalidad : " . $modalidad . "<br><br>";
+			$body .= "Modalidad : " . $modalidad . "<br><br><br>";
 			$body .= 'Te esperamos con más ofertas en <a href="' . URLROOT . '">  Beauty Way! </a> . ';
 
 			return $this->mailer($email_user, $subject, $body);	
@@ -563,13 +564,14 @@
 
 		public function sendEmailToUserpConfirmado($email_prof, $nombre_cliente, $nombre_comercial, $servicio, $modalidad, $direccion, $dia, $hora_inicio) {
 			$subject = "Reserva Confirmada en Beauty Way! ";
-			$body = "Hola ". $nombre_comercial . " !  Has confirmado una reserva en Beauty Way ! <br><br>	";
+			$body = "Hola ". $nombre_comercial . " !  <br><br>	";
+			$body = "Has confirmado una reserva en Beauty Way ! <br><br>	";
 			$body .= "Cliente : " . $nombre_cliente . "<br><br>";
 			$body .= "Modalidad : " . $modalidad . "<br><br>";
 			$body .= "Dirección : " . $direccion . "<br><br>";
 			$body .= "Servicio : " . $servicio . "<br><br>";
 			$body .= "Dia : " . $dia . "<br><br>";
-			$body .= "Turno : " . $hora_inicio . " hrs. <br><br>";
+			$body .= "Turno : " . $hora_inicio . " hrs. <br><br><br>";
 			$body .= 'Gracias por usar <a href="' . URLROOT . '">  Beauty Way! </a> . ';
 
 			return $this->mailer($email_prof, $subject, $body);	
@@ -577,7 +579,8 @@
 
 		public function sendEmailToUserCancelado($email_user, $motivo, $nombre_cliente, $nombre_comercial, $servicio, $modalidad, $direccion, $dia, $hora_inicio) {
 			$subject = "Reserva Cancelada en Beauty Way ";
-			$body = "Hola ". $nombre_cliente . " !  Se ha Cancelado tu reserva en Beauty Way . <br><br>	";
+			$body = "Hola ". $nombre_cliente . " ! <br><br>	";
+			$body = "Se ha Cancelado tu reserva en Beauty Way . <br><br>	";
 			$body .= "Profesional : " . $nombre_comercial . "<br><br>";
 			$body .= "Motivo : " . $motivo . "<br><br>";
 			$body .= "_______________________________________________________________________<br><br>	";
@@ -594,7 +597,8 @@
 
 		public function sendEmailToUserpCancelado($email_prof, $motivo, $nombre_cliente, $nombre_comercial, $servicio, $modalidad, $direccion, $dia, $hora_inicio) {
 			$subject = "Reserva Cancelada en Beauty Way ";
-			$body = "Hola ". $nombre_comercial . " !  Has cancelado una reserva en Beauty Way ! <br><br>	";
+			$body = "Hola ". $nombre_comercial . " !<br><br>	";
+			$body = "Has cancelado una reserva en Beauty Way ! <br><br>	";
 			$body .= "Cliente : " . $nombre_cliente . "<br><br>";
 			$body .= "Motivo : " . $motivo . "<br><br>";
 			$body .= "_______________________________________________________________________<br><br>	";
