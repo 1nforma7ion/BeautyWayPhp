@@ -548,7 +548,7 @@
 		public function sendEmailToUserConfirmado($email_user, $nombre_cliente, $nombre_comercial, $servicio, $modalidad, $direccion, $dia, $hora_inicio) {
 			$subject = "Reserva Confirmada en Beauty Way! ";
 			$body = "Hola ". $nombre_cliente . " !  <br><br>	";
-			$body = "Se ha confirmado tu reserva en Beauty Way ! <br><br>	";
+			$body .= "Se ha confirmado tu reserva en Beauty Way ! <br><br>	";
 			$body .= "Profesional : " . $nombre_comercial . "<br><br>";
 			$body .= "Modalidad : " . $modalidad . "<br><br>";
 			$body .= "Dirección : " . $direccion . "<br><br>";
@@ -565,7 +565,7 @@
 		public function sendEmailToUserpConfirmado($email_prof, $nombre_cliente, $nombre_comercial, $servicio, $modalidad, $direccion, $dia, $hora_inicio) {
 			$subject = "Reserva Confirmada en Beauty Way! ";
 			$body = "Hola ". $nombre_comercial . " !  <br><br>	";
-			$body = "Has confirmado una reserva en Beauty Way ! <br><br>	";
+			$body .= "Has confirmado una reserva en Beauty Way ! <br><br>	";
 			$body .= "Cliente : " . $nombre_cliente . "<br><br>";
 			$body .= "Modalidad : " . $modalidad . "<br><br>";
 			$body .= "Dirección : " . $direccion . "<br><br>";
@@ -580,7 +580,7 @@
 		public function sendEmailToUserCancelado($email_user, $motivo, $nombre_cliente, $nombre_comercial, $servicio, $modalidad, $direccion, $dia, $hora_inicio) {
 			$subject = "Reserva Cancelada en Beauty Way ";
 			$body = "Hola ". $nombre_cliente . " ! <br><br>	";
-			$body = "Se ha Cancelado tu reserva en Beauty Way . <br><br>	";
+			$body .= "Se ha Cancelado tu reserva en Beauty Way . <br><br>	";
 			$body .= "Profesional : " . $nombre_comercial . "<br><br>";
 			$body .= "Motivo : " . $motivo . "<br><br>";
 			$body .= "_______________________________________________________________________<br><br>	";
@@ -598,7 +598,7 @@
 		public function sendEmailToUserpCancelado($email_prof, $motivo, $nombre_cliente, $nombre_comercial, $servicio, $modalidad, $direccion, $dia, $hora_inicio) {
 			$subject = "Reserva Cancelada en Beauty Way ";
 			$body = "Hola ". $nombre_comercial . " !<br><br>	";
-			$body = "Has cancelado una reserva en Beauty Way ! <br><br>	";
+			$body .= "Has cancelado una reserva en Beauty Way ! <br><br>	";
 			$body .= "Cliente : " . $nombre_cliente . "<br><br>";
 			$body .= "Motivo : " . $motivo . "<br><br>";
 			$body .= "_______________________________________________________________________<br><br>	";

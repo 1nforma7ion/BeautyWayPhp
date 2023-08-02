@@ -282,6 +282,7 @@
 							$created = $this->page->register($rol,$tipo,$doc,$nombre,$apellido,$calle,$altura,$piso,$depto,$barrio,$localidad,$telefono,$email,$pass,$comercial,$profesion,$modalidad,$zona, $estado);
 							
 							if($created) {
+								$this->sendEmailNewUser($email, $nombre, $apellido);
 								$_SESSION['msg'] = 'Registrado Correctamente.';
 								redirect('pages/login');
 							} else {
@@ -359,6 +360,16 @@
 			return $this->mailer($email_user, $subject, $body);
 		}
 
+		public function sendEmailNewUser($email, $nombre, $apellido) {
+						
+			$subject = "Bienvenido a Beauty Way !";
+			$body = "Hola " . $nombre . " "  . $apellido . " ! <br><br>";
+			$body .= "Te damos la Bienvenida  a nuestra plataforma ! <br><br> ";
+			$body .= "Aqui encontraras los mejores servicios y descuentos exclusivos ! <br><br><br> ";
+			$body .= 'Ya Puedes iniciar sesión en  <a href="' . URLROOT . '"> Beauty Way </a> <br><br>';
+
+			return $this->mailer($email, $subject, $body);
+		}
 
 		public function mailer($email, $subject, $body) {
 			$mail = new PHPMailer;                          
