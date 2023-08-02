@@ -42,6 +42,18 @@
 			}
 		}
 
+		public function readEmailByUserId($id_usuario) {
+			$this->db->query('SELECT email FROM usuarios WHERE id = :id_usuario');
+			$this->db->bind(':id_usuario', $id_usuario);
+			$email = $this->db->getSingle();
+
+			if ($email) {
+				return $email;
+			} else {
+				return false;
+			}
+		}
+
 		public function findDocumento($num_documento) {
 			$this->db->query('SELECT * FROM usuarios WHERE num_documento = :num_documento');
 			$this->db->bind(':num_documento', $num_documento);

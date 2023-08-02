@@ -49,6 +49,13 @@
 						<p class="text-xl"> <?php setReservaStatus($row->status); ?> </p>
 					</div>
 
+					<?php if($row->status == 'cancelado' ) : ?>
+						<div class="flex space-x-8 items-center">
+							<h2 class="w-40 px-4 text-dark text-xl font-bold ">Motivo :</h2>
+							<p class="text-xl"> <?php echo $row->motivo; ?> </p>
+						</div>
+					<?php endif; ?>
+					
 				</div>
 
 

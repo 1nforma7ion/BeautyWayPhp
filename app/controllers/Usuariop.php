@@ -470,16 +470,38 @@
 		public function reservas() {
 			if (usuariopLoggedIn()) {
 
+				// check cancel or approve
 				if (isset($_POST['edit_reserva'])) {
 					ob_start();
 
 					$id_reserva = $_POST['id_reserva'];
 					$status = $_POST['status'];
 					$motivo = $_POST['motivo'];
+					$servicio = $_POST['servicio'];
+					$dia = $_POST['dia'];
+					$hora_inicio = $_POST['hora_inicio'];
+					$id_usuario = $_POST['id_usuario'];
+					$modalidad = $_POST['modalidad'];
+					$direccion = $_POST['direccion'];
+
+					$email_user = $this->page->readEmailByUserId($id_usuario);
+					$email_prof = $_SESSION['user_email'];
+					$nombre_comercial = $_SESSION['user_nombre_comercial'];
+					$nombre_cliente = $_POST['nombre_cliente'];
 
 					$updated = $this->usuariop->updateReservaStatus($id_reserva, $status, $motivo);
 
-					if ($updated) {
+
+					if ($status == "confirmado" && $updated) {
+				
+						$this->sendEmailToUserConfirmado($email_user, $nombre_cliente, $nombre_comercial, $servicio, $modalidad, $direccion, $dia, $hora_inicio);
+						$this->sendEmailToUserpConfirmado($email_prof, $nombre_cliente, $nombre_comercial, $servicio, $modalidad, $direccion, $dia, $hora_inicio);
+
+						$_SESSION['success_msg'] = "Reserva Confirmada.";
+						redirect('usuariop/reservas');
+						exit();
+
+					} else if ($status == "cancelado" && $updated) {
 						$estado = 1;
 						$id_profesional = $_SESSION['user_id'];
 						$dia = $_POST['dia'];
@@ -487,7 +509,10 @@
 
 						$this->usuariop->updateTurnosByUser($id_profesional, $dia, $hora_inicio, $estado);						
 
-						$_SESSION['success_msg'] = "Reserva Actualizada.";
+						$this->sendEmailToUserCancelado($email_user, $motivo, $nombre_cliente, $nombre_comercial, $servicio, $modalidad, $direccion, $dia, $hora_inicio);
+						$this->sendEmailToUserpCancelado($email_prof, $motivo, $nombre_cliente, $nombre_comercial, $servicio, $modalidad, $direccion, $dia, $hora_inicio);
+
+						$_SESSION['success_msg'] = "Reserva Cancelada.";
 						redirect('usuariop/reservas');
 						exit();
 
@@ -519,6 +544,68 @@
 			}
 		}
 
+
+		public function sendEmailToUserConfirmado($email_user, $nombre_cliente, $nombre_comercial, $servicio, $modalidad, $direccion, $dia, $hora_inicio) {
+			$subject = "Reserva Confirmada en Beauty Way! ";
+			$body = "Hola ". $nombre_cliente . " !  Se ha confirmado tu reserva en Beauty Way ! <br><br>	";
+			$body .= "Profesional : " . $nombre_comercial . "<br><br>";
+			$body .= "Modalidad : " . $modalidad . "<br><br>";
+			$body .= "Dirección : " . $direccion . "<br><br>";
+			$body .= "Servicio : " . $servicio . "<br><br>";
+			$body .= "Dia : " . $dia . "<br><br>";
+			$body .= "Turno : " . $hora_inicio . " hrs. <br><br>";
+			$body .= "Modalidad : " . $modalidad . "<br><br>";
+			$body .= 'Te esperamos con más ofertas en <a href="' . URLROOT . '">  Beauty Way! </a> . ';
+
+			return $this->page->mailer($email_user, $subject, $body);	
+		}
+
+
+		public function sendEmailToUserpConfirmado($email_prof, $nombre_cliente, $nombre_comercial, $servicio, $modalidad, $direccion, $dia, $hora_inicio) {
+			$subject = "Reserva Confirmada en Beauty Way! ";
+			$body = "Hola ". $nombre_comercial . " !  Has confirmado una reserva en Beauty Way ! <br><br>	";
+			$body .= "Cliente : " . $nombre_cliente . "<br><br>";
+			$body .= "Modalidad : " . $modalidad . "<br><br>";
+			$body .= "Dirección : " . $direccion . "<br><br>";
+			$body .= "Servicio : " . $servicio . "<br><br>";
+			$body .= "Dia : " . $dia . "<br><br>";
+			$body .= "Turno : " . $hora_inicio . " hrs. <br><br>";
+			$body .= 'Gracias por usar <a href="' . URLROOT . '">  Beauty Way! </a> . ';
+
+			return $this->page->mailer($email_prof, $subject, $body);	
+		}
+
+		public function sendEmailToUserCancelado($email_user, $motivo, $nombre_cliente, $nombre_comercial, $servicio, $modalidad, $direccion, $dia, $hora_inicio) {
+			$subject = "Reserva Cancelada en Beauty Way ";
+			$body = "Hola ". $nombre_cliente . " !  Se ha Cancelado tu reserva en Beauty Way . <br><br>	";
+			$body .= "Profesional : " . $nombre_comercial . "<br><br>";
+			$body .= "Motivo : " . $motivo . "<br><br>";
+			$body .= "_______________________________________________________________________<br><br>	";
+			$body .= "Modalidad : " . $modalidad . "<br><br>";
+			$body .= "Dirección : " . $direccion . "<br><br>";
+			$body .= "Servicio : " . $servicio . "<br><br>";
+			$body .= "Dia : " . $dia . "<br><br>";
+			$body .= "Turno : " . $hora_inicio . " hrs. <br><br>";
+			$body .= "Modalidad : " . $modalidad . "<br><br>";
+
+			return $this->page->mailer($email_user, $subject, $body);	
+		}
+
+
+		public function sendEmailToUserpCancelado($email_prof, $motivo, $nombre_cliente, $nombre_comercial, $servicio, $modalidad, $direccion, $dia, $hora_inicio) {
+			$subject = "Reserva Cancelada en Beauty Way ";
+			$body = "Hola ". $nombre_comercial . " !  Has cancelado una reserva en Beauty Way ! <br><br>	";
+			$body .= "Cliente : " . $nombre_cliente . "<br><br>";
+			$body .= "Motivo : " . $motivo . "<br><br>";
+			$body .= "_______________________________________________________________________<br><br>	";
+			$body .= "Modalidad : " . $modalidad . "<br><br>";
+			$body .= "Dirección : " . $direccion . "<br><br>";
+			$body .= "Servicio : " . $servicio . "<br><br>";
+			$body .= "Dia : " . $dia . "<br><br>";
+			$body .= "Turno : " . $hora_inicio . " hrs. <br><br>";
+
+			return $this->page->mailer($email_prof, $subject, $body);	
+		}
 
 		public function mensajes() {
 			if (usuariopLoggedIn()) {

@@ -44,11 +44,16 @@
 				<input type="hidden" name="id_reserva" value="<?php echo $row->id_reserva ?>">
 				<input type="hidden" name="dia" value="<?php echo $row->dia ?>">
 				<input type="hidden" name="hora_inicio" value="<?php echo $row->hora_inicio ?>">
+				<input type="hidden" name="servicio" value="<?php echo $row->servicio ?>">
+				<input type="hidden" name="nombre_cliente" value="<?php echo $row->nombre . ' ' . $row->apellido; ?>">
+				<input type="hidden" name="id_usuario" value="<?php echo $row->id_usuario ?>">
+				<input type="hidden" name="modalidad" value="<?php echo $row->reserva_modalidad ?>">
+				<input type="hidden" name="direccion" value="<?php echo $row->reserva_direccion ?>">
 
 				<div class="flex flex-col space-y-4  text-dark md:p-4">
 					<div class="flex space-x-8 items-center">
 						<h2 class="w-40 px-4 text-dark text-xl font-bold ">Servicio :</h2>
-						<p class="text-xl"> <?php echo $row->servicio ?> </p>
+						<p class="text-xl"> <?php echo $row->servicio ?> <?php echo $row->id_usuario ?></p>
 					</div>
 
 					<div class="flex space-x-8 items-center">
