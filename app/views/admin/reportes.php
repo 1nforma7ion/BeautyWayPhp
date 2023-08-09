@@ -18,12 +18,12 @@
 
 						<div id="chart1"></div>
 
-
+						<div id="chart"></div>
 
 					</div>
 				<?php endif; ?>
 			
-<div id="chart"></div>
+
 
 
 		</div>
@@ -72,7 +72,7 @@ echo "</pre>";
         var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
 
-        
+
 	        var options1 = {
           series: [13, 7, 2],
           chart: {
