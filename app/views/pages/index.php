@@ -60,11 +60,11 @@
 					</div>
 										
 					<div class="relative md:h-96 w-full flex flex-col items-center p-4 md:w-1/3 space-y-4 ">
-						<div class="flex space-x-4">
+						<div class="flex w-full space-x-4">
 
-							<div class="flex flex-col justify-center items-center space-y-4">
+							<div class="flex flex-col w-full justify-center items-center space-y-4">
 
-								<div class="w-full flex items-center space-x-4">
+								<div class="w-full flex items-center justify-center space-x-4">
 									<?php if (!empty($row->imagen_comercial)) : ?>
 										<img src="<?php echo URLROOT . $row->imagen_comercial ?>" class="h-16 w-16 rounded-full object-cover ">
 									<?php else: ?>
@@ -74,7 +74,7 @@
 									<h1 ><a href="" class="text-dark hover:text-fbk text-xl  font-bold"> <?php echo $row->nombre_comercial ?></a></h1>
 								</div>
 
-								<div class="flex w-full justify-between items-center ">
+								<div class="flex px-4 w-full justify-between items-center ">
 									<div class="flex space-x-2 px-2 py-1 rounded-xl bg-neutral text-white ">
 										
 										<?php 
@@ -93,14 +93,14 @@
 									</div>
 								</div>
 
-								<div class="flex w-full justify-center items-center bg-ctaDark text-dark rounded-xl p-1 text-xl">
+								<div class="flex px-4 w-3/4 justify-center items-center bg-ctaDark text-dark rounded-xl p-1 text-xl">
 									<i class="fas fa-map-marker-alt mr-2"></i>
 									<span> <?php echo $row->zona_public ?> </span>	
 								</div>
 
 							</div>
 						</div>
-			      <span class=" text-sm"> <?php echo $row->descripcion ?>  </span>
+			      <span class="p-2 text-sm"> <?php echo $row->descripcion ?>  </span>
 	  				
 
 					</div>

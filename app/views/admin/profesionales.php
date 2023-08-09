@@ -6,7 +6,7 @@
 	<div class="w-full h-screen flex md:space-x-4 pt-0 pb-4 px-4 md:px-6.5">
 
 		<!-- columna izquierda -->	
-		<div class="hidden md:block w-1/4  p-4 ">	
+		<div class="hidden md:block w-1/4  py-4 ">	
 			<?php require APPROOT . '/views/' . $data['controller'] . '/partials/sidebar.php'; ?>
 		</div>
 
@@ -22,10 +22,14 @@
 				<!-- sidebar para perfil Usuarios Profesionales -->
 				<div class="flex flex-col w-full space-y-4">
 
-					<div class="w-full flex justify-between ">
-						<h1 class="text-dark text-2xl text-white font-bold">Lista Usuarios Profesionales</h1>
-
+					<div class="w-full flex justify-between py-2 text-2xl text-white text-center">
+						<h2 class="text-4xl">Lista Usuarios Profesionales</h2>  
+						<div class="w-1/3">
+							<?php echo showAlert(); ?>
+						</div>
+	          
 					</div>
+
 					<!-- Tabla Datatable -->
 					<div class="w-full bg-primary rounded-lg ">
 						<table class="bg-white datatable " >
@@ -81,6 +85,6 @@
 
 
 
-	<script src="<?php echo URLROOT; ?>/js/_admin_usuarios.js"></script>
+	<script src="<?php echo URLROOT; ?>/js/_admin.js"></script>
 	
 <?php require APPROOT . '/views/' . $data['controller'] . '/partials/footer.php'; ?>

@@ -8,7 +8,7 @@
 
 		<div class=" hidden md:flex w-1/2 h-12 rounded p-1 ">
 			<form action="<?php echo URLROOT; ?>/pages/buscar" method="post" autocomplete="off" class=" md:flex w-full " >
-				<input name="term" type="text" class="w-full px-6 py-2 outline-none  rounded-l-xl " placeholder="Buscar zona o servicio">
+				<input name="term" type="text" class="w-full px-6 py-2 outline-none  rounded-l-xl " placeholder="Buscar zona, servicio o profesional">
 			  <button name="btn_buscar" type="submit" class="w-max px-4 py-2 bg-primaryDark text-gray font-bold rounded-r-xl text-xl hover:bg-ctaLight"><i class="fas fa-search "></i></button>
 			</form>
 		</div>

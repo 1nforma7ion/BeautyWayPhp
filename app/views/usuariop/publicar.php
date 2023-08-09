@@ -6,7 +6,7 @@
 	<div class="w-full h-screen flex md:space-x-4 pt-0 pb-4 px-4 md:px-6.5">
 
 		<!-- columna izquierda -->	
-		<div class="hidden md:block w-1/4  p-4 ">	
+		<div class="hidden md:block w-1/4  py-4 ">	
 			<?php require APPROOT . '/views/' . $data['controller'] . '/partials/sidebar.php'; ?>
 		</div>
 
@@ -91,7 +91,15 @@
 
 				<?php if(count($data['horarios']) < 1 || empty($data['imagenes_perfil']) ) : ?>
 					<div class="w-full h-96 flex flex-col space-y-8 items-center justify-center bg-white rounded-xl text-2xl font-dmsans">
-						<span>Debes configurar tu imagen de perfil y horario antes de Publicar:  </span>
+						<div class="w-full md:w-3/4 flex flex-col p-4 space-y-4">
+							<span class="text-neutral text-4xl py-4">Antes de publicar debes cumplir :  </span>
+
+							<p class="text-2xl"> <i class="fas fa-chevron-right mr-2 text-fbk"></i> Configurar al menos una profesion. </p>
+							<p class="text-2xl"> <i class="fas fa-chevron-right mr-2 text-fbk"></i> Cada profesion debe tener cargado al menos un servicio. </p>
+							<p class="text-2xl"> <i class="fas fa-chevron-right mr-2 text-fbk"></i> La foto de perfil es obligatoria. </p>
+							
+						</div>
+
 						<a href="<?php echo URLROOT . '/' . $data['controller']; ?>/perfil" class="py-2 px-4 rounded-full bg-neutral text-white">  Ir a mi Perfil <i class="fas fa-arrow-right"></i></a>
 					</div>
 
@@ -123,7 +131,23 @@
 							</div>
 
 						</div>
+
+
 					</div>
+
+					<div class="w-full h-96 flex flex-col space-y-8 items-center justify-center bg-white rounded-xl text-2xl font-dmsans">
+						<div class="w-full md:w-3/4 flex flex-col p-4 space-y-4">
+							<span class="text-neutral text-4xl py-4">Antes de publicar debes cumplir :  </span>
+
+							<p class="text-2xl"> <i class="fas fa-chevron-right mr-2 text-fbk"></i> Configurar al menos una profesion. </p>
+							<p class="text-2xl"> <i class="fas fa-chevron-right mr-2 text-fbk"></i> Cada profesion debe tener cargado al menos un servicio. </p>
+							<p class="text-2xl"> <i class="fas fa-chevron-right mr-2 text-fbk"></i> La foto de perfil es obligatoria. </p>
+							
+						</div>
+
+						<a href="<?php echo URLROOT . '/' . $data['controller']; ?>/perfil" class="py-2 px-4 rounded-full bg-neutral text-white">  Ir a mi Perfil <i class="fas fa-arrow-right"></i></a>
+					</div>
+
 				<?php endif; ?>
 
 

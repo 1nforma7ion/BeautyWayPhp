@@ -246,7 +246,7 @@
 				INNER JOIN usuarios u ON p.id_usuario = u.id 
 				INNER JOIN perfiles pe ON p.id_usuario = pe.id_usuario 
 				INNER JOIN zonas z ON z.id = u.id_zona_trabajo 
-				WHERE p.estado = 1 AND p.zona_public LIKE LOWER(:term) OR p.servicio LIKE LOWER(:term)
+				WHERE p.estado = 1 AND p.zona_public LIKE LOWER(:term) OR p.servicio LIKE LOWER(:term) OR u.nombre_comercial LIKE LOWER(:term)
 				ORDER BY p.creado DESC 
 				LIMIT :inicio, :porPagina');
 

@@ -6,12 +6,12 @@
 	<div class="w-full flex flex-col md:flex-row md:space-x-4 pt-0 pb-4 px-4 md:px-6.5">
 
 		<!-- columna izquierda -->	
-		<div class="w-full md:w-1/4  p-4 ">	
+		<div class="w-full md:w-1/4  py-4 ">	
 			<?php require APPROOT . '/views/' . $data['controller'] . '/partials/sidebar.php'; ?>
 		</div>
 
 		<!-- columna derecha -->
-		<div class="flex flex-col p-4 space-y-4 w-full md:w-3/4 font-dmsans">
+		<div class="flex w-full md:w-3/4 font-dmsans">
 			<div class="flex flex-col w-full  md:p-4  space-y-8  overflow-y-scroll no-scrollbar">
 
 				<div class="w-full flex space-x-8 p-4 bg-white rounded-xl text-xl text-neutral text-center">
@@ -48,11 +48,11 @@
 					</div>
 										
 					<div class="relative md:h-96 w-full flex flex-col items-center p-4 md:w-1/3 space-y-4 ">
-						<div class="flex space-x-4">
+						<div class="flex  w-full space-x-4">
 
-							<div class="flex flex-col justify-center items-center space-y-4">
+							<div class="flex flex-col w-full  justify-center items-center space-y-4">
 
-								<div class="w-full flex items-center space-x-4">
+								<div class="w-full flex items-center justify-center space-x-4">
 									<?php if (!empty($row->imagen_comercial)) : ?>
 										<img src="<?php echo URLROOT . $row->imagen_comercial ?>" class="h-16 w-16 rounded-full object-cover ">
 									<?php else: ?>
@@ -61,13 +61,28 @@
 
 									<h1 ><a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $row->id_profesional . '/' . $row->id_public ?>" class="text-dark hover:text-fbk text-xl  font-bold"> <?php echo $row->nombre_comercial ?></a></h1>
 								</div>
-								
-								<div class="flex w-full justify-center items-center bg-primary rounded-xl p-1">
-									<i class="fas fa-calendar-alt mr-2"></i>
-									<span class="text-sm"> <?php echo fixedFecha($row->creado) ?> </span>	
+
+								<div class="flex px-4 w-full justify-between items-center ">
+									<div class="flex space-x-2 px-2 py-1 rounded-xl bg-neutral text-white ">
+										
+										<?php 
+											$desc = explode('.', $row->descuento);
+											$desc = $desc[0];
+										?>
+										<?php if ($desc < 1 ) : ?>
+											<div class="text-xl md:w-full px-6 "><i class="fas fa-flag"></i> </div>
+										<?php else : ?>
+											<span class="text-lg w-full"> Desc. <?php echo $desc . ' %' ?> </span>
+										<?php endif; ?>
+									</div>
+									<div class="flex items-center space-x-2 px-2 py-1 rounded-xl bg-primary ">
+										<i class="fas fa-calendar-alt mr-2"></i>
+										<span class="text-lg"> <?php echo fixedFecha($row->creado) ?> </span>	
+									</div>
 								</div>
 
-								<div class="flex w-full justify-center items-center bg-ctaDark text-dark rounded-xl p-1 text-xl">
+
+								<div class="flex px-4 w-3/4 justify-center items-center bg-ctaDark text-dark rounded-xl p-1 text-xl">
 									<i class="fas fa-map-marker-alt mr-2"></i>
 									<span> <?php echo $row->zona_public ?> </span>	
 								</div>

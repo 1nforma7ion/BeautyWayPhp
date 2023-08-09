@@ -19,6 +19,20 @@
 		}
 // FIN index
 
+// INICIO reportes
+
+		public function readAllUsers() {
+			$this->db->query('SELECT *, p.id as id_public FROM publicaciones p 
+				INNER JOIN usuarios u ON p.id_usuario = u.id 
+				WHERE p.id_usuario = :user_id AND p.estado =1 ORDER BY p.creado DESC');
+			$this->db->bind(':user_id', $user_id);
+
+			$publicaciones = $this->db->getSet();
+			return $publicaciones;
+		}
+// FIN reportes
+
+
 // INICIO Edit_profesion
 		public function getProfesionById($id) {
 			$this->db->query('SELECT id, profesion FROM profesiones WHERE id = :id');
@@ -83,8 +97,16 @@
 			return $horas;
 		}
 
-		public function getHorarios($user_id) {
-			$this->db->query('SELECT * FROM usuarios_horarios WHERE id_usuario = :user_id ORDER BY dia ASC');
+		public function readUniqueHorarios($user_id) {
+			$this->db->query('SELECT *, COUNT(hora_inicio) AS total_turnos FROM usuarios_horarios WHERE id_usuario = :user_id GROUP BY dia ORDER BY dia DESC');
+			$this->db->bind(':user_id', $user_id);
+
+			$horarios = $this->db->getSet();
+			return $horarios;
+		}
+
+		public function readHorariosByUser($user_id) {
+			$this->db->query('SELECT * FROM usuarios_horarios WHERE id_usuario = :user_id ORDER BY dia DESC');
 			$this->db->bind(':user_id', $user_id);
 
 			$horarios = $this->db->getSet();

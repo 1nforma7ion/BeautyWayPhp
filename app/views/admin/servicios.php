@@ -6,7 +6,7 @@
 	<div class="w-full h-screen flex md:space-x-4 pt-0 pb-4 px-4 md:px-6.5">
 
 		<!-- columna izquierda -->	
-		<div class="hidden md:block w-1/4  p-4 ">	
+		<div class="hidden md:block w-1/4  py-4 ">	
 			<?php require APPROOT . '/views/' . $data['controller'] . '/partials/sidebar.php'; ?>
 		</div>
 
@@ -94,99 +94,12 @@
 
 <?php 
 echo "<pre>" ;
-
-
 // print_r($data['servicios']);
 // // print_r($data['profesiones']);
-
 echo "</pre>";
 ?>
 
 
+	<script src="<?php echo URLROOT; ?>/js/_admin.js"></script>
 
-
-
-	<script>
-		
-window.addEventListener('DOMContentLoaded', ()=> {
-
-	const datatables = document.querySelectorAll('.datatable')
-	datatables.forEach(datatable => {
-		new simpleDatatables.DataTable(datatable, {
-			searchable: true,
-			fixedHeight: true,
-	    columns: [
-		    { select: 1, sort: "asc" },
-	    ],    
-	    labels: {
-		    placeholder: "Buscar...",
-		    perPage: "Elementos por página",
-		    noRows: "No hay datos para mostrar",
-		    info: "Mostrando {start} - {end} de {rows}"	
-			}
-		})
-
-
-	const allBtnClose = document.querySelectorAll('.btn_close')
-	allBtnClose.forEach( btn => {
-		btn.addEventListener('click', () => {
-			let active_modal = document.querySelector('.active-modal')
-			active_modal.classList.toggle('active-modal')
-			active_modal.classList.toggle('hidden')
-			// console.log(active_modal)
-		})
-	})
-
-	const allBtnEdit = document.querySelectorAll('.btn_edit')
-	allBtnEdit?.forEach( btn => {
-		btn.addEventListener('click', (e) => {
-			// console.log(btn)
-			let id = e.target.parentElement.getAttribute('data-item-edit')
-			let modalEdit = document.querySelector('#modal_edit_'+id)
-			modalEdit.classList.toggle('hidden')
-			modalEdit.classList.toggle('active-modal')
-
-		})
-	})
-
-	const allBtnDelete = document.querySelectorAll('.btn_delete')
-	allBtnDelete?.forEach( btn => {
-		btn.addEventListener('click', (e) => {
-			// console.log(btn)
-			let id = e.target.parentElement.getAttribute('data-item-delete')
-			let modalDelete = document.querySelector('#modal_delete_'+id)
-			modalDelete.classList.toggle('hidden')
-			modalDelete.classList.toggle('active-modal')
-
-		})
-	})
-
-
-
-
-	})
-})
-
-// end DOMContentLoaded
-
-const modal_Add = document.querySelector('#modal_add')
-
-const btn_Add = document.querySelector('#btn_add')
-btn_Add?.addEventListener('click', () => {
-	modal_Add.classList.toggle('hidden')
-	modal_Add.classList.toggle('active-modal')
-	// console.log(modal_Add)
-})
-
-
-window.addEventListener('click', (e) => {
-	let activeModal = document.querySelector('.active-modal')
-	if (e.target == activeModal) {
-		activeModal.classList.toggle('active-modal')
-		activeModal.classList.toggle('hidden')
-	}
-})
-
-
-	</script>
 <?php require APPROOT . '/views/' . $data['controller'] . '/partials/footer.php'; ?>

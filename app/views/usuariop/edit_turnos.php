@@ -6,7 +6,7 @@
 	<div class="w-full  flex md:space-x-4 pt-0 pb-4 px-4 md:px-6.5">
 
 		<!-- columna izquierda -->	
-		<div class="hidden md:block w-1/4  p-4 ">	
+		<div class="hidden md:block w-1/4  py-4 ">	
 			<?php require APPROOT . '/views/' . $data['controller'] . '/partials/sidebar.php'; ?>
 		</div>
 
@@ -95,33 +95,41 @@
 			<?php if(!empty($data['horarios'])) : ?>
 			<div class="w-full p-4 bg-white flex flex-col rounded-xl ">
 				<!-- Tabla Datatable -->
-				<div class="w-full py-4 text-4xl text-neutral text-center">Horarios Registrados</div>
+				
+				<div id="lista_horarios" class="w-full flex justify-between py-4 text-2xl text-neutral text-center">
+					<h2 class="text-4xl">Horarios Registrados</h2>  
+					<div class="w-1/3">
+						<?php showMsg(); ?>
+					</div> 
+          
+				</div>
+
 
 				<div class="w-full  bg-primary rounded-lg ">
 					<table id="datatable" class="bg-white" >
 	          <thead>
 	            <tr>
 	              <th>Dia</th>
-	              <th>Hora Apertura</th>
-	              <th>Hora Cierre</th>
+	              <th>Total Turnos</th>
+	              <th>Hora Inicio 1° Turno</th>
 	              <th>Opciones</th>
 	            </tr>
 	          </thead>
 	          
 	          <tbody >
-	            <?php foreach($data['horarios'] as $row): ?>
+	            <?php foreach($data['unique_horarios'] as $row): ?>
 	             <tr>
 	                <td><?php echo $row->dia; ?> </td>
-	                <td><?php echo $row->hora_inicio; ?> </td>
-	                <td><?php echo $row->hora_fin; ?> </td>
+	                <td><?php echo ($row->total_turnos < 10) ? '0' . $row->total_turnos : $row->total_turnos; ?> </td>
+	                <td><?php echo $row->hora_inicio . ' hrs'; ?> </td>
 
 	                <td>
 	                	<div class="w-max flex space-x-8 ">
 
-	             		    <button data-item-edit="<?php echo $row->id ?>"  class="btn_edit hover:text-green text-2xl"><i class="fas fa-edit"></i></button>
-	                		<button data-item-delete="<?php echo $row->id ?>" class="btn_delete hover:text-red text-2xl"><i class="fas fa-trash"></i>	</button>   		
+	             		    <button data-item-edit="<?php echo $row->id ?>"  class="btn_edit text-neutral text-2xl"><i class="fas fa-plus-circle"></i></button>
+	                				
 	                	</div>
-	                	<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_delete.php'; ?>
+	                	
 	                	<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_edit.php'; ?>
 	                	
 	                </td>
@@ -141,9 +149,9 @@
 
 <?php 
 
-// echo "<pre>";
-// print_r($data);
-// echo "</pre>";
+echo "<pre>";
+print_r($data);
+echo "</pre>";
  ?>
 
 
@@ -165,6 +173,12 @@
 			active_modal.classList.toggle('hidden')		
 	  }
 
+	  const initBtnCloseTurno = () => {
+			let active_modal = document.querySelector('.active-modal-turno')
+			active_modal.classList.toggle('active-modal-turno')
+			active_modal.classList.toggle('hidden')		
+	  }
+
 	  const initBtnEdit = (e) => {
 			let id = e.currentTarget.getAttribute('data-item-edit')
 			let modalEdit = document.querySelector('#modal_edit_'+id)
@@ -172,11 +186,19 @@
 			modalEdit.classList.toggle('active-modal')
 		}
 
+	  const initBtnEditTurno = (e) => {
+			let id = e.currentTarget.getAttribute('data-item-edit-turno')
+			let modalEditTurno = document.querySelector('#modal_edit_turno_'+id)
+			modalEditTurno.classList.toggle('hidden')
+			modalEditTurno.classList.toggle('active-modal-turno')
+			// console.log(modalEditTurno)
+		}
+
 		const initBtnDelete = (e) => {
 			let id = e.currentTarget.getAttribute('data-item-delete')
 			let modalDelete = document.querySelector('#modal_delete_'+id)
 			modalDelete.classList.toggle('hidden')
-			modalDelete.classList.toggle('active-modal')
+			modalDelete.classList.toggle('active-modal-turno')
 		}
 
 		const datatable = document.querySelector('#datatable')
@@ -204,9 +226,19 @@
 				btn.addEventListener('click', initBtnClose)
 			})
 
+			const allBtnCloseTurno = document.querySelectorAll('.btn_close_turno')
+			allBtnCloseTurno.forEach( btn => {
+				btn.addEventListener('click', initBtnCloseTurno)
+			})
+
 			const allBtnEdit = document.querySelectorAll('.btn_edit')
 			allBtnEdit?.forEach( btn => {
 				btn.addEventListener('click', initBtnEdit)
+			})
+
+			const allBtnEditTurno = document.querySelectorAll('.btn_edit_turno')
+			allBtnEditTurno?.forEach( btn => {
+				btn.addEventListener('click', initBtnEditTurno)
 			})
 
 			const allBtnDelete = document.querySelectorAll('.btn_delete')
@@ -227,10 +259,20 @@
 				btn.addEventListener('click', initBtnClose)
 			})
 
+			const allBtnCloseTurno = document.querySelectorAll('.btn_close_turno')
+			allBtnCloseTurno.forEach( btn => {
+				btn.addEventListener('click', initBtnCloseTurno)
+			})
+
 			const allBtnEdit = document.querySelectorAll('.btn_edit')
 			allBtnEdit?.forEach( btn => {
 				btn.removeEventListener('click', initBtnEdit)
 				btn.addEventListener('click', initBtnEdit)
+			})
+
+			const allBtnEditTurno = document.querySelectorAll('.btn_edit_turno')
+			allBtnEditTurno?.forEach( btn => {
+				btn.addEventListener('click', initBtnEditTurno)
 			})
 
 			const allBtnDelete = document.querySelectorAll('.btn_delete')
@@ -250,10 +292,20 @@
 				btn.addEventListener('click', initBtnClose)
 			})
 
+			const allBtnCloseTurno = document.querySelectorAll('.btn_close_turno')
+			allBtnCloseTurno.forEach( btn => {
+				btn.addEventListener('click', initBtnCloseTurno)
+			})
+
 			const allBtnEdit = document.querySelectorAll('.btn_edit')
 			allBtnEdit?.forEach( btn => {
 				btn.removeEventListener('click', initBtnEdit)
 				btn.addEventListener('click', initBtnEdit)
+			})
+
+			const allBtnEditTurno = document.querySelectorAll('.btn_edit_turno')
+			allBtnEditTurno?.forEach( btn => {
+				btn.addEventListener('click', initBtnEditTurno)
 			})
 
 			const allBtnDelete = document.querySelectorAll('.btn_delete')
@@ -273,10 +325,20 @@
 				btn.addEventListener('click', initBtnClose)
 			})
 
+			const allBtnCloseTurno = document.querySelectorAll('.btn_close_turno')
+			allBtnCloseTurno.forEach( btn => {
+				btn.addEventListener('click', initBtnCloseTurno)
+			})
+
 			const allBtnEdit = document.querySelectorAll('.btn_edit')
 			allBtnEdit?.forEach( btn => {
 				btn.removeEventListener('click', initBtnEdit)
 				btn.addEventListener('click', initBtnEdit)
+			})
+
+			const allBtnEditTurno = document.querySelectorAll('.btn_edit_turno')
+			allBtnEditTurno?.forEach( btn => {
+				btn.addEventListener('click', initBtnEditTurno)
 			})
 
 			const allBtnDelete = document.querySelectorAll('.btn_delete')

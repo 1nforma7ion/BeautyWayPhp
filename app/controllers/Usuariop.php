@@ -82,7 +82,9 @@
 					$updated = $this->usuariop->updateHorario($id, $hora_inicio, $hora_fin);
 					
 					if ($updated) {
-						redirect('usuariop/edit_turnos');
+						$_SESSION['success_msg'] = 'Turno Actualizado';
+						redirect('usuariop/edit_turnos' . '#lista_horarios');
+				    exit();
 					}
 				}
 
@@ -92,14 +94,17 @@
 					$deleted = $this->usuariop->eliminarHorario($id);
 					
 					if ($deleted) {
-						redirect('usuariop/edit_turnos');
+						$_SESSION['success_msg'] = 'Turno Eliminado';
+						redirect('usuariop/edit_turnos' . '#lista_horarios');
+				    exit();
 					}
 				}
 
 				$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
 				$horas = $this->usuariop->getHoras();
 				
-				$horarios = $this->usuariop->getHorarios($_SESSION['user_id']);
+				$horarios = $this->usuariop->readHorariosByUser($_SESSION['user_id']);
+				$unique_horarios = $this->usuariop->readUniqueHorarios($_SESSION['user_id']);
 				
 				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
 
@@ -107,6 +112,7 @@
 					'imagenes_perfil' => $imagenes_perfil,
 					'horas' => $horas,
 					'horarios' => $horarios,
+					'unique_horarios' => $unique_horarios,
 					'sidebar' => $sidebar,
 					'controller' => strtolower(get_called_class()),
 					'page' => __FUNCTION__
@@ -367,7 +373,7 @@
 				if(is_null($id_profesion)) {
 					// verificar imagenes_perfil y servicios
 					$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
-					$horarios = $this->usuariop->getHorarios($_SESSION['user_id']);
+					$horarios = $this->usuariop->readHorariosByUser($_SESSION['user_id']);
 					$profesiones = $this->usuariop->getProfesionesByUser($_SESSION['user_id']);
 					$zonas = $this->page->getZonas();
 
@@ -438,7 +444,7 @@
 					} else {
 
 						$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
-						$horarios = $this->usuariop->getHorarios($_SESSION['user_id']);
+						$horarios = $this->usuariop->readHorariosByUser($_SESSION['user_id']);
 						$servicios = $this->usuariop->getServiciosByUser($_SESSION['user_id'], $id_profesion);
 						$profesion = $this->usuariop->getProfesionById($id_profesion);
 						$zonas = $this->page->getZonas();
@@ -597,8 +603,8 @@
 
 		public function sendEmailToUserpCancelado($email_prof, $motivo, $nombre_cliente, $nombre_comercial, $servicio, $modalidad, $direccion, $dia, $hora_inicio) {
 			$subject = "Reserva Cancelada en Beauty Way ";
-			$body = "Hola ". $nombre_comercial . " !<br><br>	";
-			$body .= "Has cancelado una reserva en Beauty Way ! <br><br>	";
+			$body = "Hola ". $nombre_comercial . " <br><br>	";
+			$body .= "Has cancelado una reserva en Beauty Way . <br><br>	";
 			$body .= "Cliente : " . $nombre_cliente . "<br><br>";
 			$body .= "Motivo : " . $motivo . "<br><br>";
 			$body .= "_______________________________________________________________________<br><br>	";
@@ -817,50 +823,8 @@
 
 		public function reportes() {
 			if (usuariopLoggedIn()) {
-
-				if (isset($_POST['edit_reserva'])) {
-					ob_start();
-
-					$id_reserva = $_POST['id_reserva'];
-					$status = $_POST['status'];
-					$motivo = $_POST['motivo'];
-
-					$updated = $this->usuariop->updateReservaStatus($id_reserva, $status, $motivo);
-
-					if ($updated) {
-						$estado = 1;
-						$id_profesional = $_SESSION['user_id'];
-						$dia = $_POST['dia'];
-						$hora_inicio = $_POST['hora_inicio'];
-
-						$this->usuariop->updateTurnosByUser($id_profesional, $dia, $hora_inicio, $estado);
-
-						$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
-						$reservas = $this->usuariop->getReservasByUser($_SESSION['user_id']);
-						$reservas_estados = $this->usuariop->readReservaEstados();
-						$reservas_motivos = $this->usuariop->readReservaMotivos();
-
-						$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
-
-						$data = [
-							'imagenes_perfil' => $imagenes_perfil,
-							'reservas' => $reservas,
-							'reservas_motivos' => $reservas_motivos,
-							'reservas_estados' => $reservas_estados,
-							'sidebar' => $sidebar,
-							'controller' => strtolower(get_called_class()),
-							'page' => __FUNCTION__
-						];
-						
-
-						$_SESSION['msg'] = "Reserva Actualizada.";
-						$this->view('usuariop/reservas',$data);
-
-					}
-				}
-
 					
-				$usuarios = $this->admin->getUsuarios();
+				$usuarios = $this->usuariop->readAllUsers();
 
 				$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
 				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);

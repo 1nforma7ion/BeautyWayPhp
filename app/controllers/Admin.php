@@ -8,10 +8,14 @@
 
 		public function reportes() {
 			if (adminLoggedIn()) {
+
+				$usuarios = $this->admin->readAllUsers();
+
 				$menuSidebar = $this->admin->getMenuSidebar();
 				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
 
 				$data = [
+					'usuarios' => $usuarios,
 					'sidebar' => $sidebar,
 					'menuSidebar' => $menuSidebar,
 					'controller' => strtolower(get_called_class()),
