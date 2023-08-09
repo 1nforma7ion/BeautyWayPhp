@@ -40,19 +40,29 @@
 </div>
 
 
-<?php require APPROOT . '/views/' . $data['controller'] . '/partials/modal_add.php'; ?>
-
 <?php 
 echo "<pre>" ;
 print_r($data);
 // // print_r($data['profesiones']);
 echo "</pre>";
+
+$usu = [];
+$pro = [];
+foreach($data['usuarios'] as $row) {
+		array_push($usu, $row->total);
+		array_push($pro, $row->rol);
+}
+
 ?>
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.41.0/dist/apexcharts.min.js"></script>
 
 
 <script>
+let usuarios = JSON.parse('<?php echo json_encode($usu) ?>')
+console.log(usuarios)
+let prof = JSON.parse('<?php echo json_encode($pro) ?>')
+console.log(prof)
 
         var options = {
           series: [{
@@ -60,7 +70,7 @@ echo "</pre>";
         }],
           chart: {
           type: 'bar',
-          height: 350
+          height: 550
         },
         plotOptions: {
           bar: {
@@ -81,14 +91,14 @@ echo "</pre>";
 
 
 	        var options1 = {
-          series: [13, 7, 2],
+          series: usuarios,
           chart: {
-          width: 480,
+          width: 550,
           type: 'pie',
         },
 
         colors: ['#2E93fA', '#FF9800', '#263238'],
-        labels: ['Usuarios', 'Profesionales'],
+        labels: prof,
         title: {
           text: 'Product Trends by Month',
           align: 'center',
