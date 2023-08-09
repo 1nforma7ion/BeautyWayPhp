@@ -23,6 +23,9 @@
 					</div>
 				<?php endif; ?>
 			
+<div id="chart"></div>
+
+
 		</div>
 
 
@@ -43,7 +46,33 @@ echo "</pre>";
 
 
 <script>
-	
+
+        var options = {
+          series: [{
+          data: [12, 3, 22, 6]
+        }],
+          chart: {
+          type: 'bar',
+          height: 350
+        },
+        plotOptions: {
+          bar: {
+            borderRadius: 4,
+            horizontal: true
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        xaxis: {
+          categories: ['Alisado con formol', 'Corte de Cabello', 'Spa de manos', 'Belleza de pies' ],
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+
+        
 	        var options1 = {
           series: [13, 7, 2],
           chart: {
@@ -56,12 +85,12 @@ echo "</pre>";
         title: {
           text: 'Product Trends by Month',
           align: 'center',
-          margin: 20,
+          margin: 10,
           offsetX: 0,
           offsetY: 0,
           floating: false,
           style: {
-            fontSize:  '1rem',
+            fontSize:  '2rem',
             fontWeight:  'bold',
             fontFamily:  undefined,
             color:  '#263238'
