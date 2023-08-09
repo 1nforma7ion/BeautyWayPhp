@@ -11,16 +11,23 @@
 		</div>
 
 		<!-- Columna derecha -->
-		<div class="flex w-full md:w-3/4 bg-neutral  font-dmsans">
+		<div class="flex flex-col w-full md:w-3/4 bg-neutral  font-dmsans">
 
 				<?php if(isset($data['usuarios'])) : ?>
-					<div class="flex flex-col bg-white rounded-xl p-4 w-full space-y-4">
+					<div class="flex justify-center items-center bg-white rounded-xl p-4 w-full ">
 
 						<div id="chart1"></div>
+
+
+					</div>
+
+					<div class="flex justify-center items-center bg-white rounded-xl p-4 w-full  ">
+
 
 						<div id="chart"></div>
 
 					</div>
+
 				<?php endif; ?>
 			
 
