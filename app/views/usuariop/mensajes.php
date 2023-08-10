@@ -85,6 +85,20 @@
 	  	setTimeout(() => {
 	    	successAlert?.remove()
 	  	}, 5000)
+	    	
+	  const initBtnClose = () => {
+			let active_modal = document.querySelector('.active-modal')
+			active_modal.classList.toggle('active-modal')
+			active_modal.classList.toggle('hidden')		
+	  }
+
+	  const initBtnResponder = (e) => {
+			let id = e.target.parentElement.getAttribute('data-item-edit')
+			let modalEdit = document.querySelector('#modal_responder_'+id)
+			modalEdit.classList.toggle('hidden')
+			modalEdit.classList.toggle('active-modal')
+		}
+
 
 		const datatable = document.querySelector('#datatable')
 
@@ -101,80 +115,73 @@
 			// perPage: 40
 		}
 
-		let tabla_mensajes = new simpleDatatables.DataTable(datatable, tableOptions)
+		let tabla_reservas = new simpleDatatables.DataTable(datatable, tableOptions)
 
 
-		tabla_mensajes.on('datatable.init', () => {
+		tabla_reservas.on('datatable.init', () => {
 			const allBtnClose = document.querySelectorAll('.btn_close')
 			allBtnClose.forEach( btn => {
-				btn.addEventListener('click', () => {
-					let active_modal = document.querySelector('.active-modal')
-					active_modal.classList.toggle('active-modal')
-					active_modal.classList.toggle('hidden')
-				})
+				btn.addEventListener('click', initBtnClose)
 			})
 
-
-			const allBtnEdit = document.querySelectorAll('.btn_responder')
-			allBtnEdit?.forEach( btn => {
-				btn.addEventListener('click', (e) => {
-					// console.log(btn)
-					let id = e.currentTarget.getAttribute('data-item-edit')
-					let modalEdit = document.querySelector('#modal_responder_'+id)
-					modalEdit.classList.toggle('hidden')
-					modalEdit.classList.toggle('active-modal')
-
-				})
+			const allBtnResponder = document.querySelectorAll('.btn_responder')
+			allBtnResponder?.forEach( btn => {
+				btn.addEventListener('click', initBtnResponder)
 			})
-
 		})
-
 
 
 		// activar botones reserva y close al pasar a pagina 2
-		tabla_mensajes.on('datatable.page', page => {
+		tabla_reservas.on('datatable.page', page => {
 			// console.log(page)
-			const allBtnClose = document.querySelectorAll('.btn_close')
+					const allBtnClose = document.querySelectorAll('.btn_close')
 			allBtnClose.forEach( btn => {
-				btn.addEventListener('click', () => {
-					let active_modal = document.querySelector('.active-modal')
-					active_modal.classList.toggle('active-modal')
-					active_modal.classList.toggle('hidden')
-				})
+				btn.removeEventListener('click', initBtnClose)
+				btn.addEventListener('click', initBtnClose)
 			})
 
+			const allBtnResponder = document.querySelectorAll('.btn_responder')
+			allBtnResponder?.forEach( btn => {
+				btn.removeEventListener('click', initBtnResponder)
+				btn.addEventListener('click', initBtnResponder)
+			})	
 		})
 
 		// activar botones reserva y close al usar dropdown " elementos por pagina"
-		tabla_mensajes.on('datatable.perpage', perpage => {
+		tabla_reservas.on('datatable.perpage', perpage => {
 			// console.log(perpage)
 			const allBtnClose = document.querySelectorAll('.btn_close')
 			allBtnClose.forEach( btn => {
-				btn.addEventListener('click', () => {
-					let active_modal = document.querySelector('.active-modal')
-					active_modal.classList.toggle('active-modal')
-					active_modal.classList.toggle('hidden')
-				})
+				btn.removeEventListener('click', initBtnClose)
+				btn.addEventListener('click', initBtnClose)
 			})
 
+			const allBtnResponder = document.querySelectorAll('.btn_responder')
+			allBtnResponder?.forEach( btn => {
+				btn.removeEventListener('click', initBtnResponder)
+				btn.addEventListener('click', initBtnResponder)
+			})
+			
 		})
 
-		tabla_mensajes.on('datatable.search', perpage => {
+		// activar botones close al usar el Buscador
+		tabla_reservas.on('datatable.search', (query, matched)  => {
 			// console.log(perpage)
 			const allBtnClose = document.querySelectorAll('.btn_close')
 			allBtnClose.forEach( btn => {
-				btn.addEventListener('click', () => {
-					let active_modal = document.querySelector('.active-modal')
-					active_modal.classList.toggle('active-modal')
-					active_modal.classList.toggle('hidden')
-				})
+				btn.removeEventListener('click', initBtnClose)
+				btn.addEventListener('click', initBtnClose)
 			})
+
+			const allBtnResponder = document.querySelectorAll('.btn_responder')
+			allBtnResponder?.forEach( btn => {
+				btn.removeEventListener('click', initBtnResponder)
+				btn.addEventListener('click', initBtnResponder)
+			})
+
 		})
-
-
-	})  // end DOMContentLoaded
-
-
+	
+	})  // end DOMcontentLoaded
 
 window.addEventListener('click', (e) => {
   let activeModal = document.querySelector('.active-modal')

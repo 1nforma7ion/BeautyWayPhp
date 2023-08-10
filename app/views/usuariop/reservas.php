@@ -25,7 +25,7 @@
 				</div>
 
 				<div class="w-full  bg-primary rounded-lg ">
-					<table class="bg-white datatable " >
+					<table id="datatable" class="bg-white  " >
 	          <thead>
 	            <tr>
 	              <th>Servicio</th>
@@ -99,60 +99,140 @@ echo "</pre>";
 
 window.addEventListener('DOMContentLoaded', ()=> {
 
- 	const successAlert = document.querySelector('#success_msg')
-  	setTimeout(() => {
-    	successAlert?.remove()
-  	}, 5000)
-  
-    	
-	const datatables = document.querySelectorAll('.datatable')
-	datatables.forEach(datatable => {
-		new simpleDatatables.DataTable(datatable, {
-			fixedHeight: true,
-			searchable: true,
-	    columns: [
-	    // Sort the second column in ascending order
-		    { select: 0, sort: "desc" },
-		    { select: [0,1,3], sortable: false }
+	 	const successAlert = document.querySelector('#success_msg')
+	  	setTimeout(() => {
+	    	successAlert?.remove()
+	  	}, 5000)
 
-	    // Set the third column as datetime string matching the format "DD/MM/YYY"
-	    // { select: 2, type: "date", format: "DD/MM/YYYY" }
-	    ],   	    
+	  const initBtnClose = () => {
+			let active_modal = document.querySelector('.active-modal')
+			active_modal.classList.toggle('active-modal')
+			active_modal.classList.toggle('hidden')		
+	  }
+
+	  const initBtnReserva = (e) => {
+			let id = e.target.parentElement.getAttribute('data-item-edit')
+			let modalEdit = document.querySelector('#modal_edit_reserva_'+id)
+			modalEdit.classList.toggle('hidden')
+			modalEdit.classList.toggle('active-modal')
+		}
+
+
+		const datatable = document.querySelector('#datatable')
+
+		let tableOptions = {
+			searchable: true,
+			fixedHeight: true,
 	    labels: {
+	    	searchTitle: "Buscar ...",
 		    placeholder: "Buscar...",
 		    perPage: "Elementos por página",
 		    noRows: "No hay datos para mostrar",
 		    info: "Mostrando {start} - {end} de {rows}"	
 			}
+			// perPage: 40
+		}
+
+		let tabla_reservas = new simpleDatatables.DataTable(datatable, tableOptions)
+
+
+		tabla_reservas.on('datatable.init', () => {
+			const allBtnClose = document.querySelectorAll('.btn_close')
+			allBtnClose.forEach( btn => {
+				btn.addEventListener('click', initBtnClose)
+			})
+
+			const allBtnReserva = document.querySelectorAll('.btn_reserva')
+			allBtnReserva?.forEach( btn => {
+				btn.addEventListener('click', initBtnReserva)
+			})
 		})
 
 
-	const allBtnClose = document.querySelectorAll('.btn_close')
-	allBtnClose.forEach( btn => {
-		btn.addEventListener('click', () => {
-			let active_modal = document.querySelector('.active-modal')
-			active_modal.classList.toggle('active-modal')
-			active_modal.classList.toggle('hidden')
+		// activar botones reserva y close al pasar a pagina 2
+		tabla_reservas.on('datatable.page', page => {
+			// console.log(page)
+			const allBtnClose = document.querySelectorAll('.btn_close')
+			allBtnClose.forEach( btn => {
+				btn.removeEventListener('click', initBtnClose)
+				btn.addEventListener('click', initBtnClose)
+			})
+
+			const allBtnReserva = document.querySelectorAll('.btn_reserva')
+			allBtnReserva?.forEach( btn => {
+				btn.removeEventListener('click', initBtnReserva)
+				btn.addEventListener('click', initBtnReserva)
+			})	
 		})
-	})
 
-	const allBtnEdit = document.querySelectorAll('.btn_reserva')
-	allBtnEdit?.forEach( btn => {
-		btn.addEventListener('click', (e) => {
-			// console.log(btn)
-			let id = e.currentTarget.getAttribute('data-item-edit')
-			let modalEdit = document.querySelector('#modal_edit_reserva_'+id)
-			modalEdit.classList.toggle('hidden')
-			modalEdit.classList.toggle('active-modal')
+		// activar botones reserva y close al usar dropdown " elementos por pagina"
+		tabla_reservas.on('datatable.perpage', perpage => {
+			// console.log(perpage)
+			const allBtnClose = document.querySelectorAll('.btn_close')
+			allBtnClose.forEach( btn => {
+				btn.removeEventListener('click', initBtnClose)
+				btn.addEventListener('click', initBtnClose)
+			})
 
-			initForm(id)
+			const allBtnReserva = document.querySelectorAll('.btn_reserva')
+			allBtnReserva?.forEach( btn => {
+				btn.removeEventListener('click', initBtnReserva)
+				btn.addEventListener('click', initBtnReserva)
+			})	
+			
+		})
+
+		// activar botones close al usar el Buscador
+		tabla_reservas.on('datatable.search', (query, matched)  => {
+			// console.log(perpage)
+			const allBtnClose = document.querySelectorAll('.btn_close')
+			allBtnClose.forEach( btn => {
+				btn.removeEventListener('click', initBtnClose)
+				btn.addEventListener('click', initBtnClose)
+			})
+
+			const allBtnReserva = document.querySelectorAll('.btn_reserva')
+			allBtnReserva?.forEach( btn => {
+				btn.removeEventListener('click', initBtnReserva)
+				btn.addEventListener('click', initBtnReserva)
+			})	
 
 		})
-	})
 
 
 
-	})
+
+
+
+
+
+
+	// const allBtnClose = document.querySelectorAll('.btn_close')
+	// allBtnClose.forEach( btn => {
+	// 	btn.addEventListener('click', () => {
+	// 		let active_modal = document.querySelector('.active-modal')
+	// 		active_modal.classList.toggle('active-modal')
+	// 		active_modal.classList.toggle('hidden')
+	// 	})
+	// })
+
+	// const allBtnEdit = document.querySelectorAll('.btn_reserva')
+	// allBtnEdit?.forEach( btn => {
+	// 	btn.addEventListener('click', (e) => {
+	// 		// console.log(btn)
+	// 		let id = e.currentTarget.getAttribute('data-item-edit')
+	// 		let modalEdit = document.querySelector('#modal_edit_reserva_'+id)
+	// 		modalEdit.classList.toggle('hidden')
+	// 		modalEdit.classList.toggle('active-modal')
+
+	// 		initForm(id)
+
+	// 	})
+	// })
+
+
+
+
 
 
 }) // end DOMcontentLoaded

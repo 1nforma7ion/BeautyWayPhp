@@ -11,14 +11,14 @@
 		</div>
 
 		<!-- Columna derecha -->
-		<div class="flex flex-col w-full space-y-8 md:w-3/4  font-dmsans">
+		<div class="flex flex-col w-full space-y-8 md:w-3/4 py-4  font-dmsans">
 
 				<?php if(isset($data['usuarios'])) : ?>
           <!-- chart 1 -->
 					<div class="flex flex-col items-center bg-white rounded-xl p-4 w-full ">
 
             <div class="w-full flex justify-between px-10 py-4 text-2xl text-neutral text-center">
-              <h2 class="text-4xl"> Reporte Usuarios </h2>
+              <h2 class="text-2xl md:text-4xl"> Reporte Usuarios </h2>
               <div class="w-1/3"> <?php showMsg(); ?>  </div>  
             </div>
 
@@ -39,12 +39,12 @@
               </div>
 
               <div class="md:w-max p-2">
-                <button id="buscar" class="w-1/2 md:w-44 w-max px-4 py-2 bg-neutral text-white">Buscar</button>
+                <button id="buscar" class="w-1/2 md:w-32 w-max px-4 py-2 bg-neutral text-white">Buscar</button>
               </div>
 
             </div>
 
-						<div id="chart1" class="w-full flex justify-center h-max py-10"></div>
+						<div id="chart1" class="w-full flex justify-center h-max px-4 py-10"></div>
 
 					</div>
 
@@ -52,7 +52,7 @@
           <div class="flex flex-col items-center bg-white rounded-xl p-4 w-full ">
 
             <div class="w-full flex justify-between px-10 py-4 text-2xl text-neutral text-center">
-              <h2 class="text-4xl"> Servicios Más Contratados </h2>
+              <h2 class="text-2xl md:text-4xl"> Servicios Más Contratados </h2>
               <div class="w-1/3"> <?php showMsg(); ?>  </div>  
             </div>
 
@@ -73,12 +73,12 @@
               </div>
 
               <div class="md:w-max p-2">
-                <button id="buscar" class="w-1/2 md:w-44 w-max px-4 py-2 bg-neutral text-white">Buscar</button>
+                <button id="buscar" class="w-1/2 md:w-32 w-max px-4 py-2 bg-neutral text-white">Buscar</button>
               </div>
 
             </div>
 
-            <div id="chart2" class="w-full flex justify-center h-max p-4"></div>
+            <div id="chart2" class="w-full flex justify-center h-max p-4 md:p-10"></div>
             
           </div>
 
@@ -86,7 +86,7 @@
           <div class="flex flex-col items-center bg-white rounded-xl p-4 w-full ">
 
             <div class="w-full flex justify-between px-10 py-4 text-2xl text-neutral text-center">
-              <h2 class="text-4xl"> Publicaciones Populares (Me gusta) </h2>
+              <h2 class="text-2xl md:text-4xl"> Publicaciones Populares (Me gusta) </h2>
               <div class="w-1/3"> <?php showMsg(); ?>  </div>  
             </div>
 
@@ -107,12 +107,12 @@
               </div>
 
               <div class="md:w-max p-2">
-                <button id="buscar" class="w-1/2 md:w-44 w-max px-4 py-2 bg-neutral text-white">Buscar</button>
+                <button id="buscar" class="w-1/2 md:w-32 w-max px-4 py-2 bg-neutral text-white">Buscar</button>
               </div>
 
             </div>
 
-            <div id="chart3" class="w-full flex justify-center h-max py-10"></div>
+            <div id="chart3" class="w-full flex justify-center h-max p-4 md:p-10"></div>
             
           </div>
 
@@ -120,7 +120,7 @@
           <div class="flex flex-col items-center bg-white rounded-xl p-4 w-full ">
 
             <div class="w-full flex justify-between px-10 py-4 text-2xl text-neutral text-center">
-              <h2 class="text-4xl"> Reservas por Zona </h2>
+              <h2 class="text-2xl md:text-4xl"> Reservas por Zona </h2>
               <div class="w-1/3"> <?php showMsg(); ?>  </div>  
             </div>
 
@@ -141,20 +141,16 @@
               </div>
 
               <div class="md:w-max p-2">
-                <button id="buscar" class="w-1/2 md:w-44 w-max px-4 py-2 bg-neutral text-white">Buscar</button>
+                <button id="buscar" class="w-1/2 md:w-32 w-max px-4 py-2 bg-neutral text-white">Buscar</button>
               </div>
 
             </div>
 
-            <div id="chart4" class="w-2/3 flex justify-center  py-10"></div>
+            <div id="chart4" class="w-full md:w-2/3 flex justify-center  py-10"></div>
             
           </div>
 
 				<?php endif; ?>
-			
-
-
-
 		</div>
 
 

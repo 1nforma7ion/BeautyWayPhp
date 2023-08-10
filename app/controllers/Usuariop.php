@@ -824,14 +824,17 @@
 		public function reportes() {
 			if (usuariopLoggedIn()) {
 					
-				$usuarios = $this->usuariop->readAllUsers();
+				$contratados = $this->usuariop->readServiciosContratadosByUser($_SESSION['user_id'], 'pendiente', 10);
+				$turnos_exitosos = $this->usuariop->readTurnosExitososByUser($_SESSION['user_id']);
+				$likes_serv = $this->usuariop->readLikesServiciosByUser($_SESSION['user_id'], 10);
 
 				$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
 				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
 
 				$data = [
-					'usuarios' => $usuarios,
-					'imagenes_perfil' => $imagenes_perfil,
+					'contratados' => $contratados,
+					'likes_serv' => $likes_serv,
+					'turnos_exitosos' => $turnos_exitosos,
 					'sidebar' => $sidebar,
 					'controller' => strtolower(get_called_class()),
 					'page' => __FUNCTION__

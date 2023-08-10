@@ -8,6 +8,7 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Kanit&family=Lexend+Deca&family=Pathway+Extreme&family=Urbanist&display=swap" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+	<link href="https://cdn.jsdelivr.net/npm/apexcharts@3.41.0/dist/apexcharts.min.css" rel="stylesheet">
 	
 	
 	<link rel="stylesheet" href="<?php echo URLROOT; ?>/css/main.css">

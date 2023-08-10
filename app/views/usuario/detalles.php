@@ -132,7 +132,8 @@
 						  </div>
 
 		  				<div class="py-2 flex flex-col space-y-4 items-center w-full ">
-				      	<button type="submit" name="crear_reserva" class=" rounded-full text-white text-2xl px-4 py-3 w-3/4 bg-neutralDark "> <i class="fas fa-book mr-2"></i> Reservar  </button>
+		  					<button class="hidden rounded-full text-dark bg-cta text-2xl px-4 py-3 w-3/4  "> <i class="fas fa-clock mr-2"></i> Creando Reserva ... </button>
+				      	<button id="btn_crear_reserva" type="submit" name="crear_reserva" class=" rounded-full text-white text-2xl px-4 py-3 w-3/4 bg-neutralDark "> <i class="fas fa-book mr-2"></i> Reservar  </button>
 				      	<a href="<?php echo URLROOT . '/' . $data['controller'] . '/index' ?>" class="btn_reservar rounded-full text-white text-xl px-4 py-2 w-3/4 bg-red text-center "> <i class="fas fa-xmark mr-2"></i> Cancelar  </a>
 							</div>
 						</form>
@@ -213,6 +214,14 @@ echo "</pre>";
  ?>
 
 <script>
+
+	let btnCrearReserva = document.querySelector('#btn_crear_reserva')
+	btnCrearReserva.addEventListener('click', e => {
+		let btn_alerta = e.target.previousElementSibling
+		btn_alerta.classList.remove('hidden')
+		e.target.classList.add('hidden')
+	})
+
 	let url = document.querySelector('#url')
 	let root = url.getAttribute('data-root')
 	let controller = url.getAttribute('data-controller')
