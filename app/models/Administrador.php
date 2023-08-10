@@ -256,6 +256,35 @@
 			$usuarios = $this->db->getSet();
 			return $usuarios;
 		}
+
+		public function readServiciosContratados($status_reserva, $num_limit) {
+			$this->db->query('SELECT COUNT(servicio) as total, servicio from reservas WHERE status = :status_reserva GROUP BY servicio ORDER BY total DESC LIMIT :num_limit');
+			$this->db->bind(':status_reserva', $status_reserva);
+			$this->db->bind(':num_limit', $num_limit);
+
+			$contratados = $this->db->getSet();
+			return $contratados;
+		}
+
+		public function readLikesServicios($num_limit) {
+			$this->db->query('SELECT p.servicio, p.me_gusta, u.nombre_comercial from publicaciones p INNER JOIN usuarios u ON p.id_usuario = u.id ORDER BY me_gusta DESC LIMIT :num_limit');
+			$this->db->bind(':num_limit', $num_limit);
+
+			$likes_serv = $this->db->getSet();
+			return $likes_serv;
+		}
+
+
+		public function readServiciosZona($status_reserva) {
+			$this->db->query('SELECT COUNT(p.zona_public) AS total, p.zona_public FROM reservas r INNER JOIN publicaciones p ON r.id_publicacion = p.id WHERE r.status = :status_reserva GROUP BY p.zona_public');
+			$this->db->bind(':status_reserva', $status_reserva);
+
+			$servicios_zona = $this->db->getSet();
+			return $servicios_zona;
+		}
+
+		
+
 // FIN reportes
 
 

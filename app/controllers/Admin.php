@@ -10,12 +10,18 @@
 			if (adminLoggedIn()) {
 
 				$usuarios = $this->admin->readAllUsers();
+				$contratados = $this->admin->readServiciosContratados('pendiente', 10);
+				$servicios_zona = $this->admin->readServiciosZona('pendiente');
+				$likes_serv = $this->admin->readLikesServicios(10);
 
 				$menuSidebar = $this->admin->getMenuSidebar();
 				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
 
 				$data = [
 					'usuarios' => $usuarios,
+					'contratados' => $contratados,
+					'likes_serv' => $likes_serv,
+					'servicios_zona' => $servicios_zona,
 					'sidebar' => $sidebar,
 					'menuSidebar' => $menuSidebar,
 					'controller' => strtolower(get_called_class()),

@@ -81,22 +81,9 @@
 	    	<div class="card-body">
 					<form action="estadistica.php" class="mb-4">
         		<div class="row g-1">
-						  <div class="col">
-						  	<div class="input-group">
-								  <span class="input-group-text">Desde</span>
-								  <input type="date" id="desde" name="desde" class="form-control" value="<?php echo $desde;?>">
-								</div>
-						  </div>
-						  <div class="col">
-						    <div class="input-group">
-								  <span class="input-group-text">Hasta</span>
-									<input type="date" id="hasta" name="hasta" class="form-control" value="<?php echo $hasta;?>">
-								</div>
-						  </div>
-						  <div class="col-auto">
-								<input type="submit" class="btn btn-success">
-								<!-- <a href="estadistica.php" class="btn btn-danger"> Reset </a> -->
-							</div>
+
+
+							
 						</div>
 					</form>
 	        <canvas id="canva3"></canvas>              

@@ -114,7 +114,7 @@
 			    <div class="group-col relative">
 			  		<div class="absolute hidden right-0 bottom-0"><i class="fas fa-check bg-cta p-2 rounded-full"></i></div>
 				    <label for="telefono">Teléfono:
-				    	<span id="alert-telef" class="hidden italic text-sm text-red">Minimo 8 números</span>
+				    	<span id="alert-telef" class="hidden italic text-sm text-red">Maximo 10 números</span>
 				    </label>
 				    <div class="flex w-full space-x-2 items-center">
 				    	<span class="text-neutral">+54</span>
@@ -530,7 +530,7 @@ telefono.addEventListener('input', (e) => {
 	const alertTelef = document.querySelector('#alert-telef')
   let max_chars = 10;
        
-  if(e.target.value.length > max_chars) {
+  if(e.target.value.length > max_chars -1 ) {
     e.target.value = e.target.value.substring(0, max_chars);
     alertTelef.classList.add('hidden')
 		alertTelef.parentElement.previousElementSibling.classList.remove('hidden')
