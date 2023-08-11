@@ -125,7 +125,7 @@
 		}
 
 		public function readHorariosByUser($user_id) {
-			$this->db->query('SELECT * FROM usuarios_horarios WHERE id_usuario = :user_id ORDER BY dia');
+			$this->db->query('SELECT * FROM usuarios_horarios WHERE id_usuario = :user_id ORDER BY id');
 			$this->db->bind(':user_id', $user_id);
 
 			$horarios = $this->db->getSet();
