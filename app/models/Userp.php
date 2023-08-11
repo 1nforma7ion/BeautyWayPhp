@@ -223,6 +223,13 @@
 			return $profesiones;
 		}
 
+		public function getProfesiones() {
+			$this->db->query('SELECT * FROM profesiones WHERE estado = 1');
+			$profesiones = $this->db->getSet();
+			return $profesiones;
+		}
+
+
 		public function getFirstService($id_profesion) {
 			$this->db->query('SELECT servicio FROM servicios WHERE id_profesion = :id_profesion AND estado = 1 LIMIT 1');
 			$this->db->bind(':id_profesion', $id_profesion);

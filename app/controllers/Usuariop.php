@@ -289,7 +289,7 @@
 				$modalidades = $this->page->getModalidades();
 				$zonas = $this->page->getZonas();
 				$localidades = $this->page->getLocalidades();
-				$listaProfesiones = $this->admin->getProfesiones();
+				$listaProfesiones = $this->usuariop->getProfesiones();
 
 				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
 
