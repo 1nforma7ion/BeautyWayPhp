@@ -115,6 +115,7 @@ window.addEventListener('DOMContentLoaded', ()=> {
 			let modalEdit = document.querySelector('#modal_edit_reserva_'+id)
 			modalEdit.classList.toggle('hidden')
 			modalEdit.classList.toggle('active-modal')
+			initForm(id)
 		}
 
 
@@ -225,7 +226,7 @@ window.addEventListener('DOMContentLoaded', ()=> {
 	// 		modalEdit.classList.toggle('hidden')
 	// 		modalEdit.classList.toggle('active-modal')
 
-	// 		initForm(id)
+	// 		
 
 	// 	})
 	// })
