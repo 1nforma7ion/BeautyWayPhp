@@ -53,7 +53,7 @@
 				<div class="flex flex-col space-y-4  text-dark md:p-4">
 					<div class="flex space-x-8 items-center">
 						<h2 class="w-40 px-4 text-dark text-xl font-bold ">Servicio :</h2>
-						<p class="text-xl"> <?php echo $row->servicio ?> </p>
+						<p class="text-xl"> <?php echo ucwords($row->servicio) ?> </p>
 					</div>
 
 					<div class="flex space-x-8 items-center">

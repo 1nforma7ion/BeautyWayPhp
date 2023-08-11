@@ -102,7 +102,7 @@
 
 	  					<div class="px-6 mx-auto flex flex-col">
 						    <h2 class="text-lg py-1">Servicio: </h2>
-						    <h2 class="text-2xl text-neutral py-1 font-bold"><?php echo utf8_decode(ucwords($data['publicacion']->servicio)) ?> </h2>
+						    <h2 class="text-2xl text-neutral py-1 font-bold"><?php echo ucwords($data['publicacion']->servicio) ?> </h2>
 	  						<input type="hidden" name="servicio" id="servicio" value="<?php echo $data['publicacion']->servicio ?>">
 						  </div>
 
