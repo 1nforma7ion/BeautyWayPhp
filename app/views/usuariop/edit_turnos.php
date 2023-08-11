@@ -46,7 +46,8 @@
 					<div class="w-full py-4 text-4xl text-neutral text-center">Selecciona uno o varios dias</div>
 
 					<div class="flex flex-col items-center p-2">
-					  <p class="text-red "> * Debes seleccionar al menos 1 día antes de guardar tus Horarios. </p>
+					  <p class="text-xl text-red "> * Debes seleccionar al menos 1 día antes de guardar tus Horarios. </p>
+					  <p class="text-xl text-red "> * Sólo se debe cargar 1 turno/horario por dia (Ejm. No cargar 2 veces 08:00 hrs en un mismo dia ) </p>
 					</div>
 
 					<div class="flex justify-around mx-auto w-full p-4 ">
