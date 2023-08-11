@@ -53,7 +53,7 @@
 				<div class="flex flex-col space-y-4  text-dark md:p-4">
 					<div class="flex space-x-8 items-center">
 						<h2 class="w-40 px-4 text-dark text-xl font-bold ">Servicio :</h2>
-						<p class="text-xl"> <?php echo $row->servicio ?> <?php echo $row->id_usuario ?></p>
+						<p class="text-xl"> <?php echo $row->servicio ?> </p>
 					</div>
 
 					<div class="flex space-x-8 items-center">
@@ -110,8 +110,8 @@
             <select id="motivo_<?php echo $row->id_reserva ?>" name="motivo" class="hidden p-2 rounded-xl text-lg outline-none bg-primary">
               <option value="" selected>Seleccionar motivo </option>
               <?php if(isset($data['reservas_motivos'])) : ?>
-                <?php foreach ($data['reservas_motivos'] as $row) : ?>
-                  <option value="<?php echo $row->motivo ?>"><?php echo $row->motivo ?></option>
+                <?php foreach ($data['reservas_motivos'] as $row_motivo) : ?>
+                  <option value="<?php echo $row_motivo->motivo ?>"><?php echo $row_motivo->motivo ?></option>
                 <?php endforeach; ?>
               <?php endif; ?> 
             </select>

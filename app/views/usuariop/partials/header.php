@@ -15,6 +15,7 @@
 	<title> <?php echo APPNAME; ?> </title>
 </head>
 <body class=" antialiased bg-gradient-to-b from-neutral to-primaryDark  no-scrollbar	">
+	
 
 		
 	
