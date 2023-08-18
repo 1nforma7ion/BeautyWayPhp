@@ -419,7 +419,8 @@ nombre.addEventListener('keyup', (e) => {
 		alertNombre.classList.remove('hidden')
 		alertNombre.parentElement.previousElementSibling.classList.add('hidden')
 	}
-	
+
+  nombre.value = e.target.value.replace(/[^a-zA-Z ]/g, '')
 
 })
 
@@ -428,9 +429,7 @@ const apellido = document.querySelector('#apellido')
 apellido.addEventListener('keyup', (e) => {
 
 	const alertApellido = document.querySelector('#alert-apellido')
-	// console.log(numDoc.value.length)
 
-	// si esta seleccionado documento Unico
 	if(apellido.value.length > 3) {
 		alertApellido.classList.add('hidden')
 		alertApellido.parentElement.previousElementSibling.classList.remove('hidden')
@@ -438,6 +437,8 @@ apellido.addEventListener('keyup', (e) => {
 		alertApellido.classList.remove('hidden')
 		alertApellido.parentElement.previousElementSibling.classList.add('hidden')
 	}
+
+	apellido.value = e.target.value.replace(/[^a-zA-Z ]/g, '')
 })
 
 

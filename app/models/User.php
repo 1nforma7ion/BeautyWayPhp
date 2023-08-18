@@ -324,7 +324,7 @@
 // Inicio Comentarios
 
 		public function readComentariosByPublic($id_public) {
-			$this->db->query('SELECT u.nombre, u.apellido, p.fecha, p.comentario
+			$this->db->query('SELECT u.nombre, u.apellido, p.fecha, p.comentario, u.nombre_comercial, u.rol_id AS rol_usuario
 			 FROM publicaciones_comentarios p INNER JOIN usuarios u ON p.id_usuario = u.id WHERE p.id_publicacion = :id_public	ORDER BY p.fecha DESC');
 			$this->db->bind(':id_public', $id_public);
 

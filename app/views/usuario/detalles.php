@@ -32,11 +32,6 @@
 
 						</div>
 
-<!-- 						<span class=" absolute w-max h-max px-4 py-8 top-0 right-0 rounded-l-lg text-2xl text-dark p-2 bg-white text-neutral font-bold"> 
-							CONFIRMÁ TU RESERVA EN
-						</span> -->
-
-
 
 					</div>
 										
@@ -154,7 +149,12 @@
 							<?php foreach($data['comentarios'] as $row) : ?>
 								<div class="flex flex-col rounded-xl space-y-4 p-4 bg-primary">
 									<div class="flex space-x-8 items-center ">
-										<h3 class="text-2xl text-dark font-bold"> <?php echo $row->nombre . ' ' . $row->apellido ?> </h3>									
+										<?php if ($row->rol_usuario == 3) : ?>
+											<h3 class="text-2xl text-dark font-bold"> <?php echo $row->nombre_comercial ?> </h3>	
+										<?php else: ?>
+											<h3 class="text-2xl text-dark font-bold"> <?php echo $row->nombre . ' ' . $row->apellido ?> </h3>	
+										<?php endif; ?>
+
 										<span class="text-sm text-neutral "> <?php echo fixedFecha($row->fecha) ?> </span>
 									</div>
 									<p class="px-6"> <?php echo $row->comentario ?> </p>

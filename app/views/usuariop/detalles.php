@@ -90,7 +90,7 @@
 
 	  					<div class="px-6 mx-auto flex flex-col">
 						    <h2 class="text-lg py-1">Servicio: </h2>
-						    <h2 class="text-2xl text-neutral py-1 font-bold"><?php echo strtoupper($data['publicacion']->servicio) ?> </h2>
+						    <h2 class="text-2xl text-neutral py-1 font-bold"><?php echo ucwords($data['publicacion']->servicio) ?> </h2>
 	  						<input type="hidden" name="servicio" id="servicio" value="<?php echo $data['publicacion']->servicio ?>">
 						  </div>
 
@@ -117,7 +117,12 @@
 							<?php foreach($data['comentarios'] as $row) : ?>
 								<div class="flex flex-col rounded-xl space-y-4 p-4 bg-primary">
 									<div class="flex space-x-8 items-center ">
-										<h3 class="text-2xl text-dark font-bold"> <?php echo $row->nombre . ' ' . $row->apellido ?> </h3>									
+										<?php if ($row->rol_usuario == 3) : ?>
+											<h3 class="text-2xl text-dark font-bold"> <?php echo $row->nombre_comercial ?> </h3>	
+										<?php else: ?>
+											<h3 class="text-2xl text-dark font-bold"> <?php echo $row->nombre . ' ' . $row->apellido ?> </h3>	
+										<?php endif; ?>
+																		
 										<span class="text-sm text-neutral "> <?php echo fixedFecha($row->fecha) ?> </span>
 									</div>
 									<p class="px-6"> <?php echo $row->comentario ?> </p>
