@@ -398,71 +398,75 @@
 	}
 
 	// change password
-	const form = document.querySelector('#change_form')
-	form.addEventListener('submit', e => {
-	  if(form.classList.contains('invalid')) {
-	    e.preventDefault()
-	    // console.log(form)
-	  } 
-	})
+const form = document.querySelector('#change_form')
+form.addEventListener('submit', e => {
+  if(form.classList.contains('invalid') || form.classList.contains('invalidp')) {
+    e.preventDefault()
+  } 
+})
 
-	const passValidation = (value) => {
-	  let i = 0
 
-	  if(value.length > 5) {
-	    i++
-	  }
+const passValidation = (value) => {
+  let i = 0
 
-	  if(/[A-Z]/.test(value)) {
-	    i++
-	  }
+  if(value.length > 5) {
+    i++
+  }
 
-	  if(/[1-9]/.test(value)) {
-	    i++
-	  }
+  if(/[A-Z]/.test(value)) {
+    i++
+  }
 
-	  if(/[A-Za-z0-3]/.test(value)) {
-	    i++
-	  }
+  if(/[1-9]/.test(value)) {
+    i++
+  }
 
-	  return i
-	}
+  if(/[A-Za-z0-3]/.test(value)) {
+    i++
+  }
 
-	const pass = document.querySelector('#contrasenia')
-	pass.addEventListener('keyup', (e) => {
+  return i
+}
 
-	  let passValid = passValidation(pass.value)
-	  const alertPass = document.querySelector('#alert-pass')
-	  // console.log(numDoc.value.length)
-	  if(passValid === 4) {
-	    alertPass.classList.add('hidden')
-	    alertPass.parentElement.previousElementSibling.classList.remove('hidden')
-	  } else {
-	    alertPass.classList.remove('hidden')
-	    alertPass.parentElement.previousElementSibling.classList.add('hidden')
-	  }
 
-	})
 
-	const rpass = document.querySelector('#repetirContrasenia')
-	rpass.addEventListener('keyup', (e) => {
+const pass = document.querySelector('#contrasenia')
+pass.addEventListener('keyup', (e) => {
 
-	  const alertRpass = document.querySelector('#alert-rpass')
-	  // console.log(numDoc.value.length)
-	  if (rpass.value.length > 3) {
-	    if(rpass.value == pass.value) {
-	      alertRpass.classList.add('hidden')
-	      alertRpass.parentElement.previousElementSibling.classList.remove('hidden')
-	      form.classList.remove('invalid')
-	      // console.log(form)
-	    } else {
-	      alertRpass.classList.remove('hidden')
-	      alertRpass.parentElement.previousElementSibling.classList.add('hidden')
-	      form.classList.add('invalid')
-	    }
-	  }
+  let passValid = passValidation(pass.value)
+  const alertPass = document.querySelector('#alert-pass')
 
-	})
+  if(passValid === 4) {
+    alertPass.classList.add('hidden')
+    alertPass.parentElement.previousElementSibling.classList.remove('hidden')
+      form.classList.remove('invalidp')
+
+  } else {
+    alertPass.classList.remove('hidden')
+    alertPass.parentElement.previousElementSibling.classList.add('hidden')
+    form.classList.add('invalidp')
+  }
+})
+
+const rpass = document.querySelector('#repetirContrasenia')
+rpass.addEventListener('keyup', (e) => {
+
+  const alertRpass = document.querySelector('#alert-rpass')
+
+  if (rpass.value.length > 5) {
+    if(rpass.value == pass.value) {
+      alertRpass.classList.add('hidden')
+      alertRpass.parentElement.previousElementSibling.classList.remove('hidden')
+      form.classList.remove('invalid')
+
+    } else {
+      alertRpass.classList.remove('hidden')
+      alertRpass.parentElement.previousElementSibling.classList.add('hidden')
+      form.classList.add('invalid')
+    }
+  }
+
+})
 
 </script>
 
