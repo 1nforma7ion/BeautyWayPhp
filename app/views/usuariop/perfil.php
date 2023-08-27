@@ -246,7 +246,7 @@
 			          <div class="absolute hidden right-0 bottom-0"><i class="fas fa-check bg-cta p-2 rounded-full"></i></div>
 
 			          <label for="email" class="text-neutralDark">Nueva Contraseña:
-			            <span id="alert-pass" class="hidden italic text-sm text-red">Minimo 6 caracteres</span>
+			            <span id="alert-pass" class="hidden italic text-sm text-red">Mínimo 6 caracteres, incluir 1 mayúscula y 1 número</span>
 			          </label>
 			          <div class=" flex border-b border-neutral items-center space-x-4 px-4 ">
 			            <i class="fas fa-key text-neutral "></i>
@@ -257,7 +257,7 @@
 			        <div  class="flex flex-col mb-6 space-y-1 relative">
 			          <div class="absolute hidden right-0 bottom-0"><i class="fas fa-check bg-cta p-2 rounded-full"></i></div>
 			          <label for="email" class="text-neutralDark">Repetir Nueva contraseña:
-			            <span id="alert-rpass" class="hidden italic text-sm text-red">No coinciden</span>
+			            <span id="alert-rpass" class="hidden italic text-sm text-red">Contraseñas no coinciden</span>
 			          </label>
 			          <div class=" flex border-b border-neutral items-center space-x-4 px-4 ">
 			            <i class="fas fa-key text-neutral "></i>

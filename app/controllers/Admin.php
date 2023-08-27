@@ -71,14 +71,16 @@
 			if (adminLoggedIn()) {
 
 				$usuarios = $this->admin->readAllUsers();
-				$contratados = $this->admin->readServiciosContratados('pendiente', 10);
-				$servicios_zona = $this->admin->readServiciosZona('pendiente');
+				$modalidades = $this->admin->readReservasByModalidad('finalizado');
+				$contratados = $this->admin->readServiciosContratados('finalizado', 10);
+				$servicios_zona = $this->admin->readServiciosZona('finalizado');
 				$likes_serv = $this->admin->readLikesServicios(10);
 
 				$menuSidebar = $this->admin->getMenuSidebar();
 				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
 
 				$data = [
+					'modalidades' => $modalidades,
 					'usuarios' => $usuarios,
 					'contratados' => $contratados,
 					'likes_serv' => $likes_serv,

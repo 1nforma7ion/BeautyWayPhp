@@ -237,6 +237,13 @@ foreach($data['servicios_zona'] as $row_zona) {
     array_push($zona, mb_convert_encoding($row_zona->zona_public, 'UTF-8',  mb_list_encodings()));
 }
 
+// chart 5
+$modalidad = [];
+$modalidad_total = [];
+foreach($data['modalidades'] as $row_mod) {
+    array_push($modalidad_total, intval($row_mod->total));
+    array_push($modalidad, mb_convert_encoding($row_mod->modalidad, 'UTF-8',  mb_list_encodings()));
+}
 
 ?>
 
@@ -255,6 +262,9 @@ let likes_total = JSON.parse('<?php echo json_encode($l_total) ?>')
 
 let zonas = JSON.parse('<?php echo json_encode($zona) ?>')
 let zonas_total = JSON.parse('<?php echo json_encode($zona_total) ?>')
+
+let modalidad = JSON.parse('<?php echo json_encode($modalidad) ?>')
+let modalidad_total = JSON.parse('<?php echo json_encode($modalidad_total) ?>')
 
 console.log(zonas_total)
 console.log(zonas)
@@ -430,13 +440,13 @@ const chart4 = new ApexCharts(document.querySelector("#chart4"), options4);
 chart4.render();
       
 const options5 = {
-  series: usuarios,
+  series: modalidad_total,
     chart: {
     width: 450,
     type: 'pie',
   },
   // colors: ['#2CA02C','#FF7F0E'],
-  labels: prof,
+  labels: modalidad,
   responsive: [{
     breakpoint: 480,
     options: {

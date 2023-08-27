@@ -283,7 +283,15 @@
 			return $servicios_zona;
 		}
 
-		
+		public function readReservasByModalidad($status_reserva) {
+			$this->db->query('SELECT COUNT(modalidad) AS total, modalidad FROM reservas WHERE STATUS = :status_reserva GROUP BY modalidad ORDER BY total');
+			$this->db->bind(':status_reserva', $status_reserva);
+
+			$modalidades = $this->db->getSet();
+			return $modalidades;
+		}
+
+
 
 // FIN reportes
 
