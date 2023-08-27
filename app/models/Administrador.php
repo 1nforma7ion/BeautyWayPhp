@@ -291,28 +291,6 @@
 
 // INICIO condiciones
 
-		// public function readAllUsers() {
-		// 	$this->db->query('SELECT COUNT(u.rol_id) as total, r.rol FROM usuarios u INNER JOIN roles r ON u.rol_id = r.id GROUP BY rol_id');
-		// 	$usuarios = $this->db->getSet();
-		// 	return $usuarios;
-		// }
-
-		// public function readServiciosContratados($status_reserva, $num_limit) {
-		// 	$this->db->query('SELECT COUNT(servicio) as total, servicio from reservas WHERE status = :status_reserva GROUP BY servicio ORDER BY total DESC LIMIT :num_limit');
-		// 	$this->db->bind(':status_reserva', $status_reserva);
-		// 	$this->db->bind(':num_limit', $num_limit);
-
-		// 	$contratados = $this->db->getSet();
-		// 	return $contratados;
-		// }
-
-		// public function readLikesServicios($num_limit) {
-		// 	$this->db->query('SELECT p.servicio, p.me_gusta, u.nombre_comercial from publicaciones p INNER JOIN usuarios u ON p.id_usuario = u.id ORDER BY me_gusta DESC LIMIT :num_limit');
-		// 	$this->db->bind(':num_limit', $num_limit);
-
-		// 	$likes_serv = $this->db->getSet();
-		// 	return $likes_serv;
-		// }
 
 
 		public function readCondiciones($status=1) {

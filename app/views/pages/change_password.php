@@ -21,7 +21,7 @@
           <div class="absolute hidden right-0 bottom-0"><i class="fas fa-check bg-cta p-2 rounded-full"></i></div>
 
           <label for="email" class="text-neutralDark">Contraseña:
-            <span id="alert-pass" class="hidden italic text-sm text-red">Minimo 6 caracteres</span>
+            <span id="alert-pass" class="hidden italic text-sm text-red">Mínimo 6 caracteres, incluir 1 mayúscula y 1 número</span>
           </label>
           <div class=" flex border-b border-neutral items-center space-x-4 px-4 ">
             <i class="fas fa-key text-neutral "></i>
@@ -31,8 +31,8 @@
 
         <div  class="flex flex-col mb-6 space-y-1 relative">
           <div class="absolute hidden right-0 bottom-0"><i class="fas fa-check bg-cta p-2 rounded-full"></i></div>
-          <label for="email" class="text-neutralDark">Repite tu contraseña:
-            <span id="alert-rpass" class="hidden italic text-sm text-red">No coinciden</span>
+          <label for="email" class="text-neutralDark">Repetir Contraseña:
+            <span id="alert-rpass" class="hidden italic text-sm text-red">Contraseñas no coinciden</span>
           </label>
           <div class=" flex border-b border-neutral items-center space-x-4 px-4 ">
             <i class="fas fa-key text-neutral "></i>
@@ -61,7 +61,7 @@
   
 const form = document.querySelector('#change_form')
 form.addEventListener('submit', e => {
-  if(form.classList.contains('invalid')) {
+  if(form.classList.contains('invalid') || form.classList.contains('invalidp')) {
     e.preventDefault()
     // console.log(form)
   } 
@@ -91,6 +91,46 @@ const passValidation = (value) => {
 }
 
 
+// const pass = document.querySelector('#contrasenia')
+// pass.addEventListener('keyup', (e) => {
+
+//   let passValid = passValidation(pass.value)
+//   const alertPass = document.querySelector('#alert-pass')
+//   // console.log(numDoc.value.length)
+
+//   if(passValid === 4) {
+//     alertPass.classList.add('hidden')
+//     alertPass.parentElement.previousElementSibling.classList.remove('hidden')
+//   } else {
+//     alertPass.classList.remove('hidden')
+//     alertPass.parentElement.previousElementSibling.classList.add('hidden')
+//   }
+
+
+// })
+
+// const rpass = document.querySelector('#repetirContrasenia')
+// rpass.addEventListener('keyup', (e) => {
+
+//   const alertRpass = document.querySelector('#alert-rpass')
+//   // console.log(numDoc.value.length)
+//   if (rpass.value.length > 3) {
+//     if(rpass.value == pass.value) {
+//       alertRpass.classList.add('hidden')
+//       alertRpass.parentElement.previousElementSibling.classList.remove('hidden')
+//       form.classList.remove('invalid')
+//       // console.log(form)
+//     } else {
+//       alertRpass.classList.remove('hidden')
+//       alertRpass.parentElement.previousElementSibling.classList.add('hidden')
+//       form.classList.add('invalid')
+
+//     }
+
+//   }
+
+// })
+
 const pass = document.querySelector('#contrasenia')
 pass.addEventListener('keyup', (e) => {
 
@@ -101,9 +141,13 @@ pass.addEventListener('keyup', (e) => {
   if(passValid === 4) {
     alertPass.classList.add('hidden')
     alertPass.parentElement.previousElementSibling.classList.remove('hidden')
+      form.classList.remove('invalidp')
+
   } else {
     alertPass.classList.remove('hidden')
     alertPass.parentElement.previousElementSibling.classList.add('hidden')
+      form.classList.add('invalidp')
+
   }
 
 
@@ -114,12 +158,12 @@ rpass.addEventListener('keyup', (e) => {
 
   const alertRpass = document.querySelector('#alert-rpass')
   // console.log(numDoc.value.length)
-  if (rpass.value.length > 3) {
+  if (rpass.value.length > 5) {
     if(rpass.value == pass.value) {
       alertRpass.classList.add('hidden')
       alertRpass.parentElement.previousElementSibling.classList.remove('hidden')
       form.classList.remove('invalid')
-      // console.log(form)
+
     } else {
       alertRpass.classList.remove('hidden')
       alertRpass.parentElement.previousElementSibling.classList.add('hidden')
