@@ -38,6 +38,29 @@
 		}
 
 
+		public function condiciones() {
+			if (usuariopLoggedIn()) {
+				
+				$condiciones = $this->admin->readCondiciones();
+				
+				$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
+				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+
+				$data = [
+					'condiciones' => $condiciones,
+					'imagenes_perfil' => $imagenes_perfil,
+					'sidebar' => $sidebar,
+					'controller' => strtolower(get_called_class()),
+					'page' => __FUNCTION__
+				];
+
+				$this->view('usuariop/condiciones',$data);
+
+			} else {
+				redirect('pages/login');
+			}
+		}
+
 		public function edit_turnos() {
 			if (usuariopLoggedIn()) {
 
@@ -835,6 +858,7 @@
 					'contratados' => $contratados,
 					'likes_serv' => $likes_serv,
 					'turnos_exitosos' => $turnos_exitosos,
+					'imagenes_perfil' => $imagenes_perfil,
 					'sidebar' => $sidebar,
 					'controller' => strtolower(get_called_class()),
 					'page' => __FUNCTION__

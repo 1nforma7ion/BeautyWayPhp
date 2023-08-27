@@ -6,6 +6,67 @@
 			$this->admin = $this->model('Administrador');
 		}
 
+		public function condiciones() {
+			if (adminLoggedIn()) {
+
+					if (isset($_POST['create_condicion'])) {
+
+						$numero = $_POST['numero'];
+						$titulo = $_POST['titulo'];
+						$descripcion = $_POST['descripcion'];
+						$estado = $_POST['estado'];
+
+						$added = $this->admin->createCondicion($numero, $titulo, $descripcion, $estado);
+						
+						if ($added) {
+							$_SESSION['success_msg'] = 'Agregado Correctamente';
+							redirect('admin/condiciones');
+					    exit();
+						}
+
+					}
+
+
+					if (isset($_POST['update_condicion'])) {
+
+						$condicion_id = $_POST['condicion_id'];
+						$numero = $_POST['numero'];
+						$titulo = $_POST['titulo'];
+						$descripcion = $_POST['descripcion'];
+						$estado = $_POST['estado'];
+
+						$updated = $this->admin->updateCondicion($condicion_id, $numero, $titulo, $descripcion, $estado);
+						
+						if ($updated) {
+							$_SESSION['success_msg'] = 'Actualizado Correctamente';
+							redirect('admin/condiciones');
+					    exit();
+						}
+
+					}
+
+
+				$condiciones = $this->admin->readCondiciones();
+
+				$menuSidebar = $this->admin->getMenuSidebar();
+				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+
+				$data = [
+					'condiciones' => $condiciones,
+					'sidebar' => $sidebar,
+					'menuSidebar' => $menuSidebar,
+					'controller' => strtolower(get_called_class()),
+					'page' => __FUNCTION__
+				];
+
+				$this->view('admin/condiciones',$data);
+
+			} else {
+				redirect('pages/login');
+			}
+		}
+
+
 		public function reportes() {
 			if (adminLoggedIn()) {
 

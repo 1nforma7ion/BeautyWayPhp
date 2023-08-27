@@ -288,5 +288,82 @@
 // FIN reportes
 
 
+
+// INICIO condiciones
+
+		// public function readAllUsers() {
+		// 	$this->db->query('SELECT COUNT(u.rol_id) as total, r.rol FROM usuarios u INNER JOIN roles r ON u.rol_id = r.id GROUP BY rol_id');
+		// 	$usuarios = $this->db->getSet();
+		// 	return $usuarios;
+		// }
+
+		// public function readServiciosContratados($status_reserva, $num_limit) {
+		// 	$this->db->query('SELECT COUNT(servicio) as total, servicio from reservas WHERE status = :status_reserva GROUP BY servicio ORDER BY total DESC LIMIT :num_limit');
+		// 	$this->db->bind(':status_reserva', $status_reserva);
+		// 	$this->db->bind(':num_limit', $num_limit);
+
+		// 	$contratados = $this->db->getSet();
+		// 	return $contratados;
+		// }
+
+		// public function readLikesServicios($num_limit) {
+		// 	$this->db->query('SELECT p.servicio, p.me_gusta, u.nombre_comercial from publicaciones p INNER JOIN usuarios u ON p.id_usuario = u.id ORDER BY me_gusta DESC LIMIT :num_limit');
+		// 	$this->db->bind(':num_limit', $num_limit);
+
+		// 	$likes_serv = $this->db->getSet();
+		// 	return $likes_serv;
+		// }
+
+
+		public function readCondiciones($status=1) {
+			$this->db->query('SELECT * FROM condiciones WHERE estado = :status ORDER BY numero');
+			$this->db->bind(':status', $status);
+
+			$condiciones = $this->db->getSet();
+			return $condiciones;
+		}
+
+		public function createCondicion($numero, $titulo, $descripcion, $estado) {
+			$this->db->query('INSERT INTO condiciones (numero, titulo, descripcion, estado)	VALUES (:numero, :titulo, :descripcion, :estado)');
+			$this->db->bind(':numero', $numero);
+			$this->db->bind(':titulo', $titulo);
+			$this->db->bind(':descripcion', $descripcion);
+			$this->db->bind(':estado', $estado);
+
+		// execute the statement
+			if ($this->db->execute()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		public function updateCondicion($condicion_id, $numero, $titulo, $descripcion, $estado) {
+			$this->db->query('UPDATE condiciones SET 
+				numero = :numero,  
+				titulo = :titulo,
+				descripcion = :descripcion,
+				estado = :estado
+				WHERE id = :condicion_id ');
+
+			$this->db->bind(':condicion_id', $condicion_id);
+			$this->db->bind(':numero', $numero);
+			$this->db->bind(':titulo', $titulo);
+			$this->db->bind(':descripcion', $descripcion);
+			$this->db->bind(':estado', $estado);
+
+		// execute the statement
+			if ($this->db->execute()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+
+// FIN condiciones
+
+
+
 	}
 ?>
