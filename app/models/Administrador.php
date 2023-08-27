@@ -316,7 +316,7 @@
 
 
 		public function readCondiciones($status=1) {
-			$this->db->query('SELECT * FROM condiciones WHERE estado = :status ORDER BY numero');
+			$this->db->query('SELECT * FROM condiciones WHERE estado = :status ORDER BY id');
 			$this->db->bind(':status', $status);
 
 			$condiciones = $this->db->getSet();
