@@ -66,6 +66,103 @@
 			}
 		}
 
+		public function timeframe() {
+
+			if (adminLoggedIn() || usuariopLoggedIn() ) {
+
+				$json = json_decode(file_get_contents('php://input'));
+				$desde = $json->{'desde'};
+				$hasta = $json->{'hasta'};
+				$chart = $json->{'chart'};
+
+				if ($chart == 'chart1') {
+					$usuarios = $this->admin->readAllUsers($desde, $hasta);
+
+					$series = [];
+					foreach($usuarios as $row) {
+					  if ( $row->rol != 'admin' ) {
+					    array_push($series, intval($row->total));
+					  }
+					}
+
+					$data = [
+						'chart_series' => $series,
+					];
+					echo json_encode($data);
+
+				} else if ($chart == 'chart2') {
+					$contratados = $this->admin->readServiciosContratados('pendiente', 10, $desde, $hasta);
+
+					$c_serv = [];
+					$c_total = [];
+					foreach($contratados as $contratado_row) {
+					    array_push($c_total, intval($contratado_row->total));
+					    array_push($c_serv, mb_convert_encoding($contratado_row->servicio, 'UTF-8',  mb_list_encodings()));
+					}
+
+					$data = [
+						'chart_series' => $c_total,
+						'chart_labels' => $c_serv
+					];
+					echo json_encode($data);
+					
+				} else if ($chart == 'chart3') {
+					$servicios_zona = $this->admin->readServiciosZona('finalizado');
+
+					$zona = [];
+					$zona_total = [];
+					foreach($servicios_zona as $row_zona) {
+					    array_push($zona_total, intval($row_zona->total));
+					    array_push($zona, mb_convert_encoding($row_zona->zona_public, 'UTF-8',  mb_list_encodings()));
+					}
+
+					$data = [
+						'chart_series' => $zona_total,
+						'chart_labels' => $zona
+					];
+					echo json_encode($data);
+					
+				} else if ($chart == 'chart4') {
+					$servicios_zona = $this->admin->readServiciosZona('finalizado',$desde, $hasta);
+
+					$zona = [];
+					$zona_total = [];
+					foreach($servicios_zona as $row_zona) {
+					    array_push($zona_total, intval($row_zona->total));
+					    array_push($zona, mb_convert_encoding($row_zona->zona_public, 'UTF-8',  mb_list_encodings()));
+					}
+
+					$data = [
+						'chart_series' => $zona_total,
+						'chart_labels' => $zona
+					];
+					echo json_encode($data);
+					
+				} else if ($chart == 'chart5') {
+					$servicios_zona = $this->admin->readServiciosZona('finalizado');
+
+					$zona = [];
+					$zona_total = [];
+					foreach($servicios_zona as $row_zona) {
+					    array_push($zona_total, intval($row_zona->total));
+					    array_push($zona, mb_convert_encoding($row_zona->zona_public, 'UTF-8',  mb_list_encodings()));
+					}
+
+					$data = [
+						'chart_series' => $zona_total,
+						'chart_labels' => $zona
+					];
+					echo json_encode($data);
+					
+				}
+
+
+
+			} else {
+				redirect('pages/login');
+			}
+		}
+
 
 		public function reportes() {
 			if (adminLoggedIn()) {

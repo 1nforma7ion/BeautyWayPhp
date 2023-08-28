@@ -251,19 +251,56 @@
 
 // INICIO reportes
 
-		public function readAllUsers() {
-			$this->db->query('SELECT COUNT(u.rol_id) as total, r.rol FROM usuarios u INNER JOIN roles r ON u.rol_id = r.id GROUP BY rol_id');
-			$usuarios = $this->db->getSet();
-			return $usuarios;
+		public function readAllUsers($desde = null, $hasta = null) {
+			if ($desde && $hasta) {
+				$this->db->query('SELECT COUNT(u.rol_id) as total, r.rol FROM usuarios u 
+					INNER JOIN roles r ON u.rol_id = r.id 
+					WHERE u.createdAt >= :desde AND u.createdAt <= :hasta 
+					GROUP BY u.rol_id');
+				$this->db->bind(':desde', $desde);
+				$this->db->bind(':hasta', $hasta);
+
+				$usuarios = $this->db->getSet();
+				return $usuarios;
+
+			} else {
+				$this->db->query('SELECT COUNT(u.rol_id) as total, r.rol FROM usuarios u 
+					INNER JOIN roles r ON u.rol_id = r.id 
+					GROUP BY u.rol_id');
+
+				$usuarios = $this->db->getSet();
+				return $usuarios;
+			}
 		}
 
-		public function readServiciosContratados($status_reserva, $num_limit) {
-			$this->db->query('SELECT COUNT(servicio) as total, servicio from reservas WHERE status = :status_reserva GROUP BY servicio ORDER BY total DESC LIMIT :num_limit');
-			$this->db->bind(':status_reserva', $status_reserva);
-			$this->db->bind(':num_limit', $num_limit);
+		public function readServiciosContratados($status_reserva, $num_limit, $desde = null, $hasta = null) {
+			if ($desde && $hasta) {
+				$this->db->query('SELECT COUNT(servicio) as total, servicio from reservas 
+					WHERE STR_TO_DATE(dia, "%d-%m-%Y") >= :desde AND STR_TO_DATE(dia, "%d-%m-%Y") <= :hasta 
+					AND status = :status_reserva 
+					GROUP BY servicio 
+					ORDER BY total 
+					DESC LIMIT :num_limit');
+				$this->db->bind(':status_reserva', $status_reserva);
+				$this->db->bind(':num_limit', $num_limit);
+				$this->db->bind(':desde', $desde);
+				$this->db->bind(':hasta', $hasta);
 
-			$contratados = $this->db->getSet();
-			return $contratados;
+				$contratados = $this->db->getSet();
+				return $contratados;
+
+			} else {
+				$this->db->query('SELECT COUNT(servicio) as total, servicio from reservas 
+					WHERE status = :status_reserva 
+					GROUP BY servicio 
+					ORDER BY total 
+					DESC LIMIT :num_limit');
+				$this->db->bind(':status_reserva', $status_reserva);
+				$this->db->bind(':num_limit', $num_limit);
+
+				$contratados = $this->db->getSet();
+				return $contratados;
+			}
 		}
 
 		public function readLikesServicios($num_limit) {
@@ -275,12 +312,33 @@
 		}
 
 
-		public function readServiciosZona($status_reserva) {
-			$this->db->query('SELECT COUNT(p.zona_public) AS total, p.zona_public FROM reservas r INNER JOIN publicaciones p ON r.id_publicacion = p.id WHERE r.status = :status_reserva GROUP BY p.zona_public');
-			$this->db->bind(':status_reserva', $status_reserva);
+		public function readServiciosZona($status_reserva, $desde = null, $hasta = null) {
+			if ($desde && $hasta) { 
+				$this->db->query('SELECT COUNT(p.zona_public) AS total, p.zona_public FROM reservas r 
+					INNER JOIN publicaciones p ON r.id_publicacion = p.id 
+					WHERE STR_TO_DATE(r.dia, "%d-%m-%Y") >= :desde AND STR_TO_DATE(r.dia, "%d-%m-%Y") <= :hasta 
+					AND r.status = :status_reserva 
+					GROUP BY p.zona_public');
 
-			$servicios_zona = $this->db->getSet();
-			return $servicios_zona;
+				$this->db->bind(':status_reserva', $status_reserva);
+				$this->db->bind(':desde', $desde);
+				$this->db->bind(':hasta', $hasta);
+
+				$servicios_zona = $this->db->getSet();
+				return $servicios_zona;
+
+			} else {
+				$this->db->query('SELECT COUNT(p.zona_public) AS total, p.zona_public FROM reservas r 
+					INNER JOIN publicaciones p ON r.id_publicacion = p.id 
+					WHERE r.status = :status_reserva 
+					GROUP BY p.zona_public');
+
+				$this->db->bind(':status_reserva', $status_reserva);
+
+				$servicios_zona = $this->db->getSet();
+				return $servicios_zona;	
+			}
+
 		}
 
 		public function readReservasByModalidad($status_reserva) {

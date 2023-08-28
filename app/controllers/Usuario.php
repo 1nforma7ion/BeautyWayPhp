@@ -529,7 +529,7 @@
 
 			if (usuarioLoggedIn() || usuariopLoggedIn() ) {
 
-				header('Content-Type: application/json, charset=UTF-8');
+				// header('Content-Type: application/json, charset=UTF-8');
 
 				$json = json_decode(file_get_contents('php://input'));
 				$id_public = $json->{'id_publicacion'};

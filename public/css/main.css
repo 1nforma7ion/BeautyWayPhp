@@ -1735,14 +1735,6 @@ tr:hover {
     width: max-content;
   }
 
-  .md\:w-10\/12 {
-    width: 83.333333%;
-  }
-
-  .md\:w-5\/6 {
-    width: 83.333333%;
-  }
-
   .md\:max-w-2xl {
     max-width: 42rem;
   }
