@@ -341,12 +341,33 @@
 
 		}
 
-		public function readReservasByModalidad($status_reserva) {
-			$this->db->query('SELECT COUNT(modalidad) AS total, modalidad FROM reservas WHERE STATUS = :status_reserva GROUP BY modalidad ORDER BY total');
-			$this->db->bind(':status_reserva', $status_reserva);
+		public function readReservasByModalidad($status_reserva, $desde = null, $hasta = null) {
+			if ($desde && $hasta) {
+				$this->db->query('SELECT COUNT(modalidad) AS total, modalidad FROM reservas 
+					WHERE STR_TO_DATE(dia, "%d-%m-%Y") >= :desde AND STR_TO_DATE(dia, "%d-%m-%Y") <= :hasta 
+					AND status = :status_reserva 
+					GROUP BY modalidad 
+					ORDER BY total');
+				
+				$this->db->bind(':status_reserva', $status_reserva);
+				$this->db->bind(':desde', $desde);
+				$this->db->bind(':hasta', $hasta);
 
-			$modalidades = $this->db->getSet();
-			return $modalidades;
+				$modalidades = $this->db->getSet();
+				return $modalidades;
+
+			} else {
+
+				$this->db->query('SELECT COUNT(modalidad) AS total, modalidad FROM reservas 
+					WHERE STATUS = :status_reserva 
+					GROUP BY modalidad 
+					ORDER BY total');
+				$this->db->bind(':status_reserva', $status_reserva);
+
+				$modalidades = $this->db->getSet();
+				return $modalidades;
+			}
+
 		}
 
 

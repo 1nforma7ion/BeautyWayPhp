@@ -139,18 +139,18 @@
 					echo json_encode($data);
 					
 				} else if ($chart == 'chart5') {
-					$servicios_zona = $this->admin->readServiciosZona('finalizado');
+					$modalidades = $this->admin->readReservasByModalidad('finalizado', $desde, $hasta);
 
-					$zona = [];
-					$zona_total = [];
-					foreach($servicios_zona as $row_zona) {
-					    array_push($zona_total, intval($row_zona->total));
-					    array_push($zona, mb_convert_encoding($row_zona->zona_public, 'UTF-8',  mb_list_encodings()));
+					$modalidad = [];
+					$modalidad_total = [];
+					foreach($modalidades as $row_mod) {
+					    array_push($modalidad_total, intval($row_mod->total));
+					    array_push($modalidad, mb_convert_encoding($row_mod->modalidad, 'UTF-8',  mb_list_encodings()));
 					}
 
 					$data = [
-						'chart_series' => $zona_total,
-						'chart_labels' => $zona
+						'chart_series' => $modalidad_total,
+						'chart_labels' => $modalidad
 					];
 					echo json_encode($data);
 					

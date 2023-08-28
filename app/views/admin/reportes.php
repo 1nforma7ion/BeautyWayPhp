@@ -63,14 +63,14 @@
               <div class="md:w-1/3 p-2">
                 <div class="flex space-x-4 items-center">
                   <span class="text-xl">Desde</span>
-                  <input type="date" class="p-2 border-neutral " value="">
+                  <input type="date" class="p-2 border-neutral ">
                 </div>
               </div>
 
               <div class="md:w-1/3 p-2">
                 <div class="flex space-x-4 items-center">
                   <span class="text-xl">Hasta</span>
-                  <input type="date" class=" p-2 border-neutral " value="">
+                  <input type="date" class=" p-2 border-neutral ">
                 </div>
               </div>
 
@@ -97,14 +97,14 @@
               <div class="md:w-1/3 p-2">
                 <div class="flex space-x-4 items-center">
                   <span class="text-xl">Desde</span>
-                  <input type="date" class="p-2 border-neutral " value="">
+                  <input type="date" class="p-2 border-neutral " >
                 </div>
               </div>
 
               <div class="md:w-1/3 p-2">
                 <div class="flex space-x-4 items-center">
                   <span class="text-xl">Hasta</span>
-                  <input type="date" class=" p-2 border-neutral " value="">
+                  <input type="date" class=" p-2 border-neutral " >
                 </div>
               </div>
 
@@ -131,14 +131,14 @@
               <div class="md:w-1/3 p-2">
                 <div class="flex space-x-4 items-center">
                   <span class="text-xl">Desde</span>
-                  <input type="date" class="p-2 border-neutral " value="">
+                  <input type="date" class="p-2 border-neutral " >
                 </div>
               </div>
 
               <div class="md:w-1/3 p-2">
                 <div class="flex space-x-4 items-center">
                   <span class="text-xl">Hasta</span>
-                  <input type="date" class=" p-2 border-neutral " value="">
+                  <input type="date" class=" p-2 border-neutral " >
                 </div>
               </div>
 
@@ -165,14 +165,14 @@
               <div class="md:w-1/3 p-2">
                 <div class="flex space-x-4 items-center">
                   <span class="text-xl">Desde</span>
-                  <input type="date" class="p-2 border-neutral " value="2022-05-11">
+                  <input type="date" class="p-2 border-neutral " >
                 </div>
               </div>
 
               <div class="md:w-1/3 p-2">
                 <div class="flex space-x-4 items-center">
                   <span class="text-xl">Hasta</span>
-                  <input type="date" class=" p-2 border-neutral " value="2023-06-22">
+                  <input type="date" class=" p-2 border-neutral " >
                 </div>
               </div>
 
