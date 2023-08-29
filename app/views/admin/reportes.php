@@ -321,7 +321,7 @@ const options3 = {
   series: likes_total,
     chart: {
     width: 550,
-    type: 'donut',
+    type: 'pie',
   },
   colors: ['#2CA02C','#FF7F0E', '#D62728', '#1F77B4','#9467BD', '#8C564B', '#E377C2','#7F7F7F', '#BCBD22', '#02AAFE'],
   labels: likes_serv,
@@ -332,11 +332,7 @@ const options3 = {
         width: 400
       },
       legend: {
-        show: true,
-        position: 'bottom',
-        horizontalAlign: 'center', 
-        floating: false,
-        fontSize: '24px'
+        position: 'bottom'
       }
     }
   }]
