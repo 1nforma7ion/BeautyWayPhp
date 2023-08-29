@@ -14,6 +14,7 @@
 		<div class="flex flex-col w-full space-y-8 md:w-3/4 py-4  font-dmsans">
 
 				<?php if(isset($data['contratados'])) : ?>
+          <input type="hidden" id="url" data-root="<?php echo URLROOT ?>" data-controller="<?php echo $data['controller'] ?>">
 
           <!-- chart 1 -->
 					<div class="flex flex-col items-center bg-white rounded-xl p-4 w-full ">
@@ -28,19 +29,19 @@
               <div class="md:w-1/3 p-2">
                 <div class="flex space-x-4 items-center">
                   <span class="text-xl">Desde</span>
-                  <input type="date" id="desde" class="p-2 border-neutral " value="2022-05-11">
+                  <input type="date" class="p-2 border-neutral " >
                 </div>
               </div>
 
               <div class="md:w-1/3 p-2">
                 <div class="flex space-x-4 items-center">
                   <span class="text-xl">Hasta</span>
-                  <input type="date" id="hasta" class=" p-2 border-neutral " value="2023-06-22">
+                  <input type="date" class=" p-2 border-neutral " >
                 </div>
               </div>
 
               <div class="md:w-max p-2">
-                <button id="buscar" class="w-1/2 md:w-32 w-max px-4 py-2 bg-neutral text-white">Buscar</button>
+                <button data-chart="chart1" class="btn_buscar w-1/2 md:w-32 w-max px-4 py-2 bg-neutral text-white">Buscar</button>
               </div>
 
             </div>
@@ -62,19 +63,19 @@
               <div class="md:w-1/3 p-2">
                 <div class="flex space-x-4 items-center">
                   <span class="text-xl">Desde</span>
-                  <input type="date" id="desde" class="p-2 border-neutral " value="">
+                  <input type="date" class="p-2 border-neutral " >
                 </div>
               </div>
 
               <div class="md:w-1/3 p-2">
                 <div class="flex space-x-4 items-center">
                   <span class="text-xl">Hasta</span>
-                  <input type="date" id="hasta" class=" p-2 border-neutral " value="">
+                  <input type="date" class=" p-2 border-neutral " >
                 </div>
               </div>
 
               <div class="md:w-max p-2">
-                <button id="buscar" class="w-1/2 md:w-32 w-max px-4 py-2 bg-neutral text-white">Buscar</button>
+                <button data-chart="chart2" class="btn_buscar w-1/2 md:w-32 w-max px-4 py-2 bg-neutral text-white">Buscar</button>
               </div>
 
             </div>
@@ -96,19 +97,19 @@
               <div class="md:w-1/3 p-2">
                 <div class="flex space-x-4 items-center">
                   <span class="text-xl">Desde</span>
-                  <input type="date" id="desde" class="p-2 border-neutral " value="">
+                  <input type="date" class="p-2 border-neutral " value="">
                 </div>
               </div>
 
               <div class="md:w-1/3 p-2">
                 <div class="flex space-x-4 items-center">
                   <span class="text-xl">Hasta</span>
-                  <input type="date" id="hasta" class=" p-2 border-neutral " value="">
+                  <input type="date" class=" p-2 border-neutral " value="">
                 </div>
               </div>
 
               <div class="md:w-max p-2">
-                <button id="buscar" class="w-1/2 md:w-32 w-max px-4 py-2 bg-neutral text-white">Buscar</button>
+                <button data-chart="chart3" class="btn_buscar w-1/2 md:w-32 w-max px-4 py-2 bg-neutral text-white">Buscar</button>
               </div>
 
             </div>
@@ -166,7 +167,6 @@ foreach($data['turnos_exitosos'] as $row_turno) {
 
 <script>
 
-
 let contratados_serv = JSON.parse('<?php echo json_encode($c_serv) ?>')
 let contratados_total = JSON.parse('<?php echo json_encode($c_total) ?>')
 
@@ -176,9 +176,8 @@ let likes_total = JSON.parse('<?php echo json_encode($l_total) ?>')
 let turno = JSON.parse('<?php echo json_encode($turno) ?>')
 let turno_total = JSON.parse('<?php echo json_encode($turno_total) ?>')
 
-console.log(turno_total)
-console.log(turno)
-
+// console.log(turno_total)
+// console.log(turno)
 
 const options1 = {
   series: turno_total,
@@ -206,109 +205,155 @@ chart1.render();
 
 
 const options2 = {
-  series: [{
-    data: contratados_total
-  }],
+  series: contratados_total,
     chart: {
-    type: 'bar',
-    height: 350
-  },
-  plotOptions: {
-    bar: {
-      borderRadius: 4,
-      horizontal: true
-    }
-  },
-  colors: ['#2b908f', '#f9a3a4', '#90ee7e','#f48024', '#69d2e7'],
-  dataLabels: {
-    enabled: true,
-    textAnchor: 'start',
-    style: {
-      colors: ['#212121']
-    },
-    formatter: function (val, opt) {
-      return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val
-    },
-    offsetX: 0,
-    dropShadow: {
-      enabled: false
-    }
-  },
-  xaxis: {
-    categories: contratados_serv,
-  }
-};
-
-const chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
-chart2.render();
-
-
-const options3 = {
-  series: [{
-    data: likes_total
-  }],
-    chart: {
-    type: 'bar',
-    height: 350
-  },
-  plotOptions: {
-    bar: {
-      borderRadius: 4,
-      horizontal: true
-    }
-  },
-  colors: ['#f48024', '#69d2e7'],
-  dataLabels: {
-    enabled: true,
-    textAnchor: 'start',
-    style: {
-      colors: ['#fff']
-    },
-    formatter: function (val, opt) {
-      return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val
-    },
-    offsetX: 0,
-    dropShadow: {
-      enabled: false
-    }
-  },
-  xaxis: {
-    categories: likes_serv,
-  }
-};
-
-const chart3 = new ApexCharts(document.querySelector("#chart3"), options3);
-chart3.render();
-
-
-const options4 = {
-  series: zonas_total,
-    chart: {
+    width: 520,
     type: 'donut',
   },
-  labels: zonas,
+  colors: ['#2CA02C','#FF7F0E', '#D62728', '#1F77B4','#9467BD', '#8C564B', '#E377C2','#7F7F7F', '#BCBD22', '#02AAFE'],
+  labels: contratados_serv,
   responsive: [{
     breakpoint: 480,
     options: {
-      plotOptions: {
-        pie: {
-          customScale: 0.6
-        }
+      chart: {
+        width: 400
       },
       legend: {
-        show: true,
-        position: 'bottom',
-        horizontalAlign: 'center', 
-        floating: false,
-        fontSize: '24px'
+        position: 'bottom'
       }
     }
   }]
 };
 
-const chart4 = new ApexCharts(document.querySelector("#chart4"), options4);
-chart4.render();
+const chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
+chart2.render();
+
+const options3 = {
+  series: likes_total,
+    chart: {
+    width: 520,
+    type: 'donut',
+  },
+  // colors: ['#2CA02C','#FF7F0E', '#D62728', '#1F77B4','#9467BD', '#8C564B', '#E377C2','#7F7F7F', '#BCBD22', '#02AAFE'],
+  labels: likes_serv,
+  responsive: [{
+    breakpoint: 480,
+    options: {
+      chart: {
+        width: 400
+      },
+      legend: {
+        position: 'bottom'
+      }
+    }
+  }]
+};
+
+
+const chart3 = new ApexCharts(document.querySelector("#chart3"), options3);
+chart3.render();
+
       
+  let url = document.querySelector('#url')
+  let root = url.getAttribute('data-root')
+  let controller = url.getAttribute('data-controller')
+  let endpoint = `${root}/${controller}`
+  // console.log(endpoint)
+
+  const allBtnBuscar = document.querySelectorAll('.btn_buscar')
+  allBtnBuscar.forEach(btn => {
+    btn.addEventListener('click', e => {
+      
+      let desde_group = e.target.parentElement.previousElementSibling.previousElementSibling
+      let desde_time = desde_group.querySelector('input').value
+
+      let hasta_group = e.target.parentElement.previousElementSibling
+      let hasta_time = hasta_group.querySelector('input').value
+
+      let chart_num = e.target.getAttribute('data-chart')
+      console.log(desde_time)
+      console.log(hasta_time)
+
+      if ( desde_time && hasta_time ) {
+
+        if (chart_num == 'chart1') {
+
+          let time_frame = JSON.stringify({ desde : desde_time, hasta : hasta_time, chart : chart_num })
+
+          fetch(`${endpoint}/timeframe`, {
+            method: 'post',
+            body: time_frame,
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            }
+          })
+          .then( res => res.json() )
+          .then( data => {
+            
+            options1.series = data.chart_series
+            options1.labels = data.chart_labels
+
+            chart1.destroy()
+
+            let chart_search_1 = new ApexCharts(document.querySelector("#chart1"), options1);
+            chart_search_1.render();
+
+          })
+          .catch(console.error)
+
+        } else if (chart_num == 'chart2') {
+          let time_frame = JSON.stringify({ desde : desde_time, hasta : hasta_time, chart : chart_num })
+
+          fetch(`${endpoint}/timeframe`, {
+            method: 'post',
+            body: time_frame,
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            }
+          })
+          .then( res => res.json() )
+          .then( data => {
+            
+            options2.series = data.chart_series
+            options2.labels = data.chart_labels
+            chart2.destroy()
+
+            let chart_search_2 = new ApexCharts(document.querySelector("#chart2"), options2);
+            chart_search_2.render();
+
+          })
+          .catch(console.error)
+        } else if (chart_num == 'chart3') {
+          let time_frame = JSON.stringify({ desde : desde_time, hasta : hasta_time, chart : chart_num })
+
+          fetch(`${endpoint}/timeframe`, {
+            method: 'post',
+            body: time_frame,
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            }
+          })
+          .then( res => res.json() )
+          .then( data => {
+            
+            options3.series = data.chart_series
+            // options2.labels = data.chart_labels
+            chart3.destroy()
+
+            let chart_search_3 = new ApexCharts(document.querySelector("#chart3"), options3);
+            chart_search_3.render();
+
+          })
+          .catch(console.error)
+
+        } 
+
+      }
+    })
+  })
 
 </script>
 </script>

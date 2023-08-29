@@ -68,7 +68,7 @@
 
 		public function timeframe() {
 
-			if (adminLoggedIn() || usuariopLoggedIn() ) {
+			if (adminLoggedIn()) {
 
 				$json = json_decode(file_get_contents('php://input'));
 				$desde = $json->{'desde'};

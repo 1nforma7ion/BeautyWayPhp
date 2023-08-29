@@ -268,8 +268,8 @@ let zonas_total = JSON.parse('<?php echo json_encode($zona_total) ?>')
 let modalidad = JSON.parse('<?php echo json_encode($modalidad) ?>')
 let modalidad_total = JSON.parse('<?php echo json_encode($modalidad_total) ?>')
 
-console.log(chart_series_1)
-console.log(chart_labels_1)
+// console.log(chart_series_1)
+// console.log(chart_labels_1)
 
 const options1 = {
   series: chart_series_1,
@@ -299,7 +299,7 @@ chart1.render();
 const options2 = {
   series: contratados_total,
     chart: {
-    width: 550,
+    width: 520,
     type: 'pie',
   },
   // colors: ['#D62728', '#1F77B4'],
@@ -325,7 +325,7 @@ chart2.render();
 const options3 = {
   series: likes_total,
     chart: {
-    width: 550,
+    width: 520,
     type: 'donut',
   },
   colors: ['#2CA02C','#FF7F0E', '#D62728', '#1F77B4','#9467BD', '#8C564B', '#E377C2','#7F7F7F', '#BCBD22', '#02AAFE'],
@@ -351,6 +351,7 @@ chart3.render();
 const options4 = {
   series: zonas_total,
     chart: {
+    width: 450,
     type: 'donut',
   },
   labels: zonas,

@@ -21,31 +21,96 @@
 
 // INICIO reportes
 
-		public function readServiciosContratadosByUser($user_id, $status_reserva, $num_limit) {
-			$this->db->query('SELECT COUNT(servicio) as total, servicio from reservas WHERE id_profesional = :user_id AND status = :status_reserva GROUP BY servicio ORDER BY total DESC LIMIT :num_limit');
-			$this->db->bind(':status_reserva', $status_reserva);
-			$this->db->bind(':num_limit', $num_limit);
-			$this->db->bind(':user_id', $user_id);
+		public function readServiciosContratadosByUser($user_id, $status_reserva, $num_limit, $desde = null, $hasta = null) {
+			if ($desde && $hasta) {
+				$this->db->query('SELECT COUNT(servicio) as total, servicio from reservas 
+					WHERE id_profesional = :user_id AND status = :status_reserva AND STR_TO_DATE(dia, "%d-%m-%Y") >= :desde AND STR_TO_DATE(dia, "%d-%m-%Y") <= :hasta
+					GROUP BY servicio 
+					ORDER BY total DESC 
+					LIMIT :num_limit');
+				
+				$this->db->bind(':status_reserva', $status_reserva);
+				$this->db->bind(':num_limit', $num_limit);
+				$this->db->bind(':user_id', $user_id);
+				$this->db->bind(':desde', $desde);
+				$this->db->bind(':hasta', $hasta);
 
-			$contratados = $this->db->getSet();
-			return $contratados;
+				$contratados = $this->db->getSet();
+				return $contratados;
+
+			} else {
+				$this->db->query('SELECT COUNT(servicio) as total, servicio from reservas 
+					WHERE id_profesional = :user_id AND status = :status_reserva 
+					GROUP BY servicio 
+					ORDER BY total DESC 
+					LIMIT :num_limit');
+				
+				$this->db->bind(':status_reserva', $status_reserva);
+				$this->db->bind(':num_limit', $num_limit);
+				$this->db->bind(':user_id', $user_id);
+
+				$contratados = $this->db->getSet();
+				return $contratados;
+			}
+
 		}
 
-		public function readLikesServiciosByUser($user_id, $num_limit) {
-			$this->db->query('SELECT p.servicio, p.me_gusta, u.nombre_comercial from publicaciones p INNER JOIN usuarios u ON p.id_usuario = u.id WHERE p.id_usuario = :user_id ORDER BY me_gusta DESC LIMIT :num_limit');
-			$this->db->bind(':num_limit', $num_limit);
-			$this->db->bind(':user_id', $user_id);
+		public function readLikesServiciosByUser($user_id, $num_limit, $desde = null, $hasta = null) {
+			if ($desde && $hasta) {
+				$this->db->query('SELECT p.servicio, p.me_gusta, u.nombre_comercial from publicaciones p 
+					INNER JOIN usuarios u ON p.id_usuario = u.id 
+					WHERE p.id_usuario = :user_id AND p.creado >= :desde AND p.creado <= :hasta 
+					ORDER BY me_gusta DESC 
+					LIMIT :num_limit');
 
-			$likes_serv = $this->db->getSet();
-			return $likes_serv;
+				$this->db->bind(':num_limit', $num_limit);
+				$this->db->bind(':user_id', $user_id);
+				$this->db->bind(':desde', $desde);
+				$this->db->bind(':hasta', $hasta);
+
+				$likes_serv = $this->db->getSet();
+				return $likes_serv;
+
+			} else {
+				$this->db->query('SELECT p.servicio, p.me_gusta, u.nombre_comercial from publicaciones p 
+					INNER JOIN usuarios u ON p.id_usuario = u.id 
+					WHERE p.id_usuario = :user_id 
+					ORDER BY me_gusta DESC 
+					LIMIT :num_limit');
+
+				$this->db->bind(':num_limit', $num_limit);
+				$this->db->bind(':user_id', $user_id);
+
+				$likes_serv = $this->db->getSet();
+				return $likes_serv;			
+			}
+
 		}
 
-		public function readTurnosExitososByUser($user_id) {
-			$this->db->query('SELECT COUNT(servicio) as total, status FROM reservas WHERE id_profesional = :user_id GROUP BY servicio');
-			$this->db->bind(':user_id', $user_id);
+		public function readTurnosExitososByUser($user_id, $desde = null, $hasta = null) {
+			if ($desde && $hasta) {
+				$this->db->query('SELECT COUNT(servicio) as total, status FROM reservas 
+					WHERE id_profesional = :user_id AND STR_TO_DATE(dia, "%d-%m-%Y") >= :desde AND STR_TO_DATE(dia, "%d-%m-%Y") <= :hasta 
+					GROUP BY status');
 
-			$turnos_finalizados = $this->db->getSet();
-			return $turnos_finalizados;
+				$this->db->bind(':user_id', $user_id);
+				$this->db->bind(':desde', $desde);
+				$this->db->bind(':hasta', $hasta);
+
+				$turnos_finalizados = $this->db->getSet();
+				return $turnos_finalizados;
+
+			} else {
+				$this->db->query('SELECT COUNT(servicio) as total, status FROM reservas 
+					WHERE id_profesional = :user_id 
+					GROUP BY status');
+
+				$this->db->bind(':user_id', $user_id);
+
+				$turnos_finalizados = $this->db->getSet();
+				return $turnos_finalizados;		
+			}
+
 		}
 
 

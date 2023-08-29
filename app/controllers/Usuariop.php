@@ -844,11 +844,80 @@
 			}
 		}
 
+
+		public function timeframe() {
+
+			if ( usuariopLoggedIn() ) {
+
+				$json = json_decode(file_get_contents('php://input'));
+				$desde = $json->{'desde'};
+				$hasta = $json->{'hasta'};
+				$chart = $json->{'chart'};
+
+				if ($chart == 'chart1') {
+					$turnos_exitosos = $this->usuariop->readTurnosExitososByUser($_SESSION['user_id'], $desde, $hasta);
+
+					$series = [];
+					$labels = [];
+					foreach($turnos_exitosos as $row_turno) {
+						array_push($series, intval($row_turno->total));
+   					array_push($labels, mb_convert_encoding( ucwords($row_turno->status) , 'UTF-8',  mb_list_encodings()));
+					}
+
+					$data = [
+						'chart_series' => $series,
+						'chart_labels' => $labels
+					];
+					echo json_encode($data);
+
+				} else if ($chart == 'chart2') {
+					$contratados = $this->usuariop->readServiciosContratadosByUser($_SESSION['user_id'], 'pendiente', 10, $desde, $hasta);
+
+					$c_serv = [];
+					$c_total = [];
+					foreach($contratados as $contratado_row) {
+				    array_push($c_total, intval($contratado_row->total));
+				    array_push($c_serv, mb_convert_encoding($contratado_row->servicio, 'UTF-8',  mb_list_encodings()));
+					}
+
+					$data = [
+						'chart_series' => $c_total,
+						'chart_labels' => $c_serv
+					];
+					echo json_encode($data);
+					
+				} else if ($chart == 'chart3') {
+					$likes_serv = $this->usuariop->readLikesServiciosByUser($_SESSION['user_id'], 10, $desde, $hasta);
+
+					$likes_servicio = [];
+					$likes_total = [];
+					foreach($likes_serv as $row_likes) {
+					    array_push($likes_total, intval($row_likes->me_gusta));
+					    array_push($likes_servicio, mb_convert_encoding($row_likes->servicio, 'UTF-8',  mb_list_encodings()));
+					}
+
+					$data = [
+						'chart_series' => $likes_total,
+						'chart_labels' => $likes_servicio
+					];
+					echo json_encode($data);
+					
+				} 
+
+
+
+			} else {
+				redirect('pages/login');
+			}
+		}
+
+
+
 		public function reportes() {
 			if (usuariopLoggedIn()) {
 					
-				$contratados = $this->usuariop->readServiciosContratadosByUser($_SESSION['user_id'], 'pendiente', 10);
 				$turnos_exitosos = $this->usuariop->readTurnosExitososByUser($_SESSION['user_id']);
+				$contratados = $this->usuariop->readServiciosContratadosByUser($_SESSION['user_id'], 'pendiente', 10);
 				$likes_serv = $this->usuariop->readLikesServiciosByUser($_SESSION['user_id'], 10);
 
 				$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);
