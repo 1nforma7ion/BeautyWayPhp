@@ -2,6 +2,7 @@
 	class Pages extends Controller {
 		public function __construct() {
 			$this->page = $this->model('Page');
+			$this->admin = $this->model('Administrador');
 		}
 
 		public function index() {
@@ -22,6 +23,25 @@
 			}
 		}
 
+		public function condiciones() {
+			if (notSession()) {
+				
+				$condiciones = $this->admin->readCondiciones();
+				$descuentos = $this->page->getAllDescuentos();
+				
+				$data = [
+					'descuentos' => $descuentos,
+					'condiciones' => $condiciones,
+					'controller' => strtolower(get_called_class()),
+					'page' => __FUNCTION__
+				];
+
+				$this->view('pages/condiciones',$data);
+
+			} else {
+				redirect('pages/login');
+			}
+		}
 
 		public function login() {
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {

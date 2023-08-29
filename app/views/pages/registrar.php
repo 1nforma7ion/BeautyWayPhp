@@ -221,7 +221,8 @@
 		</div>
 
 
-		<div class="w-full flex items-center justify-center">
+		<div class="w-full flex flex-col space-y-4 items-center justify-center">
+			<h2 class="p-4 w-full text-center text-dark text-xl">Al registrarte Aceptas las <a href="<?php echo URLROOT; ?>/pages/condiciones" class="text-neutral text-xl underline">Bases y Condiciones de Beauty Way. <i class="fas fa-external-link text-neutral"></i> </a> </h2>
 			<button type="submit" class="p-4 w-1/2 rounded-full bg-neutral hover:bg-neutralDark text-white text-2xl">Registrarme</button>
 		</div>
   </form>

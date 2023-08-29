@@ -260,7 +260,7 @@
 					$zona = $_POST['zona'];
 
 
-					$updated = $this->usuariop->updateComercial($_SESSION['user_id'],$comercial, $modalidad, $localidad, $zona,$calle,$altura,$piso,$depto,$barrio);
+					$updated = $this->usuariop->updateComercial($_SESSION['user_id'], $comercial, $modalidad, $localidad, $zona,$calle,$altura,$piso,$depto,$barrio);
 
 					if ($updated) {
 						$_SESSION['success_msg'] = 'Perfil Actualizado.';
@@ -871,7 +871,7 @@
 					echo json_encode($data);
 
 				} else if ($chart == 'chart2') {
-					$contratados = $this->usuariop->readServiciosContratadosByUser($_SESSION['user_id'], 'pendiente', 10, $desde, $hasta);
+					$contratados = $this->usuariop->readServiciosContratadosByUser($_SESSION['user_id'], 'finalizado', 10, $desde, $hasta);
 
 					$c_serv = [];
 					$c_total = [];

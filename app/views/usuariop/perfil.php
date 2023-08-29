@@ -43,13 +43,10 @@
 									<div class="group-col">
 								    <label for="modalidad">Modalidad de Trabajo:</label>
 								    <select id="modalidad" name="modalidad">
-								 
+								 			<option selected class="bg-cta" value="<?php echo $data['perfil']->modalidad ?>"><?php echo $data['perfil']->modalidad ?></option>
 								     	<?php if(isset($data['modalidades'])) : ?>
-												<?php foreach ($data['modalidades'] as $row) : ?>
-													<?php if($row->modalidad == $data['perfil']->modalidad ) : ?>
-														<option selected class="bg-cta" value="<?php echo $row->modalidad ?>"><?php echo $row->modalidad ?></option>
-													<?php endif; ?>
-													<option value="<?php echo $row->modalidad ?>"><?php echo $row->modalidad ?></option>
+												<?php foreach ($data['modalidades'] as $row) : ?>												
+												<option value="<?php echo $row->modalidad ?>"><?php echo $row->modalidad ?></option>
 												<?php endforeach; ?>
 											<?php endif; ?> 
 								    </select>
@@ -58,12 +55,10 @@
 									<div class="group-col">
 								    <label for="zona">Zona de Trabajo:</label>
 								    <select id="zona" name="zona">
+								    	<option selected class="bg-cta" value="<?php echo $data['perfil']->id_zona_trabajo ?>"><?php echo $data['perfil']->zona ?></option>
 								     	<?php if(isset($data['zonas'])) : ?>
-												<?php foreach ($data['zonas'] as $row) : ?>
-													<?php if($row->id == $data['perfil']->id_zona_trabajo ) : ?>
-														<option selected class="bg-cta" value="<?php echo $row->id ?>"><?php echo $row->zona ?></option>
-													<?php endif; ?>
-													<option value="<?php echo $row->id ?>"><?php echo $row->zona ?></option>
+												<?php foreach ($data['zonas'] as $row_zona) : ?>
+												<option value="<?php echo $row_zona->id ?>"><?php echo $row_zona->zona ?></option>
 												<?php endforeach; ?>
 											<?php endif; ?> 
 								      
@@ -111,12 +106,10 @@
 							    <div class="group-col  w-1/3">
 								    <label for="localidad">Localidad: </label>
 								    <select id="localidad" name="localidad" required>
+								    	<option selected class="bg-cta" value="<?php echo $data['perfil']->localidad ?>"><?php echo $data['perfil']->localidad ?></option>
 								     	<?php if(isset($data['localidades'])) : ?>
-												<?php foreach ($data['localidades'] as $row) : ?>
-								      		<?php if($row->localidad == $data['perfil']->localidad ) : ?>
-														<option selected class="bg-cta" value="<?php echo $row->localidad ?>"><?php echo $row->localidad ?></option>
-													<?php endif; ?>
-													<option value="<?php echo $row->localidad ?>"><?php echo $row->localidad ?></option>
+												<?php foreach ($data['localidades'] as $row_localidad) : ?>
+												<option value="<?php echo $row_localidad->localidad ?>"><?php echo $row_localidad->localidad ?></option>
 												<?php endforeach; ?>
 											<?php endif; ?> 
 								    </select>
@@ -348,10 +341,10 @@
 
 <?php 
 
-// echo "<pre>";
+echo "<pre>";
 // print_r($data['perfil']);
 // print_r($data['imagenes_perfil']);
-// echo "</pre>";
+echo "</pre>";
 
  ?>
 
