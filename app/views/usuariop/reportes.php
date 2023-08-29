@@ -21,7 +21,6 @@
 
             <div class="w-full flex justify-between px-10 py-4 text-2xl text-neutral text-center">
               <h2 class="text-2xl md:text-4xl"> Reporte general de Turnos </h2>
-              <div class="w-1/3"> <?php showMsg(); ?>  </div>  
             </div>
 
             <div class="w-full md:w-3/4 flex flex-col md:flex-row items-center justify-between px-10 py-2 bg-primary rounded-xl ">
@@ -55,7 +54,6 @@
 
             <div class="w-full flex justify-between px-10 py-4 text-2xl text-neutral text-center">
               <h2 class="text-2xl md:text-4xl"> Servicios finalizados más contratados </h2>
-              <div class="w-1/3"> <?php showMsg(); ?>  </div>  
             </div>
 
             <div class="w-full md:w-3/4 flex flex-col md:flex-row items-center justify-between px-10 py-2 bg-primary rounded-xl ">
@@ -88,8 +86,7 @@
           <div class="flex flex-col items-center bg-white rounded-xl p-4 w-full ">
 
             <div class="w-full flex justify-between px-10 py-4 text-2xl text-neutral text-center">
-              <h2 class="text-2xl md:text-4xl"> Servicios brindados con más reacciones </h2>
-              <div class="w-1/3"> <?php showMsg(); ?>  </div>  
+              <h2 class="text-2xl md:text-4xl"> Servicios brindados con más reacciones </h2> 
             </div>
 
             <div class="w-full md:w-3/4 flex flex-col md:flex-row items-center justify-between px-10 py-2 bg-primary rounded-xl ">
@@ -182,7 +179,7 @@ let turno_total = JSON.parse('<?php echo json_encode($turno_total) ?>')
 const options1 = {
   series: turno_total,
     chart: {
-    width: 450,
+    width: 500,
     type: 'pie',
   },
   colors: ["#FF1654", "#247BA0", '#9C27B0'],
@@ -207,7 +204,7 @@ chart1.render();
 const options2 = {
   series: contratados_total,
     chart: {
-    width: 520,
+    width: 530,
     type: 'donut',
   },
   colors: ['#2CA02C','#FF7F0E', '#D62728', '#1F77B4','#9467BD', '#8C564B', '#E377C2','#7F7F7F', '#BCBD22', '#02AAFE'],
@@ -231,7 +228,7 @@ chart2.render();
 const options3 = {
   series: likes_total,
     chart: {
-    width: 520,
+    width: 530,
     type: 'donut',
   },
   // colors: ['#2CA02C','#FF7F0E', '#D62728', '#1F77B4','#9467BD', '#8C564B', '#E377C2','#7F7F7F', '#BCBD22', '#02AAFE'],

@@ -58,6 +58,7 @@
 				$this->db->query('SELECT p.servicio, p.me_gusta, u.nombre_comercial from publicaciones p 
 					INNER JOIN usuarios u ON p.id_usuario = u.id 
 					WHERE p.id_usuario = :user_id AND p.creado >= :desde AND p.creado <= :hasta 
+					GROUP BY servicio
 					ORDER BY me_gusta DESC 
 					LIMIT :num_limit');
 
@@ -73,6 +74,7 @@
 				$this->db->query('SELECT p.servicio, p.me_gusta, u.nombre_comercial from publicaciones p 
 					INNER JOIN usuarios u ON p.id_usuario = u.id 
 					WHERE p.id_usuario = :user_id 
+					GROUP BY servicio
 					ORDER BY me_gusta DESC 
 					LIMIT :num_limit');
 
