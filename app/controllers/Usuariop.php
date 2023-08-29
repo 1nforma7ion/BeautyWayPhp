@@ -917,7 +917,7 @@
 			if (usuariopLoggedIn()) {
 					
 				$turnos_exitosos = $this->usuariop->readTurnosExitososByUser($_SESSION['user_id']);
-				$contratados = $this->usuariop->readServiciosContratadosByUser($_SESSION['user_id'], 'pendiente', 10);
+				$contratados = $this->usuariop->readServiciosContratadosByUser($_SESSION['user_id'], 'finalizado', 10);
 				$likes_serv = $this->usuariop->readLikesServiciosByUser($_SESSION['user_id'], 10);
 
 				$imagenes_perfil = $this->usuariop->getImageById($_SESSION['user_id']);

@@ -25,8 +25,7 @@
 			if ($desde && $hasta) {
 				$this->db->query('SELECT COUNT(servicio) as total, servicio from reservas 
 					WHERE id_profesional = :user_id AND status = :status_reserva AND STR_TO_DATE(dia, "%d-%m-%Y") >= :desde AND STR_TO_DATE(dia, "%d-%m-%Y") <= :hasta
-					GROUP BY servicio 
-					ORDER BY total DESC 
+					GROUP BY servicio  
 					LIMIT :num_limit');
 				
 				$this->db->bind(':status_reserva', $status_reserva);
@@ -42,7 +41,6 @@
 				$this->db->query('SELECT COUNT(servicio) as total, servicio from reservas 
 					WHERE id_profesional = :user_id AND status = :status_reserva 
 					GROUP BY servicio 
-					ORDER BY total DESC 
 					LIMIT :num_limit');
 				
 				$this->db->bind(':status_reserva', $status_reserva);
