@@ -79,19 +79,27 @@
 					$usuarios = $this->admin->readAllUsers($desde, $hasta);
 
 					$series = [];
+					$labels = [];
 					foreach($usuarios as $row) {
 					  if ( $row->rol != 'admin' ) {
 					    array_push($series, intval($row->total));
+
+					    if ( $row->rol == 'usuariop') {
+					      array_push($labels, 'Profesional');
+					    } else {
+					      array_push($labels, ucwords($row->rol));
+					    }
 					  }
 					}
 
 					$data = [
 						'chart_series' => $series,
+						'chart_labels' => $labels,
 					];
 					echo json_encode($data);
 
 				} else if ($chart == 'chart2') {
-					$contratados = $this->admin->readServiciosContratados('pendiente', 10, $desde, $hasta);
+					$contratados = $this->admin->readServiciosContratados('finalizado', 10, $desde, $hasta);
 
 					$c_serv = [];
 					$c_total = [];
@@ -107,23 +115,23 @@
 					echo json_encode($data);
 					
 				} else if ($chart == 'chart3') {
-					$servicios_zona = $this->admin->readServiciosZona('finalizado');
+					$likes_serv = $this->admin->readLikesServicios(10, $desde, $hasta);
 
-					$zona = [];
-					$zona_total = [];
-					foreach($servicios_zona as $row_zona) {
-					    array_push($zona_total, intval($row_zona->total));
-					    array_push($zona, mb_convert_encoding($row_zona->zona_public, 'UTF-8',  mb_list_encodings()));
+					$likes_servicio = [];
+					$likes_total = [];
+					foreach($likes_serv as $row_likes) {
+					  array_push($likes_total, intval($row_likes->me_gusta));
+					  array_push($likes_servicio, mb_convert_encoding($row_likes->servicio, 'UTF-8',  mb_list_encodings()));
 					}
 
 					$data = [
-						'chart_series' => $zona_total,
-						'chart_labels' => $zona
+						'chart_series' => $likes_total,
+						'chart_labels' => $likes_servicio
 					];
 					echo json_encode($data);
 					
 				} else if ($chart == 'chart4') {
-					$servicios_zona = $this->admin->readServiciosZona('finalizado',$desde, $hasta);
+					$servicios_zona = $this->admin->readServiciosZona('finalizado', $desde, $hasta);
 
 					$zona = [];
 					$zona_total = [];

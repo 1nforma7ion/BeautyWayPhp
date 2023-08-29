@@ -288,8 +288,8 @@ chart3.render();
           .then( res => res.json() )
           .then( data => {
             
-            options1.series = data.chart_series
-            options1.labels = data.chart_labels
+            data.chart_series.length > 0 ? options1.series = data.chart_series : options1.series =  [1]
+            data.chart_labels.length > 0 ? options1.labels = data.chart_labels : options1.labels = ['No hay datos para mostrar']
 
             chart1.destroy()
 
@@ -313,8 +313,8 @@ chart3.render();
           .then( res => res.json() )
           .then( data => {
             
-            options2.series = data.chart_series
-            options2.labels = data.chart_labels
+            data.chart_series.length > 0 ? options2.series = data.chart_series : options2.series =  [1]
+            data.chart_labels.length > 0 ? options2.labels = data.chart_labels : options2.labels = ['No hay datos para mostrar']
             chart2.destroy()
 
             let chart_search_2 = new ApexCharts(document.querySelector("#chart2"), options2);
@@ -322,6 +322,7 @@ chart3.render();
 
           })
           .catch(console.error)
+
         } else if (chart_num == 'chart3') {
           let time_frame = JSON.stringify({ desde : desde_time, hasta : hasta_time, chart : chart_num })
 
@@ -335,9 +336,9 @@ chart3.render();
           })
           .then( res => res.json() )
           .then( data => {
-            
-            options3.series = data.chart_series
-            // options2.labels = data.chart_labels
+
+            data.chart_series.length > 0 ? options3.series = data.chart_series : options3.series =  [1]
+            data.chart_labels.length > 0 ? options3.labels = data.chart_labels : options3.labels = ['No hay datos para mostrar']
             chart3.destroy()
 
             let chart_search_3 = new ApexCharts(document.querySelector("#chart3"), options3);
@@ -347,6 +348,13 @@ chart3.render();
           .catch(console.error)
 
         } 
+
+      
+        e.target.classList.add('hidden')
+
+        setTimeout(() => {
+          e.target.classList.remove('hidden')
+        },3000)
 
       }
     })

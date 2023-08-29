@@ -892,8 +892,8 @@
 					$likes_servicio = [];
 					$likes_total = [];
 					foreach($likes_serv as $row_likes) {
-					    array_push($likes_total, intval($row_likes->me_gusta));
-					    array_push($likes_servicio, mb_convert_encoding($row_likes->servicio, 'UTF-8',  mb_list_encodings()));
+					  array_push($likes_total, intval($row_likes->me_gusta));
+					  array_push($likes_servicio, mb_convert_encoding($row_likes->servicio, 'UTF-8',  mb_list_encodings()));
 					}
 
 					$data = [

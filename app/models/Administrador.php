@@ -303,15 +303,31 @@
 			}
 		}
 
-		public function readLikesServicios($num_limit) {
-			$this->db->query('SELECT p.servicio, p.me_gusta, u.nombre_comercial from publicaciones p 
-				INNER JOIN usuarios u ON p.id_usuario = u.id 
-				ORDER BY me_gusta DESC 
-				LIMIT :num_limit');
-			$this->db->bind(':num_limit', $num_limit);
+		public function readLikesServicios($num_limit, $desde = null, $hasta = null) {
+			if ($desde && $hasta) {
+				$this->db->query('SELECT servicio, me_gusta from publicaciones 
+					WHERE creado >= :desde AND creado <= :hasta
+					GROUP BY servicio
+					LIMIT :num_limit');
 
-			$likes_serv = $this->db->getSet();
-			return $likes_serv;
+				$this->db->bind(':num_limit', $num_limit);
+				$this->db->bind(':desde', $desde);
+				$this->db->bind(':hasta', $hasta);
+
+				$likes_serv = $this->db->getSet();
+				return $likes_serv;	
+
+			} else {
+				$this->db->query('SELECT servicio, me_gusta from publicaciones 
+					GROUP BY servicio
+					LIMIT :num_limit');
+
+				$this->db->bind(':num_limit', $num_limit);
+
+				$likes_serv = $this->db->getSet();
+				return $likes_serv;	
+			}
+
 		}
 
 

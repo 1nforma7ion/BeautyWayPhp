@@ -20,8 +20,7 @@
 					<div class="flex flex-col items-center bg-white rounded-xl p-4 w-full ">
 
             <div class="w-full flex justify-between px-10 py-4 text-2xl text-neutral text-center">
-              <h2 class="text-2xl md:text-4xl"> Reporte Usuarios </h2>
-              <div class="w-1/3"> <?php showMsg(); ?>  </div>  
+              <h2 class="text-2xl md:text-4xl"> Reporte de Usuarios </h2>
             </div>
 
             <div class="w-full md:w-3/4 flex flex-col md:flex-row items-center justify-between px-10 py-2 bg-primary rounded-xl ">
@@ -54,8 +53,7 @@
           <div class="flex flex-col items-center bg-white rounded-xl p-4 w-full ">
 
             <div class="w-full flex justify-between px-10 py-4 text-2xl text-neutral text-center">
-              <h2 class="text-2xl md:text-4xl"> Servicios Más Contratados </h2>
-              <div class="w-1/3"> <?php showMsg(); ?>  </div>  
+              <h2 class="text-2xl md:text-4xl"> Servicios finalizados más Contratados </h2>
             </div>
 
             <div class="w-full md:w-3/4 flex flex-col md:flex-row items-center justify-between px-10 py-2 bg-primary rounded-xl ">
@@ -88,8 +86,7 @@
           <div class="flex flex-col items-center bg-white rounded-xl p-4 w-full ">
 
             <div class="w-full flex justify-between px-10 py-4 text-2xl text-neutral text-center">
-              <h2 class="text-2xl md:text-4xl"> Servicios brindados por profesionales con más reacciones </h2>
-              <div class="w-1/3"> <?php showMsg(); ?>  </div>  
+              <h2 class="text-2xl md:text-4xl"> Servicios brindados con más reacciones </h2>
             </div>
 
             <div class="w-full md:w-3/4 flex flex-col md:flex-row items-center justify-between px-10 py-2 bg-primary rounded-xl ">
@@ -122,8 +119,7 @@
           <div class="flex flex-col items-center bg-white rounded-xl p-4 w-full ">
 
             <div class="w-full flex justify-between px-10 py-4 text-2xl text-neutral text-center">
-              <h2 class="text-2xl md:text-4xl"> Reservas por Zona </h2>
-              <div class="w-1/3"> <?php showMsg(); ?>  </div>  
+              <h2 class="text-2xl md:text-4xl"> Reservas finalizadas por Zona </h2>
             </div>
 
             <div class="w-full md:w-3/4 flex flex-col md:flex-row items-center justify-between px-10 py-2 bg-primary rounded-xl ">
@@ -156,8 +152,7 @@
           <div class="flex flex-col items-center bg-white rounded-xl p-4 w-full ">
 
             <div class="w-full flex justify-between px-10 py-4 text-2xl text-neutral text-center">
-              <h2 class="text-2xl md:text-4xl"> Reservas Finalizadas por Modalidad </h2>
-              <div class="w-1/3"> <?php showMsg(); ?>  </div>  
+              <h2 class="text-2xl md:text-4xl"> Reservas Finalizadas por Modalidad </h2> 
             </div>
 
             <div class="w-full md:w-3/4 flex flex-col md:flex-row items-center justify-between px-10 py-2 bg-primary rounded-xl ">
@@ -274,7 +269,7 @@ let modalidad_total = JSON.parse('<?php echo json_encode($modalidad_total) ?>')
 const options1 = {
   series: chart_series_1,
   chart: {
-    width: 450,
+    width: 500,
     type: 'pie',
   },
   colors: ['#2CA02C','#FF7F0E'],
@@ -299,7 +294,7 @@ chart1.render();
 const options2 = {
   series: contratados_total,
     chart: {
-    width: 520,
+    width: 530,
     type: 'pie',
   },
   // colors: ['#D62728', '#1F77B4'],
@@ -325,7 +320,7 @@ chart2.render();
 const options3 = {
   series: likes_total,
     chart: {
-    width: 520,
+    width: 550,
     type: 'donut',
   },
   colors: ['#2CA02C','#FF7F0E', '#D62728', '#1F77B4','#9467BD', '#8C564B', '#E377C2','#7F7F7F', '#BCBD22', '#02AAFE'],
@@ -337,7 +332,11 @@ const options3 = {
         width: 400
       },
       legend: {
-        position: 'bottom'
+        show: true,
+        position: 'bottom',
+        horizontalAlign: 'center', 
+        floating: false,
+        fontSize: '24px'
       }
     }
   }]
@@ -351,7 +350,7 @@ chart3.render();
 const options4 = {
   series: zonas_total,
     chart: {
-    width: 450,
+    width: 500,
     type: 'donut',
   },
   labels: zonas,
@@ -380,7 +379,7 @@ chart4.render();
 const options5 = {
   series: modalidad_total,
     chart: {
-    width: 450,
+    width: 500,
     type: 'pie',
   },
   colors: ['#9467BD', '#BCBD22'],
@@ -440,8 +439,9 @@ chart5.render();
           })
           .then( res => res.json() )
           .then( data => {
-            
-            options1.series = data.chart_series
+
+            data.chart_series.length > 0 ? options1.series = data.chart_series : options1.series =  [1]
+            data.chart_labels.length > 0 ? options1.labels = data.chart_labels : options1.labels = ['No hay datos para mostrar']
             chart1.destroy()
 
             let chart_search_1 = new ApexCharts(document.querySelector("#chart1"), options1);
@@ -464,8 +464,8 @@ chart5.render();
           .then( res => res.json() )
           .then( data => {
             
-            options2.series = data.chart_series
-            options2.labels = data.chart_labels
+            data.chart_series.length > 0 ? options2.series = data.chart_series : options2.series =  [1]
+            data.chart_labels.length > 0 ? options2.labels = data.chart_labels : options2.labels = ['No hay datos para mostrar']
             chart2.destroy()
 
             let chart_search_2 = new ApexCharts(document.querySelector("#chart2"), options2);
@@ -473,6 +473,7 @@ chart5.render();
 
           })
           .catch(console.error)
+
         } else if (chart_num == 'chart3') {
           let time_frame = JSON.stringify({ desde : desde_time, hasta : hasta_time, chart : chart_num })
 
@@ -487,8 +488,8 @@ chart5.render();
           .then( res => res.json() )
           .then( data => {
             
-            options3.series = data.chart_series
-            // options2.labels = data.chart_labels
+            data.chart_series.length > 0 ? options3.series = data.chart_series : options3.series =  [1]
+            data.chart_labels.length > 0 ? options3.labels = data.chart_labels : options3.labels = ['No hay datos para mostrar']
             chart3.destroy()
 
             let chart_search_3 = new ApexCharts(document.querySelector("#chart3"), options3);
@@ -511,8 +512,8 @@ chart5.render();
           .then( res => res.json() )
           .then( data => {
             
-            options4.series = data.chart_series
-            options4.labels = data.chart_labels
+            data.chart_series.length > 0 ? options4.series = data.chart_series : options4.series =  [1]
+            data.chart_labels.length > 0 ? options4.labels = data.chart_labels : options4.labels = ['No hay datos para mostrar']
             chart4.destroy()
 
             let chart_search_4 = new ApexCharts(document.querySelector("#chart4"), options4);
@@ -535,8 +536,8 @@ chart5.render();
           .then( res => res.json() )
           .then( data => {
             
-            options5.series = data.chart_series
-            options5.labels = data.chart_labels
+            data.chart_series.length > 0 ? options5.series = data.chart_series : options5.series =  [1]
+            data.chart_labels.length > 0 ? options5.labels = data.chart_labels : options5.labels = ['No hay datos para mostrar']
             chart5.destroy()
 
             let chart_search_5 = new ApexCharts(document.querySelector("#chart5"), options5);
@@ -545,6 +546,12 @@ chart5.render();
           })
           .catch(console.error)
         }
+
+        e.target.classList.add('hidden')
+
+        setTimeout(() => {
+          e.target.classList.remove('hidden')
+        },3000)
 
       }
     })
