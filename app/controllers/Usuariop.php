@@ -904,8 +904,6 @@
 					
 				} 
 
-
-
 			} else {
 				redirect('pages/login');
 			}
