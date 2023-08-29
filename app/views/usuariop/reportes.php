@@ -20,7 +20,7 @@
 					<div class="flex flex-col items-center bg-white rounded-xl p-4 w-full ">
 
             <div class="w-full flex justify-between px-10 py-4 text-2xl text-neutral text-center">
-              <h2 class="text-2xl md:text-4xl"> Reporte Turnos </h2>
+              <h2 class="text-2xl md:text-4xl"> Reporte general de Turnos </h2>
               <div class="w-1/3"> <?php showMsg(); ?>  </div>  
             </div>
 
@@ -54,7 +54,7 @@
           <div class="flex flex-col items-center bg-white rounded-xl p-4 w-full ">
 
             <div class="w-full flex justify-between px-10 py-4 text-2xl text-neutral text-center">
-              <h2 class="text-2xl md:text-4xl"> Servicios Más Contratados </h2>
+              <h2 class="text-2xl md:text-4xl"> Servicios finalizados más contratados </h2>
               <div class="w-1/3"> <?php showMsg(); ?>  </div>  
             </div>
 
@@ -88,7 +88,7 @@
           <div class="flex flex-col items-center bg-white rounded-xl p-4 w-full ">
 
             <div class="w-full flex justify-between px-10 py-4 text-2xl text-neutral text-center">
-              <h2 class="text-2xl md:text-4xl"> Publicaciones Populares (Me gusta) </h2>
+              <h2 class="text-2xl md:text-4xl"> Servicios brindados con más reacciones </h2>
               <div class="w-1/3"> <?php showMsg(); ?>  </div>  
             </div>
 
