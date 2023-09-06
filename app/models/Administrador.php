@@ -306,7 +306,7 @@
 		public function readLikesServicios($num_limit, $desde = null, $hasta = null) {
 			if ($desde && $hasta) {
 				$this->db->query('SELECT servicio, me_gusta from publicaciones 
-					WHERE creado >= :desde AND creado <= :hasta
+					WHERE me_gusta > 1 AND creado >= :desde AND creado <= :hasta
 					GROUP BY servicio
 					LIMIT :num_limit');
 
@@ -319,6 +319,7 @@
 
 			} else {
 				$this->db->query('SELECT servicio, me_gusta from publicaciones 
+					WHERE me_gusta > 1
 					GROUP BY servicio
 					LIMIT :num_limit');
 

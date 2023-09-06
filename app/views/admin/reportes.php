@@ -405,6 +405,9 @@ chart5.render();
   let endpoint = `${root}/${controller}`
   // console.log(endpoint)
 
+
+
+
   const allBtnBuscar = document.querySelectorAll('.btn_buscar')
   allBtnBuscar.forEach(btn => {
     btn.addEventListener('click', e => {
@@ -418,6 +421,8 @@ chart5.render();
       let chart_num = e.target.getAttribute('data-chart')
       console.log(desde_time)
       console.log(hasta_time)
+
+
 
       if ( desde_time && hasta_time ) {
 
@@ -464,8 +469,15 @@ chart5.render();
             data.chart_labels.length > 0 ? options2.labels = data.chart_labels : options2.labels = ['No hay datos para mostrar']
             chart2.destroy()
 
-            let chart_search_2 = new ApexCharts(document.querySelector("#chart2"), options2);
-            chart_search_2.render();
+            let chart_search_2 = ''
+
+            if (chart_search_2) {
+              chart_search_2.destroy()
+            } else {
+              chart_search_2 = new ApexCharts(document.querySelector("#chart2"), options2);
+              chart_search_2.render();
+            }
+            
 
           })
           .catch(console.error)
@@ -483,13 +495,13 @@ chart5.render();
           })
           .then( res => res.json() )
           .then( data => {
-            
+
             data.chart_series.length > 0 ? options3.series = data.chart_series : options3.series =  [1]
             data.chart_labels.length > 0 ? options3.labels = data.chart_labels : options3.labels = ['No hay datos para mostrar']
             chart3.destroy()
 
-            let chart_search_3 = new ApexCharts(document.querySelector("#chart3"), options3);
-            chart_search_3.render();
+            let chart_search_3 = new ApexCharts(document.querySelector("#chart3"), options3)
+            chart_search_3.render()
 
           })
           .catch(console.error)
