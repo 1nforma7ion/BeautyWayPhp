@@ -107,8 +107,12 @@
 						 			<option value="">Selecciona el dia</option>
 						     	<?php if(isset($data['dias'])) : ?>
 										<?php foreach ($data['dias'] as $row) : ?>
-											<?php if (!in_array($data['publicacion']->id_public, $data['reservas_existentes'])) : ?>
-												<option value="<?php echo $row->dia ?>"><?php echo $row->dia ?></option>
+											
+											<?php if (in_array($data['publicacion']->id_public, $data['reservas_id']) && in_array($row->dia, $data['reservas_dias'])) : ?>
+
+											<?php else: ?>
+												<option value="<?php echo $row->dia ?>"><?php echo $row->dia ?>  </option>
+
 											<?php endif; ?>
 										<?php endforeach; ?>
 									<?php endif; ?> 
@@ -207,7 +211,7 @@
 <?php 
 
 echo "<pre>";
-// print_r($data);
+print_r($data);
 echo "</pre>";
 
  ?>

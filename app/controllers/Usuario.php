@@ -114,17 +114,24 @@
 					array_push($likes, $like->id_publicacion);
 				}
 
-				$existentes = [];
+				$reservas_id = [];
 
 				foreach($reservas_existentes as $row_exist) {
-					array_push($existentes, $row_exist->id_publicacion);
+					array_push($reservas_id, $row_exist->id_publicacion);
+				}
+
+				$reservas_dias = [];
+
+				foreach($reservas_existentes as $row_dias) {
+					array_push($reservas_dias, $row_dias->dia);
 				}
 
 				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
 
 				$data = [
 					'comentarios' => $comentarios,
-					'reservas_existentes' => $existentes,
+					'reservas_id' => $reservas_id,
+					'reservas_dias' => $reservas_dias,
 					'allLikes' => $likes,
 					'imagenes_perfil' => $imagenes_perfil,
 					'dias' => $dias,

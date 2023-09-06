@@ -114,7 +114,7 @@
 		}
 
 		public function getReservasExistentesByUser($user_id) {
-			$this->db->query('SELECT id_publicacion FROM reservas WHERE id_usuario = :user_id');
+			$this->db->query('SELECT id_publicacion, dia FROM reservas WHERE id_usuario = :user_id');
 			$this->db->bind(':user_id', $user_id);
 
 			$existentes = $this->db->getSet();
