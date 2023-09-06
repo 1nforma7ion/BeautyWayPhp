@@ -106,6 +106,7 @@
 				$dias = $this->usuario->getDiasByUser($id_profesional);
 				$comentarios = $this->usuario->readComentariosByPublic($id_public);
 				$allLikes = $this->usuario->readAllLiked($_SESSION['user_id']);
+				$reservas_existentes = $this->usuario->getReservasExistentesByUser($_SESSION['user_id']);
 
 				$likes = [];
 
@@ -113,10 +114,17 @@
 					array_push($likes, $like->id_publicacion);
 				}
 
+				$existentes = [];
+
+				foreach($reservas_existentes as $row_exist) {
+					array_push($existentes, $row_exist->id_publicacion);
+				}
+
 				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
 
 				$data = [
 					'comentarios' => $comentarios,
+					'reservas_existentes' => $existentes,
 					'allLikes' => $likes,
 					'imagenes_perfil' => $imagenes_perfil,
 					'dias' => $dias,

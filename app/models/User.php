@@ -113,6 +113,15 @@
 			return $publicacion;
 		}
 
+		public function getReservasExistentesByUser($user_id) {
+			$this->db->query('SELECT id_publicacion FROM reservas WHERE id_usuario = :user_id');
+			$this->db->bind(':user_id', $user_id);
+
+			$existentes = $this->db->getSet();
+			return $existentes;
+		}
+
+
 		public function createReserva($user_id, $id_profesional, $id_public, $servicio, $modalidad, $direccion, $dia, $hora_inicio, $hora_fin, $status) {
 			$this->db->query('INSERT INTO reservas (id_usuario, id_profesional, id_publicacion, servicio, modalidad, direccion, dia, hora_inicio, hora_fin, status) 
 				VALUES (:user_id, :id_profesional, :id_public, :servicio, :modalidad, :direccion, :dia, :hora_inicio, :hora_fin, :status)');
