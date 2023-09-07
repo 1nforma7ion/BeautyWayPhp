@@ -104,7 +104,7 @@
 
 		let tableOptions = {
 			searchable: true,
-			fixedHeight: true,
+			// fixedHeight: true,
 	    labels: {
 	    	searchTitle: "Buscar ...",
 		    placeholder: "Buscar...",

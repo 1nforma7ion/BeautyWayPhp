@@ -42,6 +42,29 @@
 			}
 		}
 
+		public function condiciones() {
+			if (usuarioLoggedIn()) {
+				
+				$condiciones = $this->admin->readCondiciones();
+				
+				$imagenes_perfil = $this->usuario->getImageById($_SESSION['user_id']);
+				$sidebar = $this->admin->getMenuByRole($_SESSION['user_rol_id']);
+
+				$data = [
+					'condiciones' => $condiciones,
+					'imagenes_perfil' => $imagenes_perfil,
+					'sidebar' => $sidebar,
+					'controller' => strtolower(get_called_class()),
+					'page' => __FUNCTION__
+				];
+
+				$this->view('usuario/condiciones',$data);
+
+			} else {
+				redirect('pages/login');
+			}
+		}
+
 		public function detalles($id_profesional=null, $id_public = null) {
 			if (usuarioLoggedIn()) {
 
