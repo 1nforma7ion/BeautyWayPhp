@@ -349,6 +349,7 @@ const options4 = {
     width: 500,
     type: 'donut',
   },
+  colors: ['#E377C2','#7F7F7F', '#BCBD22', '#02AAFE','#2CA02C','#FF7F0E', '#D62728',],
   labels: zonas,
   responsive: [{
     breakpoint: 480,
