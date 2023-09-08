@@ -924,7 +924,7 @@
 				$chart = $json->{'chart'};
 
 				if ($chart == 'chart1') {
-					$turnos_exitosos = $this->usuariop->readTurnosExitososByUser($_SESSION['user_id'], $desde, $hasta);
+					$turnos_exitosos = $this->usuariop->readAllReservasByUser($_SESSION['user_id'], $desde, $hasta);
 
 					$series = [];
 					$labels = [];
@@ -983,7 +983,7 @@
 		public function reportes() {
 			if (usuariopLoggedIn()) {
 					
-				$turnos_exitosos = $this->usuariop->readTurnosExitososByUser($_SESSION['user_id']);
+				$turnos_exitosos = $this->usuariop->readAllReservasByUser($_SESSION['user_id']);
 				$contratados = $this->usuariop->readServiciosContratadosByUser($_SESSION['user_id'], 'finalizado', 10);
 				$likes_serv = $this->usuariop->readLikesServiciosByUser($_SESSION['user_id'], 10);
 

@@ -23,7 +23,8 @@
 
 		public function readServiciosContratadosByUser($user_id, $status_reserva, $num_limit, $desde = null, $hasta = null) {
 			if ($desde && $hasta) {
-				$this->db->query('SELECT COUNT(servicio) as total, servicio from reservas 
+				$this->db->query('SELECT COUNT(servicio) as total, servicio 
+					FROM reservas 
 					WHERE id_profesional = :user_id AND status = :status_reserva AND STR_TO_DATE(dia, "%d-%m-%Y") >= :desde AND STR_TO_DATE(dia, "%d-%m-%Y") <= :hasta
 					GROUP BY servicio  
 					LIMIT :num_limit');
@@ -38,7 +39,8 @@
 				return $contratados;
 
 			} else {
-				$this->db->query('SELECT COUNT(servicio) as total, servicio from reservas 
+				$this->db->query('SELECT COUNT(servicio) as total, servicio 
+					FROM reservas 
 					WHERE id_profesional = :user_id AND status = :status_reserva 
 					GROUP BY servicio 
 					LIMIT :num_limit');
@@ -55,11 +57,13 @@
 
 		public function readLikesServiciosByUser($user_id, $num_limit, $desde = null, $hasta = null) {
 			if ($desde && $hasta) {
-				$this->db->query('SELECT p.servicio, p.me_gusta, u.nombre_comercial from publicaciones p 
-					INNER JOIN usuarios u ON p.id_usuario = u.id 
-					WHERE p.id_usuario = :user_id AND p.creado >= :desde AND p.creado <= :hasta 
-					GROUP BY p.servicio
-					LIMIT :num_limit');
+
+				$this->db->query('SELECT DISTINCT p1.servicio, p1.me_gusta 
+					FROM publicaciones p1 
+					WHERE  p1.creado >= :desde AND p1.creado <= :hasta AND p1.id_usuario = :user_id
+					AND p1.me_gusta = (SELECT MAX(p2.me_gusta) FROM publicaciones p2 WHERE p2.servicio = p1.servicio) 
+					ORDER BY p1.me_gusta 
+					DESC LIMIT :num_limit');
 
 				$this->db->bind(':num_limit', $num_limit);
 				$this->db->bind(':user_id', $user_id);
@@ -70,11 +74,13 @@
 				return $likes_serv;
 
 			} else {
-				$this->db->query('SELECT p.servicio, p.me_gusta, u.nombre_comercial from publicaciones p 
-					INNER JOIN usuarios u ON p.id_usuario = u.id 
-					WHERE p.id_usuario = :user_id 
-					GROUP BY p.servicio
-					LIMIT :num_limit');
+
+				$this->db->query('SELECT DISTINCT p1.servicio, p1.me_gusta 
+					FROM publicaciones p1 
+					WHERE p1.id_usuario = :user_id
+					AND p1.me_gusta = (SELECT MAX(p2.me_gusta) FROM publicaciones p2 WHERE p2.servicio = p1.servicio) 
+					ORDER BY p1.me_gusta 
+					DESC LIMIT :num_limit');
 
 				$this->db->bind(':num_limit', $num_limit);
 				$this->db->bind(':user_id', $user_id);
@@ -85,9 +91,10 @@
 
 		}
 
-		public function readTurnosExitososByUser($user_id, $desde = null, $hasta = null) {
+		public function readAllReservasByUser($user_id, $desde = null, $hasta = null) {
 			if ($desde && $hasta) {
-				$this->db->query('SELECT COUNT(servicio) as total, status FROM reservas 
+				$this->db->query('SELECT COUNT(servicio) as total, status 
+					FROM reservas 
 					WHERE id_profesional = :user_id AND STR_TO_DATE(dia, "%d-%m-%Y") >= :desde AND STR_TO_DATE(dia, "%d-%m-%Y") <= :hasta 
 					GROUP BY status');
 
@@ -99,7 +106,8 @@
 				return $turnos_finalizados;
 
 			} else {
-				$this->db->query('SELECT COUNT(servicio) as total, status FROM reservas 
+				$this->db->query('SELECT COUNT(servicio) as total, status 
+					FROM reservas 
 					WHERE id_profesional = :user_id 
 					GROUP BY status');
 

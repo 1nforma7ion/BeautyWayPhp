@@ -266,7 +266,7 @@ let modalidad_total = JSON.parse('<?php echo json_encode($modalidad_total) ?>')
 // console.log(chart_series_1)
 // console.log(chart_labels_1)
 
-const options1 = {
+let options1 = {
   series: chart_series_1,
   chart: {
     width: 500,
@@ -291,7 +291,7 @@ let chart1 = new ApexCharts(document.querySelector("#chart1"), options1);
 chart1.render();
 
 
-const options2 = {
+let options2 = {
   series: contratados_total,
     chart: {
     width: 530,
@@ -313,11 +313,11 @@ const options2 = {
 };
 
 
-const chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
+let chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
 chart2.render();
 
 
-const options3 = {
+let options3 = {
   series: likes_total,
     chart: {
     width: 550,
@@ -339,11 +339,11 @@ const options3 = {
 };
 
 
-const chart3 = new ApexCharts(document.querySelector("#chart3"), options3);
+let chart3 = new ApexCharts(document.querySelector("#chart3"), options3);
 chart3.render();
 
 
-const options4 = {
+let options4 = {
   series: zonas_total,
     chart: {
     width: 500,
@@ -370,10 +370,10 @@ const options4 = {
   }]
 };
 
-const chart4 = new ApexCharts(document.querySelector("#chart4"), options4);
+let chart4 = new ApexCharts(document.querySelector("#chart4"), options4);
 chart4.render();
       
-const options5 = {
+let options5 = {
   series: modalidad_total,
     chart: {
     width: 500,
@@ -394,7 +394,7 @@ const options5 = {
   }]
 };
 
-const chart5 = new ApexCharts(document.querySelector("#chart5"), options5);
+let chart5 = new ApexCharts(document.querySelector("#chart5"), options5);
 chart5.render();
 
 
@@ -420,9 +420,8 @@ chart5.render();
       let hasta_time = hasta_group.querySelector('input').value
 
       let chart_num = e.target.getAttribute('data-chart')
-      console.log(desde_time)
-      console.log(hasta_time)
-
+      // console.log(desde_time)
+      // console.log(hasta_time)
 
 
       if ( desde_time && hasta_time ) {
@@ -442,12 +441,13 @@ chart5.render();
           .then( res => res.json() )
           .then( data => {
 
-            data.chart_series.length > 0 ? options1.series = data.chart_series : options1.series =  [1]
-            data.chart_labels.length > 0 ? options1.labels = data.chart_labels : options1.labels = ['No hay datos para mostrar']
             chart1.destroy()
 
-            let chart_search_1 = new ApexCharts(document.querySelector("#chart1"), options1);
-            chart_search_1.render();
+            data.chart_series.length > 0 ? options1.series = data.chart_series : options1.series =  [1]
+            data.chart_labels.length > 0 ? options1.labels = data.chart_labels : options1.labels = ['No hay datos para mostrar']
+
+            chart1 = new ApexCharts(document.querySelector("#chart1"), options1)
+            chart1.render()
 
           })
           .catch(console.error)
@@ -465,20 +465,14 @@ chart5.render();
           })
           .then( res => res.json() )
           .then( data => {
-            
-            data.chart_series.length > 0 ? options2.series = data.chart_series : options2.series =  [1]
-            data.chart_labels.length > 0 ? options2.labels = data.chart_labels : options2.labels = ['No hay datos para mostrar']
+
             chart2.destroy()
 
-            let chart_search_2 = ''
+            data.chart_series.length > 0 ? options2.series = data.chart_series : options2.series =  [1]
+            data.chart_labels.length > 0 ? options2.labels = data.chart_labels : options2.labels = ['No hay datos para mostrar']
 
-            if (chart_search_2) {
-              chart_search_2.destroy()
-            } else {
-              chart_search_2 = new ApexCharts(document.querySelector("#chart2"), options2);
-              chart_search_2.render();
-            }
-            
+            chart2 = new ApexCharts(document.querySelector("#chart2"), options2)
+            chart2.render()  
 
           })
           .catch(console.error)
@@ -497,12 +491,15 @@ chart5.render();
           .then( res => res.json() )
           .then( data => {
 
-            data.chart_series.length > 0 ? options3.series = data.chart_series : options3.series =  [1]
-            data.chart_labels.length > 0 ? options3.labels = data.chart_labels : options3.labels = ['No hay datos para mostrar']
             chart3.destroy()
 
-            let chart_search_3 = new ApexCharts(document.querySelector("#chart3"), options3)
-            chart_search_3.render()
+            data.chart_series.length > 0 ? options3.series = data.chart_series : options3.series =  [1]
+            data.chart_labels.length > 0 ? options3.labels = data.chart_labels : options3.labels = ['No hay datos para mostrar']
+
+            chart3 = new ApexCharts(document.querySelector("#chart3"), options3)
+            chart3.render()
+
+            // console.log(chart3)
 
           })
           .catch(console.error)
@@ -521,12 +518,13 @@ chart5.render();
           .then( res => res.json() )
           .then( data => {
             
-            data.chart_series.length > 0 ? options4.series = data.chart_series : options4.series =  [1]
-            data.chart_labels.length > 0 ? options4.labels = data.chart_labels : options4.labels = ['No hay datos para mostrar']
             chart4.destroy()
 
-            let chart_search_4 = new ApexCharts(document.querySelector("#chart4"), options4);
-            chart_search_4.render();
+            data.chart_series.length > 0 ? options4.series = data.chart_series : options4.series =  [1]
+            data.chart_labels.length > 0 ? options4.labels = data.chart_labels : options4.labels = ['No hay datos para mostrar']
+
+            chart4 = new ApexCharts(document.querySelector("#chart4"), options4)
+            chart4.render()
 
           })
           .catch(console.error)
@@ -544,22 +542,28 @@ chart5.render();
           })
           .then( res => res.json() )
           .then( data => {
-            
-            data.chart_series.length > 0 ? options5.series = data.chart_series : options5.series =  [1]
-            data.chart_labels.length > 0 ? options5.labels = data.chart_labels : options5.labels = ['No hay datos para mostrar']
+
             chart5.destroy()
 
-            let chart_search_5 = new ApexCharts(document.querySelector("#chart5"), options5);
-            chart_search_5.render();
+            data.chart_series.length > 0 ? options5.series = data.chart_series : options5.series =  [1]
+            data.chart_labels.length > 0 ? options5.labels = data.chart_labels : options5.labels = ['No hay datos para mostrar']
+
+            chart5 = new ApexCharts(document.querySelector("#chart5"), options5)
+            chart5.render()
 
           })
           .catch(console.error)
         }
 
-        e.target.classList.add('hidden')
+        e.target.classList.toggle('bg-neutral')
+        e.target.classList.toggle('bg-gray')
+        e.target.toggleAttribute('disabled')
 
         setTimeout(() => {
-          e.target.classList.remove('hidden')
+          e.target.classList.toggle('bg-neutral')
+          e.target.classList.toggle('bg-gray')
+          e.target.toggleAttribute('disabled')
+
         },3000)
 
       }

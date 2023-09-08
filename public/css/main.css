@@ -994,6 +994,11 @@ video {
   background-color: hsl(189 5.3% 17.7% / var(--tw-bg-opacity));
 }
 
+.bg-gray {
+  --tw-bg-opacity: 1;
+  background-color: hsl(189 5.3% 31.7% / var(--tw-bg-opacity));
+}
+
 .bg-neutral {
   --tw-bg-opacity: 1;
   background-color: hsl(250 97.2% 72.4% / var(--tw-bg-opacity));

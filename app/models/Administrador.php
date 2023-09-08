@@ -305,10 +305,17 @@
 
 		public function readLikesServicios($num_limit, $desde = null, $hasta = null) {
 			if ($desde && $hasta) {
-				$this->db->query('SELECT servicio, me_gusta from publicaciones 
-					WHERE me_gusta > 1 AND creado >= :desde AND creado <= :hasta
-					GROUP BY servicio
-					LIMIT :num_limit');
+				// $this->db->query('SELECT servicio, me_gusta from publicaciones 
+				// 	WHERE me_gusta > 1 AND creado >= :desde AND creado <= :hasta
+				// 	GROUP BY servicio
+				// 	LIMIT :num_limit');
+
+				$this->db->query('SELECT DISTINCT p1.servicio, p1.me_gusta 
+					FROM publicaciones p1 
+					WHERE  p1.creado >= :desde AND p1.creado <= :hasta 
+					AND p1.me_gusta = (SELECT MAX(p2.me_gusta) FROM publicaciones p2 WHERE p2.servicio = p1.servicio) 
+					ORDER BY p1.me_gusta 
+					DESC LIMIT :num_limit');
 
 				$this->db->bind(':num_limit', $num_limit);
 				$this->db->bind(':desde', $desde);
@@ -318,10 +325,11 @@
 				return $likes_serv;	
 
 			} else {
-				$this->db->query('SELECT servicio, me_gusta from publicaciones 
-					WHERE me_gusta > 1
-					GROUP BY servicio
-					LIMIT :num_limit');
+				$this->db->query('SELECT DISTINCT p1.servicio, p1.me_gusta 
+					FROM publicaciones p1 
+					WHERE  p1.me_gusta = (SELECT MAX(p2.me_gusta) FROM publicaciones p2 WHERE p2.servicio = p1.servicio) 
+					ORDER BY p1.me_gusta 
+					DESC LIMIT :num_limit');
 
 				$this->db->bind(':num_limit', $num_limit);
 
