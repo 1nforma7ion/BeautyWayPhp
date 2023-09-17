@@ -1,0 +1,230 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*tr:nth-child(even) {
+  background: theme('colors.ctaLight');
+}
+tr:nth-child(odd) {
+  background: theme('colors.primary');
+}
+*/
+
+/*INICIO CALENDAR STYLES */
+  #calendar {
+    @apply w-3/4 mx-auto font-dmsans;
+  }
+
+  .month {
+    @apply w-full p-2  text-center bg-neutral;
+
+  }
+
+  .month ul {
+    @apply grid grid-cols-4;
+  }
+
+  .month ul li {
+    @apply uppercase text-2xl text-white;
+  }
+
+  #weekdays {
+    @apply bg-neutralDark p-2;
+  }
+
+  #weekdays li {
+    @apply text-center text-white;
+  }
+
+  #days {
+    @apply p-4 bg-primary;
+  }
+
+  #days li {
+    @apply list-none text-center text-xl text-dark p-4 m-1 border border-primaryDark cursor-pointer;
+
+  }
+
+  #days li.empty {
+    @apply border-none cursor-default;
+  }
+
+  #days li.active1 {
+    @apply bg-cta text-dark;
+  }
+
+
+  #days li.active {
+    @apply bg-neutralLight text-dark;
+  }
+
+  
+  #days,  #weekdays {
+    @apply grid grid-cols-7 p-2;
+  }
+
+/*FIN CALENDAR STYLES */
+
+
+
+tr:hover {
+  background: theme('colors.primary');
+}
+
+.is-active {
+  background: theme('colors.ctaLight');
+  color: theme('colors.dark');
+  border-color: theme('colors.dark');
+  border-bottom-width: 2px;
+  border-left-width: 2px;
+  padding-bottom: 1rem;
+/*  border-top-left-radius: 0.5rem; 
+  border-top-right-radius: 0.5rem;*/
+}
+
+
+/* segunda Opcion INACTIVE page HOVER */
+.is-inactive:hover {
+  background: theme('colors.ctaLight');
+  color: theme('colors.dark');
+  border-color: theme('colors.dark');
+  border-bottom-width: 2px;
+  border-left-width: 2px;
+  padding-bottom: 1rem;
+/*  letter-spacing: 0.1em;*/
+/*  border-top-left-radius: 0.5rem; 
+  border-top-right-radius: 0.5rem;*/
+}
+
+
+
+
+@layer utilities {
+    /* Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+}
+
+/*.img_post {
+  @apply ;
+}
+
+.img_post img {
+  @apply  ;
+}
+
+.date_post {
+  @apply ;
+}*/
+
+#form_register {
+  @apply p-2 space-y-8 flex flex-col w-full font-dmsans;
+}
+
+#form_register input {
+  @apply px-2 py-1 border-b border-neutralDark outline-none focus:border-b-2 ;
+}
+
+#form_register select {
+  @apply px-2 py-1 border border-neutralLight rounded-lg outline-none focus:border-neutralDark;
+}
+
+#form_register .group-col {
+  @apply flex flex-col;
+}
+
+#form_register .group-col label {
+  @apply text-sm;
+}
+
+#form_register .group-row {
+  @apply flex space-x-8 mb-4;
+}
+
+#form_register .group-row  > div{
+  @apply w-1/2;
+}
+
+
+/*
+ BEGIN Estilos para Hamburger Menu
+*/
+
+.mobile-menu {
+  position: relative;
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.mobile-menu-top,
+.mobile-menu-middle,
+.mobile-menu-bottom {
+  position: absolute;
+  width: 2rem;
+  height: 3px;
+  top: 0.5rem;
+  right: 0;
+  transform: rotate(0);
+  transition: all 0.25s;
+}
+
+.mobile-menu-middle {
+  transform: translateY(10px);
+}
+
+.mobile-menu-bottom {
+  transform: translateY(20px);
+}
+
+.open {
+  transform: rotate(90deg);
+  transform: translateY(0px);
+}
+
+.open .mobile-menu-top {
+  transform: rotate(45deg) translateY(6px) translate(6px);
+}
+
+.open .mobile-menu-middle {
+  display: none;
+}
+
+.open .mobile-menu-bottom {
+  transform: rotate(-45deg) translateY(6px) translate(-6px);
+}
+
+.sub-open {
+  transform: translateY(0.25rem);
+  transform-origin: top;
+  transition-duration: 400ms;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in 1 forwards;
+}
+/*
+ END Estilos para Hamburger Menu
+*/
+
+@font-face {
+  font-family: "Kanit", sans-serif;
+  font-family: "Lexend Deca", sans-serif;
+  font-family: "Pathway Extreme", sans-serif;
+  font-family: "Urbanist", sans-serif;
+  font-family: "DM Sans", sans-serif;
+}
