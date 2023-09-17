@@ -1,8 +1,8 @@
-
-# input.css
-# package.json
+### set to upload to github.com
+input.css
+package.json
 package-lock.json
-# tailwind.config.js
+tailwind.config.js
 node_modules
 *.sh
 # evitar carga de archivos con informacion privada
